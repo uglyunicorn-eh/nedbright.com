@@ -2,7 +2,7 @@
 export default {
   plugins: [
     "prettier-plugin-astro",
-    "prettier-plugin-tailwindcss",
+    "prettier-plugin-tailwindcss"
   ],
   overrides: [
     {
@@ -11,5 +11,5 @@ export default {
         parser: "astro",
       },
     },
-  ],
+  ]
 };
