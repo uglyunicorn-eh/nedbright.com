@@ -9,7 +9,7 @@ const localMode: LocalConfig["storage"] = {
 
 const remoteMode: GitHubConfig["storage"] = {
   kind: 'github',
-  repo: (repo as `${string}/${string}`) || 'uglyunicorn/nedbright.com',
+  repo: (repo as `${string}/${string}`) || 'uglyunicorn-eh/nedbright.com',
 }
 
 export default config({
