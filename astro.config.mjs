@@ -11,5 +11,6 @@ import cloudflare from "@astrojs/cloudflare";
 export default defineConfig({
   integrations: [tailwind(), react(), markdoc(), keystatic()],
   output: 'hybrid',
-  adapter: cloudflare()
+  adapter: cloudflare(),
+  site: import.meta.env.SITE_URL,
 });
