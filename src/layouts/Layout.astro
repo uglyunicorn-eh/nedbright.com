@@ -1,7 +1,13 @@
 ---
-import { reader } from "../reader";
+import { reader } from "src/reader";
+
+type Props = {
+  title?: string;
+};
 
 const site = await reader.singletons.site.read();
+
+const title = [Astro.props.title, site?.title].filter(Boolean).join(" | ");
 ---
 
 <!doctype html>
@@ -9,9 +15,11 @@ const site = await reader.singletons.site.read();
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{site?.title}</title>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>{title}</title>
     <meta name="description" content={site?.description} />
   </head>
   <body>
