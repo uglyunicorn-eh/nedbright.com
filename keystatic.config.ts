@@ -14,6 +14,22 @@ const remoteMode: GitHubConfig["storage"] = {
 
 export default config({
   storage: isRemote ? remoteMode : localMode,
+
+  ui: {
+    brand: {
+      name: "Command Center",
+    },
+  },
+
+  singletons: {
+    site: {
+      label: 'Site',
+      schema: {
+        title: fields.text({ label: 'Title' }),
+      },
+    }
+  },
+
   collections: {
     posts: collection({
       label: 'Posts',
