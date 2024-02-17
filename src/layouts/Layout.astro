@@ -3,11 +3,13 @@ import { reader } from "src/reader";
 
 type Props = {
   title?: string;
+  description?: string;
 };
 
 const site = await reader.singletons.site.read();
 
 const title = [Astro.props.title, site?.title].filter(Boolean).join(" | ");
+const description = Astro.props.description || site?.description;
 ---
 
 <!doctype html>
@@ -20,7 +22,7 @@ const title = [Astro.props.title, site?.title].filter(Boolean).join(" | ");
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <title>{title}</title>
-    <meta name="description" content={site?.description} />
+    <meta name="description" content={description} />
   </head>
   <body>
     <slot />
