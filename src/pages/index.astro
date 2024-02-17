@@ -1,7 +1,11 @@
 ---
+import { reader } from "../reader";
+
 import Layout from "../layouts/Layout.astro";
+
+const site = await reader.singletons.site.read();
 ---
 
 <Layout title="<3">
-  <h1 class="text-3xl font-bold underline">Hello world!</h1>
+  <h1 class="text-3xl font-bold underline">{site?.title}</h1>
 </Layout>
