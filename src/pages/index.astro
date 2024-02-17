@@ -1,10 +1,31 @@
 ---
 import { reader } from "src/reader";
 import Layout from "src/layouts/Layout.astro";
+import { Navbar } from "src/components";
 
 const site = await reader.singletons.site.read();
 ---
 
 <Layout>
-  <h1 class="text-3xl font-bold underline">{site?.title}</h1>
+  <div class="relative w-full">
+    <Navbar />
+    <main class="relative z-10 bg-gray-100">
+      <!-- <BackgroundBlobs /> -->
+      <!-- <Hero
+        data={{
+          heroHeadline: landingPage.heroHeadline,
+          heroIntroText: landingPage.heroIntroText,
+        }}
+      />
+      <Features />
+      <Testimonials testimonials={testimonials} />
+      <Pricing /> -->
+    </main>
+    <!-- <Footer
+      data={{
+        footerHeadline: landingPage.footerHeadline,
+        footerText: landingPage.footerText,
+      }}
+    /> -->
+  </div>
 </Layout>
