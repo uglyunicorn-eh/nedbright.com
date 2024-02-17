@@ -1,4 +1,6 @@
-import { config, fields, collection, type LocalConfig, type GitHubConfig } from '@keystatic/core';
+import { config, type LocalConfig, type GitHubConfig } from '@keystatic/core';
+
+import { singletons, collections } from './src/models';
 
 const repo: string | null = import.meta.env.PUBLIC_GITHUB_REPO;
 const isRemote = !!repo;
@@ -21,31 +23,6 @@ export default config({
     },
   },
 
-  singletons: {
-    site: {
-      label: 'Site',
-      schema: {
-        title: fields.text({ label: 'Title' }),
-      },
-    }
-  },
-
-  collections: {
-    posts: collection({
-      label: 'Posts',
-      slugField: 'title',
-      path: 'src/content/posts/*',
-      format: { contentField: 'content' },
-      schema: {
-        title: fields.slug({ name: { label: 'Title' } }),
-        content: fields.document({
-          label: 'Content',
-          formatting: true,
-          dividers: true,
-          links: true,
-          images: true,
-        }),
-      },
-    }),
-  },
+  singletons,
+  collections,
 });
