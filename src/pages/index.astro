@@ -1,7 +1,13 @@
 ---
 import { reader } from "src/reader";
 import Layout from "src/layouts/Layout.astro";
-import { Navbar } from "src/components";
+import {
+  Navbar,
+  BackgroundBlobs,
+  Hero,
+  Features,
+  Footer,
+} from "src/components";
 
 const site = await reader.singletons.site.read();
 ---
@@ -10,22 +16,23 @@ const site = await reader.singletons.site.read();
   <div class="relative w-full">
     <Navbar />
     <main class="relative z-10 bg-gray-100">
-      <!-- <BackgroundBlobs /> -->
-      <!-- <Hero
+      <BackgroundBlobs />
+      <Hero
         data={{
-          heroHeadline: landingPage.heroHeadline,
-          heroIntroText: landingPage.heroIntroText,
+          heroHeadline: "landingPage.heroHeadline",
+          heroIntroText: "landingPage.heroIntroText",
         }}
       />
       <Features />
+      <!--
       <Testimonials testimonials={testimonials} />
       <Pricing /> -->
     </main>
-    <!-- <Footer
+    <Footer
       data={{
-        footerHeadline: landingPage.footerHeadline,
-        footerText: landingPage.footerText,
+        footerHeadline: "landingPage.footerHeadline",
+        footerText: "landingPage.footerText",
       }}
-    /> -->
+    />
   </div>
 </Layout>
