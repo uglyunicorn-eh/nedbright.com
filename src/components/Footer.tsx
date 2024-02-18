@@ -54,7 +54,7 @@ export const Footer = ({
 
     <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32 relative isolate z-40">
       <div className="md:grid md:grid-cols-2 xl:grid-cols-3 xl:gap-16">
-        <div className="space-y-8 border-r-zinc-700 xl:border-r xl:pr-4">
+        <div className="space-y-8 border-r-zinc-700 xl:border-r xl:pr-12">
           <img className="h-16" src="logo.svg" alt={title} />
 
           {footerNote && (
@@ -79,7 +79,7 @@ export const Footer = ({
               <ul role="list" className="mt-6 space-y-4">
                 {section.items.map((item) => (
                   <li key={item.label}>
-                    <a href={item.url ?? "#"} className="text-sm leading-6">
+                    <a href={item.url ?? "#"} className="text-sm leading-6 hover:underline hover:underline-offset-2">
                       {item.label}
                     </a>
                   </li>
