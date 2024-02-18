@@ -79,7 +79,7 @@ export const Footer = ({
               <ul role="list" className="mt-6 space-y-4">
                 {section.items.map((item) => (
                   <li key={item.label}>
-                    <a href={item.url} className="text-sm leading-6">
+                    <a href={item.url ?? "#"} className="text-sm leading-6">
                       {item.label}
                     </a>
                   </li>
