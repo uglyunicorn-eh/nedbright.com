@@ -21,7 +21,6 @@ const description = Astro.props.description || site?.description;
       href="https://fonts.googleapis.com/css2?family=Ruda:wght@400..900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/public/styles/styles.css" />
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -31,6 +30,15 @@ const description = Astro.props.description || site?.description;
 
     <title>{title}</title>
     <meta name="description" content={description} />
+
+    <style>
+      .font-ruda-400 {
+        font-family: "Ruda", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+      }
+    </style>
   </head>
   <body class="font-ruda-400">
     <slot />
