@@ -15,6 +15,14 @@ const description = Astro.props.description || site?.description;
 <!doctype html>
 <html lang="en">
   <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ruda:wght@400..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/styles.css" />
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
@@ -24,7 +32,7 @@ const description = Astro.props.description || site?.description;
     <title>{title}</title>
     <meta name="description" content={description} />
   </head>
-  <body>
+  <body class="font-ruda-400">
     <slot />
   </body>
 </html>

@@ -28,11 +28,6 @@ const site = await reader.singletons.site.read();
       <Testimonials testimonials={testimonials} />
       <Pricing /> -->
     </main>
-    <Footer
-      data={{
-        footerHeadline: "landingPage.footerHeadline",
-        footerText: "landingPage.footerText",
-      }}
-    />
+    <Footer {...site} />
   </div>
 </Layout>
