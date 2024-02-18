@@ -29,20 +29,17 @@ export const BookHero = () => (
             Живая психология: простые шаги навстречу к себе
           </h1>
           <p className="text-lg mb-6">
-            Дорогой мой читатель!  <span className="text-nowrap">Наконец-то</span>, моя новая книга ожила и в электронном варианте.
-          </p>
-          <p className="text-lg mb-4">
-            В этой книге, я попробовала вооружить нас всех некоторыми идеями, которые помогут нам стать ближе к себе
+            Дорогой мой читатель! В этой книге, я попробовала вооружить нас всех некоторыми идеями, которые помогут нам стать ближе к себе
             и нащупать это равновесие, в котором можно комфортно, пусть и не всегда идеально и гладко, жить.
           </p>
 
-          <div className="mt-8 flex gap-4">
-            {/* <Button href="#free-chapters" color="blue">
-              Get sample chapter
-            </Button>
-            <Button href="#pricing" variant="outline" color="blue">
-              Buy book
-            </Button> */}
+          <div className="mt-12 flex gap-4">
+            <button
+              type="button"
+              className="rounded-md bg-indigo-600 px-4 py-2.5 text-lg text-white shadow-lg border border-white/50 shadow-indigo-500/25 hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Перейти к книге
+            </button>
           </div>
         </div>
       </div>
