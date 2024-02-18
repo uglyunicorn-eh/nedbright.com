@@ -1,10 +1,10 @@
 import { fields, collection } from '@keystatic/core';
 
 
-export const posts = collection({
+export default collection({
   label: 'Posts',
   slugField: 'title',
-  path: 'src/content/posts/*',
+  path: 'content/posts/*',
   format: { contentField: 'content' },
   schema: {
     title: fields.slug({ name: { label: 'Title' } }),

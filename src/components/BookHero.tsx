@@ -19,11 +19,13 @@ export const BookHero = () => (
         </div>
 
       </div>
+
       <div className="relative px-4 sm:px-6 lg:col-span-7 lg:pb-14 lg:pl-16 lg:pr-0 xl:pl-20">
         <div className="hidden lg:absolute lg:-top-32 lg:bottom-0 lg:left-[-100vw] lg:right-[-100vw] lg:block lg:bg-slate-100 opacity-25 backdrop-blur-md" />
         <Testimonial />
       </div>
-      <div className="bg-white pt-16 lg:col-span-7 lg:bg-transparent lg:pl-16 lg:pt-0 xl:pl-20">
+
+      <div className="pt-16 lg:col-span-7 lg:bg-transparent lg:pl-16 lg:pt-0 xl:pl-20">
         <div className="mx-auto px-4 sm:px-6 md:max-w-2xl md:px-4 lg:px-0 tracking-tight text-balance">
           <h1 className="font-display text-5xl font-extrabold text-slate-900 sm:text-5xl mb-8">
             Живая психология: простые шаги навстречу к себе
@@ -33,7 +35,7 @@ export const BookHero = () => (
             и нащупать это равновесие, в котором можно комфортно, пусть и не всегда идеально и гладко, жить.
           </p>
 
-          <div className="mt-12 flex gap-4">
+          <div className="my-12 flex gap-4">
             <button
               type="button"
               className="rounded-md bg-indigo-600 px-4 py-2.5 text-lg text-white shadow-lg border border-white/50 shadow-indigo-500/25 hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
