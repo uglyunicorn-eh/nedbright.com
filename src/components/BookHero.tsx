@@ -2,11 +2,11 @@ import coverImage from 'public/images/cover.png';
 import { GridPattern, StarRating } from 'src/components';
 
 export const BookHero = () => (
-  <header className="relative z-10 overflow-hidden lg:bg-transparent shadow-2xl shadow-slate-700/15 rounded-3xl">
+  <header className="relative z-10 overflow-hidden lg:bg-transparent shadow-2xl shadow-slate-700/15">
     <div className="mx-auto grid max-w-6xl grid-cols-1 grid-rows-[auto_1fr] gap-y-16 pt-16 md:pt-20 lg:grid-cols-12 lg:gap-y-20 lg:px-3 lg:pb-36 lg:pt-20">
       <div className="relative flex items-start lg:col-span-5 lg:row-span-2">
 
-        <div className="absolute -bottom-12 -top-20 left-0 right-1/2 z-10 rounded-br-6xl bg-blob-2 text-white/10 md:bottom-8 lg:-inset-y-32 lg:left-[-100vw] lg:right-full lg:-mr-40 rounded-br-3xl mb-12">
+        <div className="absolute -bottom-12 -top-20 left-0 right-1/2 z-10 rounded-br-6xl bg-blob-2 text-white/10 md:bottom-8 lg:-inset-y-32 lg:left-[-100vw] lg:right-full lg:-mr-40 rounded-br-3xl mb-24">
           <GridPattern
             x="100%"
             y="100%"
@@ -28,10 +28,10 @@ export const BookHero = () => (
           <h1 className="font-display text-5xl font-extrabold text-slate-900 sm:text-5xl mb-8">
             Живая психология: простые шаги навстречу к себе
           </h1>
-          <p className="text-xl mb-6">
+          <p className="text-lg mb-6">
             Дорогой мой читатель!  <span className="text-nowrap">Наконец-то</span>, моя новая книга ожила и в электронном варианте.
           </p>
-          <p className="mb-4">
+          <p className="text-lg mb-4">
             В этой книге, я попробовала вооружить нас всех некоторыми идеями, которые помогут нам стать ближе к себе
             и нащупать это равновесие, в котором можно комфортно, пусть и не всегда идеально и гладко, жить.
           </p>
@@ -63,10 +63,10 @@ function Testimonial() {
           область обязательно советую к прочтению”
         </p>
       </blockquote>
-      {/* <figcaption className="mt-2 text-sm text-slate-500">
-        <strong className="font-semibold text-blue-600 before:content-['—_']">
-          Stacey Solomon
-        </strong>
+      {/* <figcaption className="mt-2 text-xs">
+        <span className="before:content-['—_']">
+          Артем Т., 2020
+        </span>
         , Founder at Retail Park
       </figcaption> */}
     </figure>
