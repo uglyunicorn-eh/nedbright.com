@@ -2,12 +2,12 @@ import type React from "react";
 import { SocialIcons } from "src/components";
 
 type SocialLinks = {
-  facebook: string;
-  instagram: string;
-  twitter: string;
-  github: string;
-  youtube: string;
-  tiktok: string;
+  facebook?: string | null;
+  instagram?: string | null;
+  twitter?: string | null;
+  github?: string | null;
+  youtube?: string | null;
+  tiktok?: string | null;
 }
 
 type ComponentProps = {
@@ -44,7 +44,7 @@ const navigation = {
   ],
 }
 
-const SocialIcon = ({ icon, href, name }: { icon: React.ReactNode, href?: string, name: string }) => (
+const SocialIcon = ({ icon, href, name }: { icon: React.ReactNode, href?: string | null, name: string }) => (
   <>
     {href && (
       <a key={name} href={href} target="_blank" title={name}>
