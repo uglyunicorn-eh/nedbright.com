@@ -8,8 +8,12 @@ import {
   Features,
   Footer,
 } from "src/components";
+import type { FooterMenu } from "src/components/Footer";
 
 const site = await reader.singletons.site.read();
+const menus = await reader.singletons.menus.read();
+
+console.log(menus?.footer);
 ---
 
 <Layout>
@@ -28,6 +32,6 @@ const site = await reader.singletons.site.read();
       <Testimonials testimonials={testimonials} />
       <Pricing /> -->
     </main>
-    <Footer {...site} />
+    <Footer {...site} menu={menus?.footer as FooterMenu} />
   </div>
 </Layout>

@@ -1,0 +1,12 @@
+top: []
+footer:
+  - section: Моя работа
+    items:
+      - label: Обо мне
+        url: '#about'
+      - label: Консультации
+        url: '#therapy'
+      - label: Проект "Жить среди людей"
+        url: '#live-among-people'
+      - label: Моя книга
+        url: '#my-book'

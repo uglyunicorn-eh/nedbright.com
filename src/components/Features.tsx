@@ -29,7 +29,7 @@ const features = [
 
 export const Features = () => {
   return (
-    <section id="features" className="isolate md:py-32">
+    <section id="features" className="isolate md:py-32 shadow-lg">
       <div className="mx-auto grid max-w-5xl items-center gap-y-6 px-6 md:grid-cols-2 lg:px-8">
         <div className="hidden md:block">
           <img

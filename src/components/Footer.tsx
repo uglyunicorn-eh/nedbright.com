@@ -8,41 +8,23 @@ type SocialLinks = {
   github?: string | null;
   youtube?: string | null;
   tiktok?: string | null;
-}
+};
+
+export type FooterMenu = {
+  section: string;
+  items: {
+    label: string;
+    url: string | null;
+  }[];
+}[];
 
 type ComponentProps = {
   title?: string;
   footerNote?: React.ReactNode;
   copy?: React.ReactNode;
   social?: SocialLinks;
+  menu?: FooterMenu;
 };
-
-const navigation = {
-  solutions: [
-    { name: 'Marketing', href: '#' },
-    { name: 'Analytics', href: '#' },
-    { name: 'Commerce', href: '#' },
-    { name: 'Insights', href: '#' },
-  ],
-  support: [
-    { name: 'Pricing', href: '#' },
-    { name: 'Documentation', href: '#' },
-    { name: 'Guides', href: '#' },
-    { name: 'API Status', href: '#' },
-  ],
-  company: [
-    { name: 'About', href: '#' },
-    { name: 'Blog', href: '#' },
-    { name: 'Jobs', href: '#' },
-    { name: 'Press', href: '#' },
-    { name: 'Partners', href: '#' },
-  ],
-  legal: [
-    { name: 'Claim', href: '#' },
-    { name: 'Privacy', href: '#' },
-    { name: 'Terms', href: '#' },
-  ],
-}
 
 const SocialIcon = ({ icon, href, name }: { icon: React.ReactNode, href?: string | null, name: string }) => (
   <>
@@ -60,6 +42,7 @@ export const Footer = ({
   footerNote,
   copy = <>&copy; All rights reserved.</>,
   social,
+  menu,
 }: ComponentProps) => (
   <footer className="sticky bottom-0 bg-blob-2 overflow-hidden " aria-labelledby="footer-heading" >
     <h2 id="footer-heading" className="sr-only">
@@ -70,12 +53,12 @@ export const Footer = ({
     <div className="absolute z-1 -top-64 -left-64 aspect-[10/8] h-full w-[1200px] animate-float bg-[radial-gradient(50%_50%_at_50%_50%,#f4ddcd_0%,theme(colors.blob-2)_24.48%,rgba(239,238,243,0)_100%)] opacity-50 mix-blend-overlay [animation-delay:4s]"></div>
 
     <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32 relative isolate z-40">
-      <div className="xl:grid xl:grid-cols-3 xl:gap-16">
-        <div className="space-y-8">
+      <div className="md:grid md:grid-cols-2 xl:grid-cols-3 xl:gap-16">
+        <div className="space-y-8 border-r-zinc-700 xl:border-r xl:pr-4">
           <img className="h-16" src="logo.svg" alt={title} />
 
           {footerNote && (
-            <p className="text-sm text-pretty">
+            <p className="text-xs text-balance">
               {footerNote}
             </p>
           )}
@@ -90,58 +73,20 @@ export const Footer = ({
         </div>
 
         <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-          <div className="md:grid md:grid-cols-2 md:gap-8">
-            <div>
-              <h3 className="text-sm font-semibold leading-6">Solutions</h3>
+          {menu?.map((section) => (
+            <div key={section.section}>
+              <h3 className="text-sm font-semibold leading-6">{section.section}</h3>
               <ul role="list" className="mt-6 space-y-4">
-                {navigation.solutions.map((item) => (
-                  <li key={item.name}>
-                    <a href={item.href} className="text-sm leading-6">
-                      {item.name}
+                {section.items.map((item) => (
+                  <li key={item.label}>
+                    <a href={item.url} className="text-sm leading-6">
+                      {item.label}
                     </a>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="mt-10 md:mt-0">
-              <h3 className="text-sm font-semibold leading-6">Support</h3>
-              <ul role="list" className="mt-6 space-y-4">
-                {navigation.support.map((item) => (
-                  <li key={item.name}>
-                    <a href={item.href} className="text-sm leading-6">
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="md:grid md:grid-cols-2 md:gap-8">
-            <div>
-              <h3 className="text-sm font-semibold leading-6">Company</h3>
-              <ul role="list" className="mt-6 space-y-4">
-                {navigation.company.map((item) => (
-                  <li key={item.name}>
-                    <a href={item.href} className="text-sm leading-6">
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="mt-10 md:mt-0">
-              <h3 className="text-sm font-semibold leading-6">Legal</h3>
-              <ul role="list" className="mt-6 space-y-4">
-                {navigation.legal.map((item) => (
-                  <li key={item.name}>
-                    <a href={item.href} className="text-sm leading-6">
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
