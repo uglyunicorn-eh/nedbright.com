@@ -40,7 +40,7 @@ export const Bookshelf = ({ books }: ComponentProps) => {
         <div className="flex justify-center">
           <a
             href={`/books`}
-            className="rounded-full ring-indigo-600/60 hover:ring-indigo-600 shadow-indigo-600 ring-2 px-6 py-2.5 text-indigo-600"
+            className="rounded-full ring-indigo-600/60 hover:ring-indigo-600 shadow-indigo-600 hover:bg-indigo-600/5 ring-2 px-6 py-2.5 text-indigo-600"
           >
             Все книги и материалы &rarr;
           </a>
