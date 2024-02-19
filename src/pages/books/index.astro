@@ -1,0 +1,21 @@
+---
+import { getCollection } from "astro:content";
+
+import Layout from "src/layouts/SimpleWithNavigation.astro";
+import { sample } from "src/utils";
+import { BooksList, FeaturedBookHero } from "src/components";
+
+const featuredBook = sample(
+  await getCollection("books", (entry) => entry.data.isFeatured),
+);
+
+const books = await getCollection(
+  "books",
+  (entry) => entry.id !== featuredBook?.id,
+);
+---
+
+<Layout>
+  {featuredBook && <FeaturedBookHero book={featuredBook} />}
+  <BooksList books={books} />
+</Layout>
