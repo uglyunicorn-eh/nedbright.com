@@ -1,0 +1,35 @@
+---
+import { getCollection } from "astro:content";
+
+import Layout from "src/layouts/SimpleWithNavigation.astro";
+import { sample } from "src/utils";
+import { BooksList, FeaturedBookHero } from "src/components";
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection("books");
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+console.log(entry);
+
+// const featuredBook = sample(
+//   await getCollection("books", (entry) => entry.data.isFeatured),
+// );
+
+// const books = await getCollection(
+//   "books",
+//   (entry) => entry.id !== featuredBook?.id,
+// );
+---
+
+<Layout title={entry.data.title}>
+  <FeaturedBookHero book={entry} />
+  <!-- <BooksList books={books} /> -->
+  <Content />
+</Layout>
