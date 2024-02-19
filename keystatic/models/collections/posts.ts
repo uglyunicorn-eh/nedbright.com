@@ -4,7 +4,7 @@ import { fields, collection } from '@keystatic/core';
 export default collection({
   label: 'Posts',
   slugField: 'title',
-  path: 'content/posts/*',
+  path: 'src/content/posts/*',
   format: { contentField: 'content' },
   schema: {
     title: fields.slug({ name: { label: 'Title' } }),

@@ -3,7 +3,7 @@ import { fields, collection } from '@keystatic/core';
 export default collection({
   label: 'Books',
   slugField: 'title',
-  path: 'content/books/*',
+  path: 'src/content/books/*/',
   entryLayout: 'content',
   format: { contentField: 'content' },
   columns: ['title', 'isFeatured'],
@@ -11,10 +11,9 @@ export default collection({
     image: fields.image({ label: 'Image', validation: { isRequired: true } }),
     title: fields.slug({ name: { label: 'Title' } }),
     isFeatured: fields.checkbox({ label: 'Featured' }),
-    headline: fields.document({
+    headline: fields.text({
       label: 'Headline',
-      formatting: true,
-      links: true,
+      multiline: true,
     }),
     link: fields.url({ label: 'Link' }),
     content: fields.document({
@@ -31,6 +30,7 @@ export default collection({
           multiline: true,
         }),
         author: fields.text({ label: 'Author' }),
+        showAuthor: fields.checkbox({ label: 'Show Author' }),
         isFeatured: fields.checkbox({ label: 'Featured' }),
       }),
       {

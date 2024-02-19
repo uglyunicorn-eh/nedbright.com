@@ -1,6 +1,6 @@
 import { config, type LocalConfig, type GitHubConfig } from '@keystatic/core';
 
-import { singletons, collections } from './src/models';
+import { singletons, collections } from 'keystatic/models';
 
 const repo: string | null = import.meta.env.PUBLIC_GITHUB_REPO;
 const isRemote = !!repo;
@@ -20,6 +20,16 @@ export default config({
   ui: {
     brand: {
       name: "Command Center",
+    },
+    navigation: {
+      'Content': [
+        'posts',
+        'books',
+      ],
+      'Settings': [
+        'site',
+        'menus',
+      ],
     },
   },
 
