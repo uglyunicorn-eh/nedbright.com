@@ -58,7 +58,7 @@ export const Footer = ({
       <div className="md:grid md:grid-cols-2 xl:grid-cols-3 xl:gap-16">
         <div className="space-y-8 border-r-zinc-700 xl:border-r xl:pr-12">
 
-          <img className="h-16" src="logo.svg" alt={title} />
+          <img className="h-16" src="/logo.svg" alt={title} />
 
           {footerNote && (
             <p className="text-xs text-balance">
