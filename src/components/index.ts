@@ -8,3 +8,4 @@ export { FeaturedBookHero } from './FeaturedBookHero';
 export { GridPattern } from './GridPattern';
 export { StarRating } from './StarRating';
 export { Bookshelf } from './Bookshelf';
+export { BooksList } from './BooksList';
