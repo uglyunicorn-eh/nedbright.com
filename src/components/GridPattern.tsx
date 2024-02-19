@@ -10,8 +10,8 @@ export const GridPattern = (
       <defs>
         <pattern
           id={patternId}
-          width="128"
-          height="128"
+          width="64"
+          height="64"
           patternUnits="userSpaceOnUse"
           {...props}
         >

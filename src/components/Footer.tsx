@@ -1,5 +1,7 @@
 import type React from "react";
+
 import { SocialIcons } from "src/components";
+
 
 type SocialLinks = {
   facebook?: string | null;
@@ -55,6 +57,7 @@ export const Footer = ({
     <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32 relative isolate z-40">
       <div className="md:grid md:grid-cols-2 xl:grid-cols-3 xl:gap-16">
         <div className="space-y-8 border-r-zinc-700 xl:border-r xl:pr-12">
+
           <img className="h-16" src="logo.svg" alt={title} />
 
           {footerNote && (
@@ -63,12 +66,12 @@ export const Footer = ({
             </p>
           )}
 
-          <div className="flex space-x-6">
-            <SocialIcon icon={<SocialIcons.Facebook className="h-6 w-6" aria-hidden="true" />} name="Facebook" href={social?.facebook} />
-            <SocialIcon icon={<SocialIcons.Instagram className="h-6 w-6" aria-hidden="true" />} name="Instagram" href={social?.instagram} />
-            <SocialIcon icon={<SocialIcons.Twitter className="h-6 w-6" aria-hidden="true" />} name="X" href={social?.twitter} />
-            <SocialIcon icon={<SocialIcons.YouTube className="h-6 w-6" aria-hidden="true" />} name="YouTube" href={social?.youtube} />
-            <SocialIcon icon={<SocialIcons.TikTok className="h-6 w-6" aria-hidden="true" />} name="TikTok" href={social?.tiktok} />
+          <div className="flex space-x-4">
+            <SocialIcon icon={<SocialIcons.Facebook className="h-6" aria-hidden="true" />} name="Facebook" href={social?.facebook} />
+            <SocialIcon icon={<SocialIcons.Instagram className="h-6" aria-hidden="true" />} name="Instagram" href={social?.instagram} />
+            <SocialIcon icon={<SocialIcons.Twitter className="h-6" aria-hidden="true" />} name="X" href={social?.twitter} />
+            <SocialIcon icon={<SocialIcons.YouTube className="h-6" aria-hidden="true" />} name="YouTube" href={social?.youtube} />
+            <SocialIcon icon={<SocialIcons.TikTok className="h-6" aria-hidden="true" />} name="TikTok" href={social?.tiktok} />
           </div>
         </div>
 
@@ -91,8 +94,8 @@ export const Footer = ({
       </div>
 
       {copy && (
-        <div className="mt-16 pt-8 sm:mt-20 lg:mt-24">
-          <p className="text-xs">{copy}</p>
+        <div className="mt-16 sm:mt-20 lg:mt-24 text-xs">
+          {copy}
         </div>
       )}
     </div>

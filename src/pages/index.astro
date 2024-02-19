@@ -1,4 +1,7 @@
 ---
+import { getCollection } from "astro:content";
+
+import { sample } from "src/utils";
 import { reader } from "src/reader";
 import Layout from "src/layouts/Layout.astro";
 import {
@@ -7,18 +10,26 @@ import {
   Hero,
   Features,
   Footer,
-  BookHero,
+  FeaturedBookHero,
 } from "src/components";
 import type { FooterMenu } from "src/components/Footer";
 
 const site = await reader.singletons.site.read();
 const menus = await reader.singletons.menus.read();
+
+console.log(JSON.stringify(await getCollection("books"), null, 2));
+
+const featuredBook = sample(
+  await getCollection("books", (entry) => entry.data.isFeatured),
+);
+
+console.log(JSON.stringify(featuredBook, null, 2));
 ---
 
 <Layout>
   <div class="relative w-full">
     <Navbar />
-    <main class="relative z-10 bg-gray-100">
+    <main class="relative z-10 bg-gray-100 shadow-2xl shadow-slate-700/15">
       <BackgroundBlobs />
       <Hero
         data={{
@@ -26,12 +37,13 @@ const menus = await reader.singletons.menus.read();
           heroIntroText: "landingPage.heroIntroText",
         }}
       />
-      <Features />
-      <BookHero />
+      <!-- <Features /> -->
+
+      {featuredBook && <FeaturedBookHero book={featuredBook as any} />}
       <!--
       <Testimonials testimonials={testimonials} />
       <Pricing /> -->
     </main>
-    <Footer {...site} menu={menus?.footer as FooterMenu} />
+    <Footer menu={menus?.footer as FooterMenu} {...site} />
   </div>
 </Layout>

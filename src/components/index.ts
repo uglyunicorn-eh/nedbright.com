@@ -4,6 +4,6 @@ export { Hero } from './Hero';
 export { Features } from './Features';
 export { Footer } from './Footer';
 export { SocialIcons } from './SocialIcons';
-export { BookHero } from './BookHero';
+export { FeaturedBookHero } from './FeaturedBookHero';
 export { GridPattern } from './GridPattern';
 export { StarRating } from './StarRating';
