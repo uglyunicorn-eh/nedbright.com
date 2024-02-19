@@ -10,6 +10,7 @@ import {
   Hero,
   Footer,
   FeaturedBookHero,
+  Bookshelf,
 } from "src/components";
 import type { FooterMenu } from "src/components/Footer";
 
@@ -18,6 +19,11 @@ const menus = await reader.singletons.menus.read();
 
 const featuredBook = sample(
   await getCollection("books", (entry) => entry.data.isFeatured),
+);
+
+const books = await getCollection(
+  "books",
+  (entry) => entry.id !== featuredBook?.id,
 );
 ---
 
@@ -34,7 +40,9 @@ const featuredBook = sample(
       />
       <!-- <Features /> -->
 
-      {featuredBook && <FeaturedBookHero book={featuredBook as any} />}
+      {featuredBook && <FeaturedBookHero book={featuredBook} />}
+      {books && <Bookshelf books={books} />}
+
       <!--
       <Testimonials testimonials={testimonials} />
       <Pricing /> -->
