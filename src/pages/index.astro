@@ -1,21 +1,9 @@
 ---
 import { getCollection } from "astro:content";
 
+import Layout from "src/layouts/SimpleWithNavigation.astro";
 import { sample } from "src/utils";
-import { reader } from "src/reader";
-import Layout from "src/layouts/Layout.astro";
-import {
-  Navbar,
-  BackgroundBlobs,
-  Hero,
-  Footer,
-  FeaturedBookHero,
-  Bookshelf,
-} from "src/components";
-import type { FooterMenu } from "src/components/Footer";
-
-const site = await reader.singletons.site.read();
-const menus = await reader.singletons.menus.read();
+import { Hero, FeaturedBookHero, Bookshelf } from "src/components";
 
 const featuredBook = sample(
   await getCollection("books", (entry) => entry.data.isFeatured),
@@ -28,25 +16,14 @@ const books = await getCollection(
 ---
 
 <Layout>
-  <div class="relative w-full">
-    <Navbar />
-    <main class="relative z-10 bg-gray-100 shadow-2xl shadow-slate-700/15">
-      <BackgroundBlobs />
-      <Hero
-        data={{
-          heroHeadline: "landingPage.heroHeadline",
-          heroIntroText: "landingPage.heroIntroText",
-        }}
-      />
-      <!-- <Features /> -->
+  <Hero
+    data={{
+      heroHeadline: "landingPage.heroHeadline",
+      heroIntroText: "landingPage.heroIntroText",
+    }}
+  />
+  <!-- <Features /> -->
 
-      {featuredBook && <FeaturedBookHero book={featuredBook} />}
-      {books && <Bookshelf books={books} />}
-
-      <!--
-      <Testimonials testimonials={testimonials} />
-      <Pricing /> -->
-    </main>
-    <Footer menu={menus?.footer as FooterMenu} {...site} />
-  </div>
+  {featuredBook && <FeaturedBookHero book={featuredBook} />}
+  {books && <Bookshelf books={books} />}
 </Layout>

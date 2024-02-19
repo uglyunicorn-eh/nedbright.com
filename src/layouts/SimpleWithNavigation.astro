@@ -1,0 +1,22 @@
+---
+import { reader } from "src/reader";
+import Layout from "./Layout.astro";
+import { Navbar, BackgroundBlobs, Footer } from "src/components";
+import type { FooterMenu } from "src/components/Footer";
+
+const site = await reader.singletons.site.read();
+const menus = await reader.singletons.menus.read();
+---
+
+<Layout>
+  <div class="relative w-full">
+    <Navbar />
+    <main
+      class="relative z-10 bg-gray-100 pt-24 shadow-2xl shadow-slate-700/15"
+    >
+      <BackgroundBlobs />
+      <slot />
+    </main>
+    <Footer menu={menus?.footer as FooterMenu} {...site} />
+  </div>
+</Layout>
