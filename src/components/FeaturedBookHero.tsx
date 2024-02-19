@@ -12,7 +12,7 @@ export const FeaturedBookHero = ({ book }: ComponentProps) => {
 
   return (
     <header className="relative z-10 overflow-hidden lg:bg-transparent">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 grid-rows-[auto_1fr] gap-y-16 pt-16 md:pt-20 lg:grid-cols-12 lg:gap-y-20 lg:px-3 lg:pb-36 lg:pt-20">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 grid-rows-[auto_1fr] gap-y-16 pt-16 md:pt-20 lg:grid-cols-12 lg:gap-y-20 lg:px-3 lg:pb-16 lg:pt-20">
         <div className="relative flex items-start lg:col-span-5 lg:row-span-2">
 
           <div className="absolute z-10 overflow-hidden rounded-br-6xl bg-blob-2 text-white/15 md:bottom-8 lg:-inset-y-32 lg:left-[-100vw] lg:right-full lg:-mr-40 rounded-br-3xl mb-24">
