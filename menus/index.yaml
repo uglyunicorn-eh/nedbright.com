@@ -8,5 +8,5 @@ footer:
         url: '#therapy'
       - label: Проект "Жить среди людей"
         url: '#live-among-people'
-      - label: Моя книга
-        url: '#my-book'
+      - label: Мои книгa
+        url: /books
