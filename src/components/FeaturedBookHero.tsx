@@ -77,7 +77,7 @@ function Testimonial({ testimonial }: {
 
       {testimonial?.quote && (
         <blockquote className="mt-2">
-          <p className={`font-display text-sm font-medium text-slate-900 before:content-['"'] after:content-['"']`}>
+          <p className={`font-display text-sm font-medium text-slate-900 before:content-['«'] after:content-['»']`}>
             {testimonial.quote}
           </p>
         </blockquote>
