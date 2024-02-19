@@ -6,9 +6,11 @@ import type { FooterMenu } from "src/components/Footer";
 
 const site = await reader.singletons.site.read();
 const menus = await reader.singletons.menus.read();
+
+const title = Astro.props.title;
 ---
 
-<Layout>
+<Layout title={title}>
   <div class="relative w-full">
     <Navbar />
     <main

@@ -15,7 +15,7 @@ const books = await getCollection(
 );
 ---
 
-<Layout>
+<Layout title="Библиотека">
   {featuredBook && <FeaturedBookHero book={featuredBook} />}
   <BooksList books={books} />
 </Layout>
