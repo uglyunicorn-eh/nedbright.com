@@ -8,7 +8,12 @@ export default collection({
   format: { contentField: 'content' },
   columns: ['title', 'isFeatured'],
   schema: {
-    image: fields.image({ label: 'Image', validation: { isRequired: true } }),
+    image: fields.image({
+      label: 'Cover Image',
+      validation: { isRequired: true },
+      directory: 'public/images/books',
+      publicPath: '/images/books',
+    }),
     title: fields.slug({ name: { label: 'Title' } }),
     isFeatured: fields.checkbox({ label: 'Featured' }),
     headline: fields.text({
