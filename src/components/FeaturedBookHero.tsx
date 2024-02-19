@@ -20,7 +20,7 @@ export const FeaturedBookHero = ({ book }: ComponentProps) => {
           </div>
 
           <div className="relative z-10 mx-auto flex w-64 rounded-xl shadow-2xl shadow-black/15 md:w-80 lg:w-96">
-            <img className="w-full rounded-md" src={book.data.image} alt="" />
+            <img className="w-full rounded-xl" src={book.data.image} alt="" />
           </div>
 
         </div>
