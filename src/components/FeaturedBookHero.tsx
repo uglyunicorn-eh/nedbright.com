@@ -48,7 +48,7 @@ export const FeaturedBookHero = ({ book }: ComponentProps) => {
             <div className="my-12 flex gap-4">
               <a
                 href={`/books/${book.slug}`}
-                className="rounded-md bg-indigo-600 px-4 py-2.5 text-lg text-white shadow-lg border border-white/50 shadow-indigo-500/25 hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="rounded-md bg-indigo-600 px-6 py-3 text-xl text-white shadow-lg border border-white/50 shadow-indigo-500/25 hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Перейти к книге
               </a>
