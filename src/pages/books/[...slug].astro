@@ -2,8 +2,8 @@
 import { getCollection } from "astro:content";
 
 import Layout from "src/layouts/SimpleWithNavigation.astro";
-import { sample } from "src/utils";
-import { BooksList, FeaturedBookHero } from "src/components";
+
+import { BookDetailsHead } from "src/components";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection("books");
@@ -29,7 +29,15 @@ console.log(entry);
 ---
 
 <Layout title={entry.data.title}>
-  <FeaturedBookHero book={entry} />
+  <BookDetailsHead book={entry} />
   <!-- <BooksList books={books} /> -->
-  <Content />
+  <section class="relative z-10 overflow-hidden lg:bg-transparent">
+    <div
+      class="mx-auto max-w-4xl grid-cols-1 grid-rows-[auto_1fr] gap-y-16 pt-16 md:pt-20 lg:grid-cols-12 lg:gap-y-20 lg:px-3 lg:pb-16 lg:pt-20"
+    >
+      <div class="relative flex items-start lg:col-span-5 lg:row-span-2">
+        <Content />
+      </div>
+    </div>
+  </section>
 </Layout>
