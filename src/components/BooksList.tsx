@@ -56,7 +56,7 @@ export const BooksList = ({ books }: ComponentProps) => {
                     </h3>
                     <p className="mt-5 leading-6">{book.data.headline}</p>
                     <p className="mt-5 leading-6">
-                      <a href={`/books/${book.slug}`} className="text-indigo-600 hover:text-indigo-500 text-sm font-semibold">
+                      <a href={`/books/${book.slug}`} className="text-indigo-600 hover:text-indigo-500 font-semibold hover:pl-1 transition-all duration-75">
                         Подробнее &rarr;
                       </a>
                     </p>
