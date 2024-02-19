@@ -8,7 +8,6 @@ import {
   Navbar,
   BackgroundBlobs,
   Hero,
-  Features,
   Footer,
   FeaturedBookHero,
 } from "src/components";
@@ -17,13 +16,9 @@ import type { FooterMenu } from "src/components/Footer";
 const site = await reader.singletons.site.read();
 const menus = await reader.singletons.menus.read();
 
-console.log(JSON.stringify(await getCollection("books"), null, 2));
-
 const featuredBook = sample(
   await getCollection("books", (entry) => entry.data.isFeatured),
 );
-
-console.log(JSON.stringify(featuredBook, null, 2));
 ---
 
 <Layout>
