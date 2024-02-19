@@ -1,15 +1,14 @@
 import type { CollectionEntry } from 'astro:content';
 
+import { sample } from 'src/utils';
 import { GridPattern, StarRating } from 'src/components';
-
-import coverImage from 'public/images/cover.png';
 
 type ComponentProps = {
   book: CollectionEntry<'books'>;
 }
 
 export const FeaturedBookHero = ({ book }: ComponentProps) => {
-  const testimonial = book.data.testimonies?.filter((t) => t.isFeatured)[0];
+  const testimonial = sample(book.data.testimonies?.filter((t) => t.isFeatured) || []);
 
   return (
     <header className="relative z-10 overflow-hidden lg:bg-transparent">
@@ -21,7 +20,7 @@ export const FeaturedBookHero = ({ book }: ComponentProps) => {
           </div>
 
           <div className="relative z-10 mx-auto flex w-64 rounded-xl shadow-2xl shadow-black/15 md:w-80 lg:w-96">
-            <img className="w-full rounded-md" src={coverImage.src} alt="" />
+            <img className="w-full rounded-md" src={book.data.image} alt="" />
           </div>
 
         </div>
@@ -78,8 +77,8 @@ function Testimonial({ testimonial }: {
 
       {testimonial?.quote && (
         <blockquote className="mt-2">
-          <p className="font-display text-sm font-medium text-slate-900">
-            {testimonial?.quote}
+          <p className={`font-display text-sm font-medium text-slate-900 before:content-['"'] after:content-['"']`}>
+            {testimonial.quote}
           </p>
         </blockquote>
       )}
