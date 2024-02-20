@@ -67,8 +67,8 @@ const books = await getCollection("books", ({ id }) => id !== entry.id);
                 ценно для меня.
               </p>
             </div>
-            <div class="mx-auto mt-10 flow-root max-w-2xl lg:mx-0 lg:max-w-none">
-              <div class="-mt-8 flex justify-center gap-4 sm:-mx-4 sm:text-[0]">
+            <div class="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
+              <div class="-mt-8 flex flex-wrap justify-center gap-x-4 sm:-mx-4 sm:text-[0]">
                 {entry.data.testimonies.map((testimonial) => (
                   <div class="pt-8 sm:inline-block sm:w-full sm:px-4 md:max-w-xl">
                     <figure class="rounded-2xl bg-gray-50/20 p-8 text-sm leading-6 backdrop-blur-sm">
