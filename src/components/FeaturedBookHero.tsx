@@ -20,7 +20,9 @@ export const FeaturedBookHero = ({ book }: ComponentProps) => {
           </div>
 
           <div className="relative z-10 mx-auto flex w-64 rounded-xl shadow-2xl shadow-black/15 md:w-80 lg:w-96 aspect-[3/4]">
-            <img className="w-full object-cover rounded-xl" src={book.data.image} alt={book.data.title} />
+            <a href={`/books/${book.slug}`}>
+              <img className="w-full object-cover rounded-xl" src={book.data.image} alt={book.data.title} />
+            </a>
           </div>
 
         </div>
@@ -36,7 +38,9 @@ export const FeaturedBookHero = ({ book }: ComponentProps) => {
           <div className="mx-auto px-4 sm:px-6 md:max-w-2xl md:px-4 lg:px-0 tracking-tight text-balance">
 
             <h1 className="font-display text-5xl font-extrabold text-slate-900 sm:text-5xl mb-8">
-              {book.data.title}
+              <a href={`/books/${book.slug}`}>
+                {book.data.title}
+              </a>
             </h1>
 
             {book.data.headline && (
