@@ -12,5 +12,6 @@ export default defineConfig({
   integrations: [tailwind(), react(), markdoc(), keystatic(), sitemap()],
   output: 'hybrid',
   adapter: cloudflare(),
-  site: import.meta.env.SITE_URL,
+  // site: import.meta.env.SITE_URL,
+  site: "https://ng.nedbright.com"
 });
