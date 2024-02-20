@@ -14,7 +14,9 @@ export const Bookshelf = ({ books }: ComponentProps) => {
   return (
     <div className="pt-12 pb-32 relative z-40">
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Библиотека</h2>
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <a href="/books" className="hover:text-gray-700">Библиотека</a>
+        </h2>
         <p className="mt-2 text-gray-600 text-balance">
           Здесь вы найдете книги, рабочие тетради и другие материалы для самостоятельного изучения и практики.
         </p>
