@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 
 import Layout from "src/layouts/SimpleWithNavigation.astro";
 
-import { BookDetailsHead, Bookshelf } from "src/components";
+import { BookDetailsHead, Bookshelf, StarRating } from "src/components";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection("books");
@@ -35,7 +35,7 @@ const books = await getCollection("books", ({ id }) => id !== entry.id);
 
       <div class="sm:w-[65ch] md:w-[65ch] lg:w-64">
         <figure
-          class="top-12 w-64 max-w-xl border-l border-indigo-600 py-8 pl-8"
+          class="w-64 max-w-xl border-l border-indigo-600 py-8 pl-8 md:mt-10"
         >
           <blockquote
             class="text-xs font-semibold leading-8 tracking-tight text-slate-500"
@@ -51,5 +51,53 @@ const books = await getCollection("books", ({ id }) => id !== entry.id);
       </div>
     </div>
   </section>
+
+  {
+    entry.data.testimonies?.length && (
+      <section>
+        <div class="relative z-40 bg-gradient-to-t from-white/0 to-white/20 py-16">
+          <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-xl text-balance text-center">
+              <h2 class="text-2xl font-semibold leading-8 tracking-tight">
+                Отзывы читателей
+              </h2>
+              <p class="mt-2 text-sm tracking-tight">
+                Огромное спасибо всем, друзья, за вашу поддержку! Это невероятно
+                ценно для меня.
+              </p>
+            </div>
+            <div class="mx-auto mt-10 flow-root max-w-2xl lg:mx-0 lg:max-w-none">
+              <div class="-mt-8 flex justify-center gap-4 sm:-mx-4 sm:text-[0]">
+                {entry.data.testimonies.map((testimonial) => (
+                  <div class="pt-8 sm:inline-block sm:w-full sm:px-4 md:max-w-xl">
+                    <figure class="rounded-2xl bg-gray-50/20 p-8 text-sm leading-6 backdrop-blur-sm">
+                      <div class="pb-4 text-center text-yellow-500">
+                        <StarRating />
+                      </div>
+                      <blockquote class="text-gray-900">
+                        <p class="text-balance before:content-['«'] after:content-['»']">
+                          {testimonial.quote}
+                        </p>
+                      </blockquote>
+                      {testimonial.author && testimonial.showAuthor && (
+                        <figcaption class="mt-6 flex items-center gap-x-4">
+                          <div>
+                            <div class="text-sm before:content-['—_']">
+                              {testimonial.author}
+                            </div>
+                          </div>
+                        </figcaption>
+                      )}
+                    </figure>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   <Bookshelf books={books} />
 </Layout>
