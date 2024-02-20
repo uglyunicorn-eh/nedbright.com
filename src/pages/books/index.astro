@@ -15,7 +15,11 @@ const books = await getCollection(
 );
 ---
 
-<Layout title="Библиотека">
+<Layout
+  seo={{
+    title: "Библиотека",
+  }}
+>
   {featuredBook && <FeaturedBookHero book={featuredBook} />}
   <BooksList books={books} />
 </Layout>
