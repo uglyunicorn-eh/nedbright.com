@@ -19,7 +19,18 @@ const { Content } = await entry.render();
 const books = await getCollection("books", ({ id }) => id !== entry.id);
 ---
 
-<Layout title={entry.data.title}>
+<Layout
+  seo={{
+    title: entry.data.title,
+    openGraph: {
+      basic: {
+        type: "website",
+        title: entry.data.headline!,
+        image: entry.data.image!,
+      },
+    },
+  }}
+>
   <BookDetailsHead book={entry} />
 
   <section class="relative z-10 overflow-hidden bg-transparent">
@@ -32,7 +43,7 @@ const books = await getCollection("books", ({ id }) => id !== entry.id);
 
       <div class="sm:w-[65ch] md:w-[65ch] lg:w-64">
         <figure
-          class="w-64 max-w-xl border-l border-indigo-600 py-8 pl-8 md:mt-10"
+          class="w-64 max-w-xl border-indigo-600 py-8 pl-8 md:mt-10 md:border-l"
         >
           <blockquote
             class="text-xs font-semibold leading-8 tracking-tight text-slate-500"

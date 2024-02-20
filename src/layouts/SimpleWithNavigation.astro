@@ -1,16 +1,23 @@
 ---
-import { reader } from "src/reader";
+import { type Props as SEOProps } from "astro-seo";
+
 import Layout from "./Layout.astro";
+
+import { reader } from "src/reader";
 import { Navbar, BackgroundBlobs, Footer } from "src/components";
 import type { FooterMenu } from "src/components/Footer";
+
+type Props = {
+  seo?: SEOProps;
+};
 
 const site = await reader.singletons.site.read();
 const menus = await reader.singletons.menus.read();
 
-const title = Astro.props.title;
+const seo = Astro.props.seo;
 ---
 
-<Layout title={title}>
+<Layout seo={seo}>
   <div class="relative w-full">
     <Navbar />
     <main

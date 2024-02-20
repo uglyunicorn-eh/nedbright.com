@@ -1,15 +1,25 @@
 ---
+import { SEO, type Props as SEOProps } from "astro-seo";
+
 import { reader } from "src/reader";
 
 type Props = {
-  title?: string;
-  description?: string;
+  seo?: SEOProps;
 };
 
 const site = await reader.singletons.site.read();
 
-const title = [Astro.props.title, site?.title].filter(Boolean).join(" | ");
-const description = Astro.props.description || site?.description;
+const siteTitle = site?.title;
+
+const seo = {
+  title: siteTitle,
+  titleTemplate: Astro.props.seo?.title ? `%s | ${siteTitle}` : undefined,
+  ...Astro.props.seo,
+  extend: {
+    link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
+    ...Astro.props.seo?.extend,
+  },
+};
 ---
 
 <!doctype html>
@@ -28,10 +38,7 @@ const description = Astro.props.description || site?.description;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <SEO {...seo} />
 
     <style>
       .font-ruda-400 {
