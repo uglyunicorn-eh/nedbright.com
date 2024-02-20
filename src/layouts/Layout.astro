@@ -13,7 +13,9 @@ const siteTitle = site?.title;
 
 const seo = {
   title: siteTitle,
+  defaultTitle: siteTitle,
   titleTemplate: Astro.props.seo?.title ? `%s | ${siteTitle}` : undefined,
+  charset: "UTF-8",
   ...Astro.props.seo,
   extend: {
     link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
@@ -34,7 +36,6 @@ const seo = {
       rel="stylesheet"
     />
 
-    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
 
