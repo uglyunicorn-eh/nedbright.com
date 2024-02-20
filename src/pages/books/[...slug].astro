@@ -25,14 +25,29 @@ const books = await getCollection("books", ({ id }) => id !== entry.id);
 
 <Layout title={entry.data.title}>
   <BookDetailsHead book={entry} />
-  <section class="relative z-10 overflow-hidden lg:bg-transparent">
-    <div
-      class="mx-auto max-w-4xl grid-cols-1 grid-rows-[auto_1fr] gap-y-16 pb-24 lg:grid-cols-12 lg:gap-y-20 lg:px-3"
-    >
+  <section class="relative z-10 overflow-hidden bg-transparent">
+    <div class="mx-auto flex max-w-6xl flex-col gap-6 pb-24 lg:flex-row">
       <div
-        class="prose lg:prose-lg first:prose-p:text-xl first:prose-p:text-black prose-p:leading-7 prose-a:no-underline prose-a:text-indigo-600 hover:prose-a:text-indigo-500 prose-a:mx-0.5 relative mx-auto flex text-pretty tracking-tight"
+        class="prose lg:prose-lg first:prose-p:text-xl first:prose-p:text-black prose-p:leading-7 prose-a:no-underline prose-a:text-indigo-600 hover:prose-a:text-indigo-500 prose-a:mx-0.5 relative mx-auto flex text-pretty px-6 tracking-tight"
       >
-        <Content class="" />
+        <Content />
+      </div>
+
+      <div class="sm:w-[65ch] md:w-[65ch] lg:w-64">
+        <figure
+          class="top-12 w-64 max-w-xl border-l border-indigo-600 py-8 pl-8"
+        >
+          <blockquote
+            class="text-xs font-semibold leading-8 tracking-tight text-slate-500"
+          >
+            <p>От автора</p>
+          </blockquote>
+          <figcaption class="flex items-center gap-x-4">
+            <div class="text-sm leading-6">
+              <div class="font-semibold text-gray-900">Надежда Резникова</div>
+            </div>
+          </figcaption>
+        </figure>
       </div>
     </div>
   </section>
