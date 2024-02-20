@@ -5,6 +5,7 @@ export const site = {
   schema: {
     title: fields.text({ label: 'Title' }),
     description: fields.text({ label: 'Description', multiline: true }),
+    author: fields.text({ label: 'Author' }),
     footerNote: fields.text({ label: 'Footer Note', multiline: true }),
     copy: fields.text({ label: 'Copyrights' }),
 
