@@ -30,6 +30,13 @@ const books = await getCollection("books", ({ id }) => id !== entry.id);
         image: entry.data.image!,
       },
     },
+    twitter: {
+      card: "summary_large_image",
+      title: entry.data.title,
+      image: entry.data.image,
+      imageAlt: entry.data.title,
+      description: entry.data.headline,
+    },
   }}
 >
   <BookDetailsHead book={entry} />
