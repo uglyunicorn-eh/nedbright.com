@@ -4,14 +4,14 @@ import react from "@astrojs/react";
 import markdoc from "@astrojs/markdoc";
 import cloudflare from "@astrojs/cloudflare";
 import sitemap from "@astrojs/sitemap";
-
 import keystatic from '@keystatic/astro';
+
+import robotsTxt from "astro-robots-txt";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), react(), markdoc(), keystatic(), sitemap()],
+  integrations: [tailwind(), react(), markdoc(), keystatic(), sitemap(), robotsTxt()],
   output: 'hybrid',
   adapter: cloudflare(),
-  // site: import.meta.env.SITE_URL,
   site: "https://ng.nedbright.com"
 });
