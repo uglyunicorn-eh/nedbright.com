@@ -25,10 +25,11 @@ const books = await getCollection("books", ({ id }) => id !== entry.id);
 
 <Layout title={entry.data.title}>
   <BookDetailsHead book={entry} />
+
   <section class="relative z-10 overflow-hidden bg-transparent">
     <div class="mx-auto flex max-w-6xl flex-col gap-6 pb-24 lg:flex-row">
       <div
-        class="prose lg:prose-lg first:prose-p:text-xl first:prose-p:text-black prose-p:leading-7 prose-a:no-underline prose-a:text-indigo-600 hover:prose-a:text-indigo-500 prose-a:mx-0.5 relative mx-auto flex text-pretty px-6 tracking-tight"
+        class="prose lg:prose-lg first:prose-p:text-xl first:prose-p:text-black first:prose-p:font-semibold prose-p:leading-7 prose-a:no-underline prose-a:text-indigo-600 hover:prose-a:text-indigo-500 prose-a:mx-0.5 relative mx-auto flex text-pretty px-6 tracking-tight"
       >
         <Content />
       </div>
@@ -53,7 +54,7 @@ const books = await getCollection("books", ({ id }) => id !== entry.id);
   </section>
 
   {
-    entry.data.testimonies?.length && (
+    (entry.data.testimonies?.length && (
       <section>
         <div class="relative z-40 bg-gradient-to-t from-white/0 to-white/20 py-16">
           <div class="mx-auto max-w-7xl px-6 lg:px-8">
@@ -96,7 +97,8 @@ const books = await getCollection("books", ({ id }) => id !== entry.id);
           </div>
         </div>
       </section>
-    )
+    )) ||
+      null
   }
 
   <Bookshelf books={books} />
