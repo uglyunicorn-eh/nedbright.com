@@ -16,10 +16,6 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 
-// const featuredBook = sample(
-//   await getCollection("books", (entry) => entry.data.isFeatured),
-// );
-
 const books = await getCollection("books", ({ id }) => id !== entry.id);
 ---
 
@@ -63,20 +59,20 @@ const books = await getCollection("books", ({ id }) => id !== entry.id);
                 Отзывы читателей
               </h2>
               <p class="mt-2 text-sm tracking-tight">
-                Огромное спасибо всем, друзья, за вашу поддержку! Это невероятно
+                Огромное спасибо вам, друзья, за вашу поддержку! Это невероятно
                 ценно для меня.
               </p>
             </div>
-            <div class="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
-              <div class="-mt-8 flex flex-wrap justify-center gap-x-4 sm:-mx-4 sm:text-[0]">
+            <div class="mx-auto mt-10 flow-root max-w-2xl columns-1 md:columns-2 lg:mx-0 lg:max-w-none lg:columns-3">
+              <div class="-mt-8 gap-4 sm:-mx-4 sm:text-[0]">
                 {entry.data.testimonies.map((testimonial) => (
-                  <div class="pt-8 sm:inline-block sm:w-full sm:px-4 md:max-w-xl">
+                  <div class="pt-4 sm:inline-block sm:w-full sm:px-4 md:max-w-xl">
                     <figure class="rounded-2xl bg-gray-50/20 p-8 text-sm leading-6 backdrop-blur-sm">
-                      <div class="pb-4 text-center text-yellow-500">
+                      <div class="pb-2 text-center text-yellow-500">
                         <StarRating />
                       </div>
                       <blockquote class="text-gray-900">
-                        <p class="text-balance before:content-['«'] after:content-['»']">
+                        <p class="text-pretty before:content-['«'] after:content-['»']">
                           {testimonial.quote}
                         </p>
                       </blockquote>
