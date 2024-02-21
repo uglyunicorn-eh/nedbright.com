@@ -18,11 +18,11 @@ export const BooksList = ({ books }: ComponentProps) => {
             {books.map((book) => (
               <article key={book.id} className="relative isolate flex flex-col gap-8 lg:flex-row ">
                 <a href={`/books/${book.slug}`} className="relative block aspect-[3/4] lg:w-64 lg:shrink-0">
-                  <Image
+                  {/* <Image
                     src={book.data.image}
                     alt={book.data.title || ""}
                     className="absolute inset-0 h-full w-full rounded-2xl object-cover bg-blob-3 shadow-xl shadow-black/5"
-                  />
+                  /> */}
                 </a>
                 <div>
                   <div className="group relative max-w-xl">
