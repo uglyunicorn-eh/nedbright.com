@@ -10,7 +10,18 @@ import robotsTxt from "astro-robots-txt";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), react(), markdoc(), keystatic(), sitemap(), robotsTxt()],
+  integrations: [
+    tailwind(),
+    react(),
+    markdoc(),
+    keystatic(),
+    sitemap(),
+    robotsTxt({
+      policy: [
+        { userAgent: "*", disallow: "/" },
+      ],
+    }),
+  ],
   output: 'hybrid',
   adapter: cloudflare(),
   site: "https://ng.nedbright.com"
