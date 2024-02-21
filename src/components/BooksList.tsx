@@ -20,7 +20,7 @@ export const BooksList = ({ books }: ComponentProps) => {
                 <a href={`/books/${book.slug}`} className="relative block aspect-[3/4] lg:w-64 lg:shrink-0">
                   <Image
                     src={book.data.image}
-                    alt={book.data.title}
+                    alt={book.data.title || ""}
                     className="absolute inset-0 h-full w-full rounded-2xl object-cover bg-blob-3 shadow-xl shadow-black/5"
                   />
                 </a>
