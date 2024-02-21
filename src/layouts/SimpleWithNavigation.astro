@@ -14,7 +14,7 @@ type Props = {
 const site = await reader.singletons.site.read();
 const menus = await reader.singletons.menus.read();
 
-const seo = Astro.props.seo;
+const { seo } = Astro.props;
 ---
 
 <Layout seo={seo}>
