@@ -1,7 +1,10 @@
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 
 import { sample } from 'src/utils';
 import { GridPattern, StarRating } from 'src/components';
+
+import BookCover from 'src/components/BookCover.astro';
 
 type ComponentProps = {
   book: CollectionEntry<'books'>;
@@ -19,9 +22,9 @@ export const FeaturedBookHero = ({ book }: ComponentProps) => {
             <GridPattern />
           </div>
 
-          <div className="relative z-10 mx-auto flex w-64 rounded-xl shadow-2xl shadow-black/15 md:w-80 lg:w-96 aspect-[3/4]">
+          <div className="relative z-10 mx-auto flex w-64 rounded-xl shadow-2xl bg-blob-3 shadow-black/15 md:w-80 lg:w-96 aspect-[3/4]">
             <a href={`/books/${book.slug}`}>
-              <img className="w-full object-cover rounded-xl" src={book.data.image} alt={book.data.title} />
+              <BookCover book={book} />
             </a>
           </div>
 

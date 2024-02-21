@@ -1,0 +1,12 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  book: CollectionEntry<"books">;
+};
+
+const book = Astro.props.book;
+---
+
+<Image src={book.data.image} alt={book.data.title!} />

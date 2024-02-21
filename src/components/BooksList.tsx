@@ -1,5 +1,5 @@
 import type { CollectionEntry } from "astro:content";
-
+import { Image } from 'astro:assets';
 
 type ComponentProps = {
   books?: CollectionEntry<'books'>[];
@@ -16,12 +16,12 @@ export const BooksList = ({ books }: ComponentProps) => {
         <div className="mx-auto max-w-2xl lg:max-w-4xl">
           <div className="mt-16 space-y-20 lg:space-y-20">
             {books.map((book) => (
-              <article key={book.id} className="relative isolate flex flex-col gap-8 lg:flex-row">
+              <article key={book.id} className="relative isolate flex flex-col gap-8 lg:flex-row ">
                 <a href={`/books/${book.slug}`} className="relative block aspect-[3/4] lg:w-64 lg:shrink-0">
-                  <img
+                  <Image
                     src={book.data.image}
                     alt={book.data.title}
-                    className="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover"
+                    className="absolute inset-0 h-full w-full rounded-2xl object-cover bg-blob-3 shadow-xl shadow-black/5"
                   />
                 </a>
                 <div>

@@ -1,4 +1,5 @@
 import type { CollectionEntry } from "astro:content";
+import { Image } from 'astro:assets';
 
 import { GridPattern } from "src/components";
 
@@ -18,7 +19,7 @@ export const BookDetailsHead = ({ book }: ComponentProps) => {
           </div>
 
           <div className="relative z-10 mx-auto flex w-64 rounded-xl shadow-2xl shadow-black/15 md:w-80 lg:w-96 aspect-[3/4]">
-            <img className="w-full object-cover rounded-xl" src={book.data.image} alt={book.data.title} />
+            <Image className="w-full object-cover rounded-xl" src={book.data.image} alt={book.data.title} />
           </div>
 
         </div>

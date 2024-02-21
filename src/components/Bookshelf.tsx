@@ -1,4 +1,5 @@
 import type { CollectionEntry } from "astro:content";
+import { Image } from 'astro:assets';
 
 
 type ComponentProps = {
@@ -29,7 +30,7 @@ export const Bookshelf = ({ books }: ComponentProps) => {
               <article
                 className="relative isolate flex flex-col justify-end rounded-2xl lg:w-72 overflow-hidden scroll-pt-96 sm:pt-48 lg:pt-80 aspect-[3/4] bg-gray-900/10 hover:bg-gray-900/20 transition-all duration-100 ease-in-out transform hover:scale-105 shadow-2xl"
               >
-                <img src={book.data.image} alt="" className="absolute inset-0 -z-10 h-full w-full object-cover opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-105" />
+                <Image src={book.data.image} alt="" className="absolute inset-0 -z-10 h-full w-full object-cover opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-105 bg-blob-3" />
 
                 <h3 className="text-sm lg:text-lg font-semibold leading-6 text-white absolute left-0 right-0 bottom-0 p-8 pt-24 text-balance bg-gradient-to-t from-gray-900/90 via-gray-900/70 pointer-events-none rounded-b-2xl">
                   {book.data.title}
