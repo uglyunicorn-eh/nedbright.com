@@ -2,10 +2,10 @@
 import type { CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 
-import { sample } from "src/utils";
-import { GridPattern, StarRating } from "src/components";
-
 import Testimonial from "src/components/astro/Testimonial.astro";
+
+import { sample } from "src/utils";
+import { GridPattern } from "src/components";
 
 type Props = {
   book: CollectionEntry<"books">;

@@ -1,13 +1,11 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { GridPattern, StarRating } from "src/components";
+import { StarRating } from "src/components";
+
+type Unpacked<T> = T extends (infer U)[] ? U : T;
 
 type Props = {
-  testimonial?: {
-    quote?: string;
-    showAuthor?: boolean;
-    author?: string;
-  };
+  testimonial?: Unpacked<CollectionEntry<"books">["data"]["testimonies"]>;
 };
 
 const testimonial = Astro.props.testimonial;
