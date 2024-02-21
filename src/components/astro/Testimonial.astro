@@ -3,10 +3,10 @@ import type { CollectionEntry } from "astro:content";
 import { GridPattern, StarRating } from "src/components";
 
 type Props = {
-  testimonial: {
-    quote: string;
-    showAuthor: boolean;
-    author: string;
+  testimonial?: {
+    quote?: string;
+    showAuthor?: boolean;
+    author?: string;
   };
 };
 
@@ -19,7 +19,7 @@ const testimonial = Astro.props.testimonial;
   </div>
 
   {
-    testimonial.quote && (
+    testimonial?.quote && (
       <blockquote class="mt-2">
         <p
           class={`font-display text-sm font-medium text-slate-900 before:content-['«'] after:content-['»']`}
@@ -31,7 +31,7 @@ const testimonial = Astro.props.testimonial;
   }
 
   {
-    testimonial.showAuthor && testimonial.author && (
+    testimonial?.showAuthor && testimonial.author && (
       <figcaption class="mt-2 text-xs before:content-['—_']">
         {testimonial.author}
       </figcaption>
