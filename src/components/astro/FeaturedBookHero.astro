@@ -33,7 +33,10 @@ const book = Astro.props.book;
         class="relative z-10 mx-auto flex aspect-[3/4] w-64 rounded-xl bg-blob-3 shadow-2xl shadow-black/15 md:w-80 lg:w-96"
       >
         <a href={`/books/${book.slug}`}>
-          <BookCover book={book} />
+          <BookCover
+            class="aspect-[3/4] w-64 w-full rounded-xl object-cover"
+            book={book}
+          />
         </a>
       </div>
     </div>

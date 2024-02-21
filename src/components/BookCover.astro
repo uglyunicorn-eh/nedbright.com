@@ -4,9 +4,16 @@ import type { CollectionEntry } from "astro:content";
 
 type Props = {
   book: CollectionEntry<"books">;
+  class?: string;
 };
 
+const { class: className, ...rest } = Astro.props;
 const book = Astro.props.book;
 ---
 
-<Image src={book.data.image} alt={book.data.title!} />
+<Image
+  class={className}
+  src={book.data.image}
+  alt={book.data.title!}
+  width={600}
+/>
