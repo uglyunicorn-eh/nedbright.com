@@ -1,8 +1,6 @@
 ---
 import { type Props as SEOProps } from "astro-seo";
 
-import { reader } from "src/reader";
-
 import Layout from "src/layouts/Layout.astro";
 
 import { Footer } from "src/components/astro";
@@ -13,9 +11,6 @@ import { Navbar } from "src/components";
 type Props = {
   seo?: SEOProps;
 };
-
-const site = await reader.singletons.site.read();
-const menus = await reader.singletons.menus.read();
 
 const { seo } = Astro.props;
 ---
