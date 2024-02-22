@@ -1,0 +1,51 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+
+interface Props {
+  books: CollectionEntry<"books">[];
+}
+
+const { books } = Astro.props;
+---
+
+<div class="relative z-40 text-balance pb-24 sm:pb-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl lg:max-w-4xl">
+      <div class="mt-16 space-y-20 lg:space-y-20">
+        {
+          books.map((book) => (
+            <article class="relative isolate flex flex-col gap-8 lg:flex-row ">
+              <a
+                href={`/books/${book.slug}`}
+                class="relative block aspect-[3/4] lg:w-64 lg:shrink-0"
+              >
+                <Image
+                  src={book.data.image}
+                  alt={book.data.title || ""}
+                  class="absolute inset-0 h-full w-full rounded-2xl bg-blob-3 object-cover shadow-xl shadow-black/5"
+                />
+              </a>
+              <div>
+                <div class="group relative max-w-xl">
+                  <h3 class="mt-3 text-lg font-semibold leading-6">
+                    <a href={`/books/${book.slug}`}>{book.data.title}</a>
+                  </h3>
+                  <p class="mt-5 leading-6">{book.data.headline}</p>
+                  <p class="mt-5 leading-6">
+                    <a
+                      href={`/books/${book.slug}`}
+                      class="font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500"
+                    >
+                      Подробнее &rarr;
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>

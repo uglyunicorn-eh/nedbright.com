@@ -3,7 +3,10 @@ import { getCollection } from "astro:content";
 
 import Layout from "src/layouts/SimpleWithNavigation.astro";
 
-import { BookDetailsHead, Bookshelf, StarRating } from "src/components";
+import { reader } from "src/reader";
+
+import { BookDetailsHead, Bookshelf } from "src/components/astro";
+import { StarRating } from "src/components/react";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection("books");
@@ -17,6 +20,7 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 
 const books = await getCollection("books", ({ id }) => id !== entry.id);
+const site = await reader.singletons.site.read();
 ---
 
 <Layout
@@ -58,7 +62,7 @@ const books = await getCollection("books", ({ id }) => id !== entry.id);
           </blockquote>
           <figcaption class="flex items-center gap-x-4">
             <div class="text-sm leading-6">
-              <div class="font-semibold text-gray-900">Надежда Резникова</div>
+              <div class="font-semibold text-gray-900">{site?.author}</div>
             </div>
           </figcaption>
         </figure>

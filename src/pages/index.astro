@@ -1,20 +1,19 @@
 ---
 import { getCollection } from "astro:content";
 
+import { FeaturedBookHero, Bookshelf } from "src/components/astro";
 import Layout from "src/layouts/SimpleWithNavigation.astro";
+
 import { sample } from "src/utils";
-// import { Hero /*, Bookshelf*/ } from "src/components";
-import FeaturedBookHero from "src/components/astro/FeaturedBookHero.astro";
-// import { Image } from "astro:assets";
 
 const featuredBook = sample(
   await getCollection("books", (entry) => entry.data.isFeatured),
 );
 
-// const books = await getCollection(
-//   "books",
-//   (entry) => entry.id !== featuredBook?.id,
-// );
+const books = await getCollection(
+  "books",
+  (entry) => entry.id !== featuredBook?.id,
+);
 ---
 
 <Layout>
@@ -24,8 +23,6 @@ const featuredBook = sample(
       heroIntroText: "landingPage.heroIntroText",
     }}
   /> -->
-  <!-- <Features /> -->
-
   {featuredBook && <FeaturedBookHero book={featuredBook} />}
-  <!-- {books && <Bookshelf books={books} />} -->
+  {books && <Bookshelf books={books} />}
 </Layout>
