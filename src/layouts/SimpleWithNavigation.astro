@@ -5,10 +5,10 @@ import { reader } from "src/reader";
 
 import Layout from "src/layouts/Layout.astro";
 
+import { Footer } from "src/components/astro";
 import { BackgroundBlobs } from "src/components/react";
 
-import { Navbar, Footer } from "src/components";
-import type { FooterMenu } from "src/components/Footer";
+import { Navbar } from "src/components";
 
 type Props = {
   seo?: SEOProps;
@@ -29,6 +29,6 @@ const { seo } = Astro.props;
       <BackgroundBlobs />
       <slot />
     </main>
-    <Footer menu={menus?.footer as FooterMenu} {...site} />
+    <Footer />
   </div>
 </Layout>
