@@ -1,0 +1,53 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+
+interface Props {
+  books: CollectionEntry<"books">[];
+}
+
+const { books }: Props = Astro.props;
+---
+
+<div class="relative z-40 pb-32 pt-12">
+  <div class="mx-auto max-w-2xl text-center">
+    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+      <a href="/books" class="hover:text-gray-700">Библиотека</a>
+    </h2>
+    <p class="mt-2 text-balance text-gray-600">
+      Здесь вы найдете книги, рабочие тетради и другие материалы для
+      самостоятельного изучения и практики.
+    </p>
+  </div>
+
+  <div class="flex flex-col gap-16 px-16">
+    <div class="mx-auto mt-16 flex justify-items-center gap-12">
+      {
+        books.slice(0, 3).map((book) => (
+          <a href={`/books/${book.slug}`} class="rounded-2xl">
+            <article class="relative isolate flex aspect-[3/4] transform scroll-pt-96 flex-col justify-end overflow-hidden rounded-2xl bg-gray-900/10 shadow-2xl transition-all duration-100 ease-in-out hover:scale-105 hover:bg-gray-900/20 sm:pt-48 lg:w-72 lg:pt-80">
+              <Image
+                src={book.data.image}
+                alt=""
+                class="absolute inset-0 -z-10 h-full w-full bg-blob-3 object-cover opacity-90 transition-all duration-300 hover:scale-105 hover:opacity-100"
+              />
+
+              <h3 class="pointer-events-none absolute bottom-0 left-0 right-0 text-balance rounded-b-2xl bg-gradient-to-t from-gray-900/90 via-gray-900/70 p-8 pt-24 text-sm font-semibold leading-6 text-white lg:text-lg">
+                {book.data.title}
+              </h3>
+            </article>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="flex justify-center">
+      <a
+        href={`/books`}
+        class="rounded-full px-6 py-2.5 text-indigo-600 shadow-indigo-600 ring-2 ring-indigo-600/60 hover:bg-indigo-600/5 hover:ring-indigo-600"
+      >
+        Все книги и материалы
+      </a>
+    </div>
+  </div>
+</div>

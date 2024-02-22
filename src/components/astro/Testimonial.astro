@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { StarRating } from "src/components/react";
+
+type Unpacked<T> = T extends (infer U)[] ? U : T;
+
+type Props = {
+  testimonial?: Unpacked<CollectionEntry<"books">["data"]["testimonies"]>;
+};
+
+const testimonial = Astro.props.testimonial;
+---
+
+<figure class="relative mx-auto max-w-md text-center lg:mx-0 lg:text-left">
+  <div class="flex justify-center text-yellow-500 lg:justify-start">
+    <StarRating />
+  </div>
+
+  {
+    testimonial?.quote && (
+      <blockquote class="mt-2">
+        <p
+          class={`font-display text-sm font-medium text-slate-900 before:content-['«'] after:content-['»']`}
+        >
+          {testimonial.quote}
+        </p>
+      </blockquote>
+    )
+  }
+
+  {
+    testimonial?.showAuthor && testimonial.author && (
+      <figcaption class="mt-2 text-xs before:content-['—_']">
+        {testimonial.author}
+      </figcaption>
+    )
+  }
+</figure>

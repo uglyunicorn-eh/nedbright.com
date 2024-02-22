@@ -2,8 +2,9 @@
 import { getCollection } from "astro:content";
 
 import Layout from "src/layouts/SimpleWithNavigation.astro";
+import { BooksList, FeaturedBookHero } from "src/components/astro";
+
 import { sample } from "src/utils";
-import { BooksList, FeaturedBookHero } from "src/components";
 
 const featuredBook = sample(
   await getCollection("books", (entry) => entry.data.isFeatured),

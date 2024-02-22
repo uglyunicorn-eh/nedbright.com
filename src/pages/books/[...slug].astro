@@ -3,7 +3,10 @@ import { getCollection } from "astro:content";
 
 import Layout from "src/layouts/SimpleWithNavigation.astro";
 
-import { BookDetailsHead, Bookshelf, StarRating } from "src/components";
+import { reader } from "src/reader";
+
+import { BookDetailsHead, Bookshelf } from "src/components/astro";
+import { StarRating } from "src/components/react";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection("books");
@@ -17,6 +20,7 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 
 const books = await getCollection("books", ({ id }) => id !== entry.id);
+const site = await reader.singletons.site.read();
 ---
 
 <Layout
@@ -27,13 +31,13 @@ const books = await getCollection("books", ({ id }) => id !== entry.id);
       basic: {
         type: "website",
         title: entry.data.title!,
-        image: entry.data.image!,
+        image: entry.data.image.src!,
       },
     },
     twitter: {
       card: "summary_large_image",
       title: entry.data.title,
-      image: entry.data.image,
+      image: entry.data.image.src!,
       imageAlt: entry.data.title,
       description: entry.data.headline,
     },
@@ -44,7 +48,7 @@ const books = await getCollection("books", ({ id }) => id !== entry.id);
   <section class="relative z-10 overflow-hidden bg-transparent">
     <div class="mx-auto flex max-w-6xl flex-col gap-6 pb-24 lg:flex-row">
       <div
-        class="prose lg:prose-lg first:prose-p:text-xl first:prose-p:text-black first:prose-p:font-semibold prose-p:leading-7 prose-a:no-underline prose-a:text-indigo-600 hover:prose-a:text-indigo-500 prose-a:mx-0.5 relative mx-auto flex text-pretty px-6 tracking-tight"
+        class="prose relative mx-auto flex text-pretty px-6 tracking-tight lg:prose-lg prose-p:leading-7 first:prose-p:text-xl first:prose-p:font-semibold first:prose-p:text-black prose-a:mx-0.5 prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:text-indigo-500"
       >
         <Content />
       </div>
@@ -58,7 +62,7 @@ const books = await getCollection("books", ({ id }) => id !== entry.id);
           </blockquote>
           <figcaption class="flex items-center gap-x-4">
             <div class="text-sm leading-6">
-              <div class="font-semibold text-gray-900">Надежда Резникова</div>
+              <div class="font-semibold text-gray-900">{site?.author}</div>
             </div>
           </figcaption>
         </figure>

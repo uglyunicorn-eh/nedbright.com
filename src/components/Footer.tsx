@@ -1,6 +1,6 @@
 import type React from "react";
 
-import { SocialIcons } from "src/components";
+import { SocialIcons } from "src/components/react";
 
 
 type SocialLinks = {

@@ -11,8 +11,8 @@ export default collection({
     image: fields.image({
       label: 'Cover Image',
       validation: { isRequired: true },
-      directory: 'public/images/books',
-      publicPath: '/images/books',
+      directory: 'src/assets/images/books',
+      publicPath: '../../../assets/images/books',
     }),
     title: fields.slug({ name: { label: 'Title' } }),
     isFeatured: fields.checkbox({ label: 'Featured' }),

@@ -1,12 +1,4 @@
 export { Navbar } from './Navbar';
-export { BackgroundBlobs } from './BackgroundBlobs';
 export { Hero } from './Hero';
 export { Features } from './Features';
 export { Footer } from './Footer';
-export { SocialIcons } from './SocialIcons';
-export { FeaturedBookHero } from './FeaturedBookHero';
-export { GridPattern } from './GridPattern';
-export { StarRating } from './StarRating';
-export { Bookshelf } from './Bookshelf';
-export { BooksList } from './BooksList';
-export { BookDetailsHead } from './BookDetailsHead';
