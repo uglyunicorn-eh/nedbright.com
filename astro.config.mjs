@@ -19,7 +19,15 @@ export default defineConfig({
   }), webmanifest({
     name: "Жить среди людей",
     icon: "src/assets/favicon.svg",
+    icons: [{
+      "src": "src/assets/maskable_icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "maskable"
+    }],
     theme_color: "#cfbcdc",
+    background_color: "#cfbcdc",
+    display: "standalone",
   })],
   output: 'hybrid',
   adapter: cloudflare(),
