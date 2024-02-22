@@ -4,8 +4,9 @@ import react from "@astrojs/react";
 import markdoc from "@astrojs/markdoc";
 import cloudflare from "@astrojs/cloudflare";
 import sitemap from "@astrojs/sitemap";
-import keystatic from '@keystatic/astro';
 import robotsTxt from "astro-robots-txt";
+
+import keystatic from '@keystatic/astro';
 
 import webmanifest from "astro-webmanifest";
 
@@ -19,8 +20,11 @@ export default defineConfig({
   }), webmanifest({
     name: "Жить среди людей",
     start_url: "/",
-    // icon: "src/assets/favicon.png",
     icons: [
+      {
+        "src": "favicon.svg",
+        "type": "image/svg+xml",
+      },
       {
         "src": "favicon.svg",
         "type": "image/svg+xml",
