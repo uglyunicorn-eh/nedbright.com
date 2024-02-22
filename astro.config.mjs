@@ -19,14 +19,15 @@ export default defineConfig({
   }), webmanifest({
     name: "Жить среди людей",
     start_url: "/",
-    icon: "/favicon.svg",
+    icon: "src/assets/favicon.svg",
     icons: [
       {
-        "src": "/favicon.svg",
+        "src": "favicon.svg",
+        "type": "image/svg+xml",
         "sizes": "144x144",
       },
       {
-        "src": "/maskable_icon.png",
+        "src": "maskable_icon.png",
         "type": "image/png",
         "purpose": "maskable"
       },
