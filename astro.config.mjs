@@ -19,7 +19,7 @@ export default defineConfig({
   }), webmanifest({
     name: "Жить среди людей",
     start_url: "/",
-    icon: "src/assets/favicon.png",
+    // icon: "src/assets/favicon.png",
     icons: [
       {
         "src": "favicon.svg",
