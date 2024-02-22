@@ -19,7 +19,7 @@ export default config({
 
   ui: {
     brand: {
-      name: "Command Center",
+      name: "Content Manager",
     },
     navigation: {
       'Content': [
