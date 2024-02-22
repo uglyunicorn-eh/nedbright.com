@@ -28,12 +28,13 @@ const books = await getCollection(
         image: featuredBook?.data.image.src!,
       },
     },
-    twitter: featuredBook && {
+    twitter: {
       card: "summary_large_image",
-      title: featuredBook.data.title,
-      image: featuredBook.data.image.src!,
-      imageAlt: featuredBook.data.title,
-      description: featuredBook.data.headline,
+      title: "Библиотека",
+      image: featuredBook?.data.image.src!,
+      imageAlt: "Библиотека",
+      description:
+        "Здесь вы найдете книги, рабочие тетради и другие материалы для самостоятельного изучения и практики",
     },
   }}
 >
