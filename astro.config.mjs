@@ -19,33 +19,14 @@ export default defineConfig({
   }), webmanifest({
     name: "Жить среди людей",
     start_url: "/",
-    icon: "src/assets/favicon.svg",
+    icon: "/favicon.svg",
     icons: [
       {
-        "src": "src/assets/favicon.svg",
+        "src": "/favicon.svg",
         "sizes": "144x144",
       },
       {
-        "src": "src/assets/maskable_icon.png",
-        "sizes": "1024x1024",
-        "type": "image/png",
-        "purpose": "maskable"
-      },
-      {
-        "src": "src/assets/maskable_icon_x96.png",
-        "sizes": "96x96",
-        "type": "image/png",
-        "purpose": "maskable"
-      },
-      {
-        "src": "src/assets/maskable_icon_x128.png",
-        "sizes": "128x128",
-        "type": "image/png",
-        "purpose": "maskable"
-      },
-      {
-        "src": "src/assets/maskable_icon_x192.png",
-        "sizes": "192x192",
+        "src": "/maskable_icon.png",
         "type": "image/png",
         "purpose": "maskable"
       },
