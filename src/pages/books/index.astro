@@ -39,5 +39,6 @@ const books = await getCollection(
   }}
 >
   {featuredBook && <FeaturedBookHero book={featuredBook} />}
+  <h2 class="sr-only">Все книги</h2>
   <BooksList books={books} />
 </Layout>
