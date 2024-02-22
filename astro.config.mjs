@@ -21,6 +21,11 @@ export default defineConfig({
     icon: "src/assets/favicon.svg",
     icons: [
       {
+        "src": "src/assets/favicon.svg",
+        "sizes": "144x144",
+        "type": "image/svg+xml",
+      },
+      {
         "src": "src/assets/maskable_icon.png",
         "sizes": "1024x1024",
         "type": "image/png",
