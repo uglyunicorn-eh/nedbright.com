@@ -19,6 +19,22 @@ const books = await getCollection(
 <Layout
   seo={{
     title: "Библиотека",
+    description:
+      "Здесь вы найдете книги, рабочие тетради и другие материалы для самостоятельного изучения и практики",
+    openGraph: {
+      basic: {
+        type: "website",
+        title: "Библиотека",
+        image: featuredBook?.data.image.src!,
+      },
+    },
+    twitter: featuredBook && {
+      card: "summary_large_image",
+      title: featuredBook.data.title,
+      image: featuredBook.data.image.src!,
+      imageAlt: featuredBook.data.title,
+      description: featuredBook.data.headline,
+    },
   }}
 >
   {featuredBook && <FeaturedBookHero book={featuredBook} />}
