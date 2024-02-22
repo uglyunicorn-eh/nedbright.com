@@ -24,10 +24,6 @@ export default defineConfig({
       {
         "src": "favicon.svg",
         "type": "image/svg+xml",
-      },
-      {
-        "src": "favicon.svg",
-        "type": "image/svg+xml",
         "sizes": "144x144",
       },
       {
