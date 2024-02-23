@@ -27,13 +27,15 @@ const menus = await reader.singletons.menus.read();
   >
     <div class="md:grid md:grid-cols-2 xl:grid-cols-3 xl:gap-16">
       <div class="space-y-8 border-r-zinc-700 xl:border-r xl:pr-12">
-        <img
-          class="h-16"
-          width={64}
-          height={64}
-          src="/logo.svg"
-          alt={site?.title}
-        />
+        <a href="/" data-astro-prefetch>
+          <img
+            class="h-16"
+            width={64}
+            height={64}
+            src="/logo.svg"
+            alt={site?.title}
+          />
+        </a>
 
         {
           site?.footerNote && (
