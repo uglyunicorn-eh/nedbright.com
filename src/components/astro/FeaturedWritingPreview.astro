@@ -24,7 +24,7 @@ const { writing } = Astro.props;
     </a>
   </div>
 
-  <div class="lg:pl-8">
+  <div class="xl:pl-8">
     <h2
       class="font-display mb-8 text-balance text-2xl font-extrabold text-slate-900 md:text-3xl lg:text-4xl"
     >
@@ -33,14 +33,14 @@ const { writing } = Astro.props;
       </a>
     </h2>
     <div>
-      <p class="mb-8 text-pretty text-lg">
+      <p class="mb-8 text-pretty md:text-lg">
         {writing.data.headline}
       </p>
     </div>
     <div>
       <a
         href={`/writings/${writing.slug}`}
-        class="text-lg font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500"
+        class="font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500 md:text-lg"
         data-astro-prefetch
       >
         Читать далее &rarr;

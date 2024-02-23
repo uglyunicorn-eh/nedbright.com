@@ -1,5 +1,8 @@
 ---
+import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
+
+import img1 from "public/images/img-3.jpg";
 
 type Props = {
   writing: CollectionEntry<"writings">;
@@ -8,26 +11,39 @@ type Props = {
 const { writing } = Astro.props;
 ---
 
-<div>
-  <h2
-    class="font-display text-1xl mb-8 text-balance font-extrabold text-slate-900 md:text-2xl lg:text-2xl"
+<div class="flex gap-10">
+  <div
+    class="relative hidden aspect-[3/4] min-w-64 overflow-hidden rounded-2xl shadow-2xl md:block lg:block xl:hidden"
   >
     <a href={`/writings/${writing.slug}`}>
-      {writing.data.title}
+      <Image
+        src={img1}
+        alt={writing.data.title!}
+        class="absolute inset-0 -z-10 h-full w-full bg-blob-3 object-cover"
+      />
     </a>
-  </h2>
-  <div>
-    <p class="mb-6">
-      {writing.data.headline}
-    </p>
   </div>
   <div>
-    <a
-      href={`/writings/${writing.slug}`}
-      class="font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500"
-      data-astro-prefetch
+    <h2
+      class="font-display mb-8 text-balance text-2xl font-extrabold text-slate-900 md:text-2xl lg:text-2xl"
     >
-      Читать далее &rarr;
-    </a>
+      <a href={`/writings/${writing.slug}`}>
+        {writing.data.title}
+      </a>
+    </h2>
+    <div>
+      <p class="mb-6">
+        {writing.data.headline}
+      </p>
+    </div>
+    <div>
+      <a
+        href={`/writings/${writing.slug}`}
+        class="font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500"
+        data-astro-prefetch
+      >
+        Читать далее &rarr;
+      </a>
+    </div>
   </div>
 </div>

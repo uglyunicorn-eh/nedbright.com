@@ -17,15 +17,15 @@ const [latest, ...rest] = writings;
 
 <div class="relative z-40">
   <div
-    class="container mx-auto mb-20 mt-20 flex flex-col gap-10 px-6 transition-all duration-100 lg:gap-28 xl:flex-row"
+    class="container mx-auto mt-20 px-6 transition-all duration-100 xl:grid xl:grid-cols-8 xl:gap-20 xl:px-4"
   >
-    <div class="lg:max-w-[90ch]">
+    <div class="mb-20 xl:col-span-5">
       <FeaturedWritingPreview writing={latest} />
     </div>
-    <div class="flex flex-col gap-20 lg:pt-10">
+    <div class="col-span-3 mb-20 flex flex-col gap-20 xl:pt-10">
       {rest.map((writing) => <TextWritingPreview writing={writing} />)}
 
-      <div class="mb-20 flex justify-center">
+      <div class="flex justify-center">
         <a href={`/writings`} class="my-hero-button" data-astro-prefetch>
           Все статьи и публикации
         </a>
