@@ -23,7 +23,7 @@ export default config({
     },
     navigation: {
       'Content': [
-        'posts',
+        'writings',
         'books',
       ],
       'Settings': [

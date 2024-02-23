@@ -1,8 +1,8 @@
-import posts from './posts';
+import writings from './writings';
 import books from './books';
 
 
 export const collections = {
-  posts,
+  writings,
   books,
 };
