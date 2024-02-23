@@ -45,9 +45,3 @@ export default collection({
     ),
   },
 });
-
-export type BookModel = {
-  title: string;
-  isFeatured: boolean;
-  link: string;
-};
