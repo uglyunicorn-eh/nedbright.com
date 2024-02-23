@@ -37,8 +37,8 @@ export default defineConfig({
         "purpose": "maskable"
       },
     ],
-    theme_color: "#cfbcdc",
-    background_color: "#cfbcdc",
+    theme_color: "#f3f4f6",
+    background_color: "#f3f4f6",
     display: "standalone",
   })],
   output: 'hybrid',
