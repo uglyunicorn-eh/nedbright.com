@@ -61,6 +61,7 @@ const menus = await reader.singletons.menus.read();
                     <a
                       href={item.url ?? "#"}
                       class="text-sm leading-6 hover:underline hover:underline-offset-2"
+                      data-astro-prefetch
                     >
                       {item.label}
                     </a>

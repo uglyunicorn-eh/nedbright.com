@@ -19,6 +19,7 @@ const { books } = Astro.props;
               <a
                 href={`/books/${book.slug}`}
                 class="relative block aspect-[3/4] lg:w-64 lg:shrink-0"
+                data-astro-prefetch
               >
                 <Image
                   src={book.data.image}
@@ -29,13 +30,16 @@ const { books } = Astro.props;
               <div>
                 <div class="group relative max-w-xl">
                   <h3 class="mt-3 text-lg font-semibold leading-6">
-                    <a href={`/books/${book.slug}`}>{book.data.title}</a>
+                    <a href={`/books/${book.slug}`} data-astro-prefetch>
+                      {book.data.title}
+                    </a>
                   </h3>
                   <p class="mt-5 leading-6">{book.data.headline}</p>
                   <p class="mt-5 leading-6">
                     <a
                       href={`/books/${book.slug}`}
                       class="font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500"
+                      data-astro-prefetch
                     >
                       Подробнее &rarr;
                     </a>

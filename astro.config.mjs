@@ -44,4 +44,8 @@ export default defineConfig({
   output: 'hybrid',
   adapter: cloudflare(),
   site: "https://ng.nedbright.com",
+  prefetch: true,
+  devToolbar: {
+    enabled: false,
+  },
 });

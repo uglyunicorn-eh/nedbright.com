@@ -37,6 +37,7 @@ const testimonial = sample(
             src={book.data.image}
             alt={book.data.title!}
             width={600}
+            data-astro-prefetch
           />
         </a>
       </div>
@@ -60,7 +61,7 @@ const testimonial = sample(
         <h1
           class="font-display mb-8 text-5xl font-extrabold text-slate-900 sm:text-5xl"
         >
-          <a href={`/books/${book.slug}`}>
+          <a href={`/books/${book.slug}`} data-astro-prefetch>
             {book.data.title}
           </a>
         </h1>
@@ -68,7 +69,11 @@ const testimonial = sample(
         {book.data.headline && <p class="mb-6 text-lg">{book.data.headline}</p>}
 
         <div class="my-12 flex gap-4">
-          <a href={`/books/${book.slug}`} class="my-primary-button-lg">
+          <a
+            href={`/books/${book.slug}`}
+            class="my-primary-button-lg"
+            data-astro-prefetch
+          >
             Перейти к книге
           </a>
         </div>
