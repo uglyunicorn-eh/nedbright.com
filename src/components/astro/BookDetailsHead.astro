@@ -33,19 +33,21 @@ const { book } = Astro.props;
       </div>
     </div>
 
-    <div
-      class="pt-16 lg:col-span-7 lg:bg-transparent lg:pl-16 lg:pt-0 xl:pl-20"
-    >
+    <div class="lg:col-span-7 lg:bg-transparent lg:pl-16 lg:pt-0 xl:pl-20">
       <div
-        class="mx-auto text-balance px-4 tracking-tight sm:px-6 md:max-w-2xl md:px-4 lg:px-0"
+        class="mx-auto text-balance px-10 tracking-tight md:mt-14 md:max-w-2xl md:px-8 lg:pl-0 lg:pr-10"
       >
         <h1
-          class="font-display mb-8 text-5xl font-extrabold text-slate-900 sm:text-5xl"
+          class="font-display mb-8 text-3xl font-extrabold text-slate-900 md:text-4xl lg:text-5xl"
         >
           {book.data.title}
         </h1>
 
-        {book.data.headline && <p class="mb-6 text-lg">{book.data.headline}</p>}
+        {
+          book.data.headline && (
+            <p class="mb-6 text-pretty text-lg">{book.data.headline}</p>
+          )
+        }
 
         {
           book.data.link && (
