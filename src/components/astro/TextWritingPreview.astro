@@ -10,26 +10,24 @@ const { writing } = Astro.props;
 
 <div>
   <h2
-    class="font-display text-1xl mb-8 text-balance font-extrabold text-slate-900 md:text-2xl lg:text-3xl"
+    class="font-display text-1xl mb-8 text-balance font-extrabold text-slate-900 md:text-2xl lg:text-2xl"
   >
     <a href={`/writings/${writing.slug}`}>
       {writing.data.title}
     </a>
   </h2>
   <div>
-    <p class="mb-8">
+    <p class="mb-6">
       {writing.data.headline}
     </p>
   </div>
   <div>
-    <p class="mt-5 leading-6">
-      <a
-        href={`/writings/${writing.slug}`}
-        class="font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500"
-        data-astro-prefetch
-      >
-        Читать далее &rarr;
-      </a>
-    </p>
+    <a
+      href={`/writings/${writing.slug}`}
+      class="font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500"
+      data-astro-prefetch
+    >
+      Читать далее &rarr;
+    </a>
   </div>
 </div>

@@ -13,7 +13,7 @@ const { writing } = Astro.props;
 
 <div>
   <div
-    class="relative isolate mb-20 aspect-[5/3] overflow-hidden rounded-2xl shadow-2xl"
+    class="relative isolate mb-10 aspect-[5/3] overflow-hidden rounded-2xl shadow-2xl"
   >
     <a href={`/writings/${writing.slug}`}>
       <Image
@@ -31,19 +31,17 @@ const { writing } = Astro.props;
     </a>
   </h2>
   <div>
-    <p class="mb-8 text-lg">
+    <p class="mb-8 text-pretty text-lg">
       {writing.data.headline}
     </p>
   </div>
   <div>
-    <p class="mt-5 leading-6">
-      <a
-        href={`/writings/${writing.slug}`}
-        class="font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500"
-        data-astro-prefetch
-      >
-        Читать далее &rarr;
-      </a>
-    </p>
+    <a
+      href={`/writings/${writing.slug}`}
+      class="text-lg font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500"
+      data-astro-prefetch
+    >
+      Читать далее &rarr;
+    </a>
   </div>
 </div>
