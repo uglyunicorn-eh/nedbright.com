@@ -1,0 +1,49 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+import img from "public/writing-hero.webp";
+
+type Props = {
+  writing: CollectionEntry<"writings">;
+};
+
+const { writing } = Astro.props;
+---
+
+<div>
+  <div
+    class="relative isolate mb-20 aspect-[5/3] overflow-hidden rounded-2xl shadow-2xl"
+  >
+    <a href={`/writings/${writing.slug}`}>
+      <Image
+        src={img}
+        alt={writing.data.title!}
+        class="absolute inset-0 -z-10 h-full w-full bg-blob-3 object-cover"
+      />
+    </a>
+  </div>
+  <h2
+    class="font-display mb-8 text-balance text-2xl font-extrabold text-slate-900 md:text-3xl lg:text-4xl"
+  >
+    <a href={`/writings/${writing.slug}`}>
+      {writing.data.title}
+    </a>
+  </h2>
+  <div>
+    <p class="mb-8 text-lg">
+      {writing.data.headline}
+    </p>
+  </div>
+  <div>
+    <p class="mt-5 leading-6">
+      <a
+        href={`/writings/${writing.slug}`}
+        class="font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500"
+        data-astro-prefetch
+      >
+        Читать далее &rarr;
+      </a>
+    </p>
+  </div>
+</div>

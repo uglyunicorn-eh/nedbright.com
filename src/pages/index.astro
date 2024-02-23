@@ -1,7 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 
-import { FeaturedBookHero, Bookshelf } from "src/components/astro";
+import {
+  FeaturedBookHero,
+  Bookshelf,
+  WritingsHero,
+} from "src/components/astro";
 import Layout from "src/layouts/SimpleWithNavigation.astro";
 
 import { sample } from "src/utils";
@@ -14,6 +18,17 @@ const books = await getCollection(
   "books",
   (entry) => entry.id !== featuredBook?.id,
 );
+
+const writings = await getCollection("writings");
+writings.sort((a, b) =>
+  b.data.date === a.data.date
+    ? 0
+    : (b.data.date || "") < (a.data.date || "")
+      ? -1
+      : 1,
+);
+
+const latestWritings = writings.slice(0, 4);
 ---
 
 <Layout>
@@ -23,6 +38,9 @@ const books = await getCollection(
       heroIntroText: "landingPage.heroIntroText",
     }}
   /> -->
+
+  {latestWritings.length ? <WritingsHero writings={latestWritings} /> : null}
+
   {featuredBook && <FeaturedBookHero book={featuredBook} />}
   {books && <Bookshelf books={books} />}
 </Layout>
