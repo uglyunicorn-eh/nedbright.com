@@ -24,12 +24,12 @@ const [latest, ...rest] = writings;
     </div>
     <div class="flex flex-col gap-20 lg:pt-10">
       {rest.map((writing) => <TextWritingPreview writing={writing} />)}
-    </div>
-  </div>
 
-  <div class="mb-20 flex justify-center">
-    <a href={`/writings`} class="my-hero-button" data-astro-prefetch>
-      Все статьи и публикации
-    </a>
+      <div class="mb-20 flex justify-center">
+        <a href={`/writings`} class="my-hero-button" data-astro-prefetch>
+          Все статьи и публикации
+        </a>
+      </div>
+    </div>
   </div>
 </div>
