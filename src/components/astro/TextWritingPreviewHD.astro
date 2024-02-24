@@ -13,19 +13,22 @@ type Props = {
 const { writing } = Astro.props;
 ---
 
-<div class="flex gap-10">
-  <div
-    class="relative hidden aspect-[3/4] min-w-64 overflow-hidden rounded-2xl shadow-2xl md:block lg:block xl:hidden"
-  >
-    <a href={`/writings/${writing.slug}`}>
-      <Image
-        src={img1}
-        alt={writing.data.title!}
-        class="absolute inset-0 -z-10 h-full w-full bg-blob-3 object-cover"
-      />
-    </a>
+<div class="grid grid-cols-1 gap-10 lg:grid-cols-8">
+  <div class="col-span-3 hidden lg:block">
+    <div
+      class="relative aspect-[4/3] min-w-64 overflow-hidden rounded-2xl shadow-2xl"
+    >
+      <a href={`/writings/${writing.slug}`}>
+        <Image
+          src={img1}
+          alt={writing.data.title!}
+          class="absolute inset-0 -z-10 h-full w-full bg-blob-3 object-cover"
+        />
+      </a>
+    </div>
   </div>
-  <div>
+
+  <div class="col-span-5">
     <h2
       class="mb-4 text-balance text-2xl font-extrabold text-slate-900 md:text-2xl lg:text-2xl"
     >

@@ -27,4 +27,12 @@
   .my-hero-button-lg {
     @apply __my-hero-button-base px-6 py-3 text-xl;
   }
+
+  .my-h1 {
+    @apply mb-6 text-balance text-2xl font-extrabold leading-tight text-slate-900 md:text-3xl lg:text-4xl xl:text-5xl;
+  }
+
+  .my-h2 {
+    @apply mb-4 text-balance text-xl font-extrabold leading-tight text-slate-900 md:text-2xl lg:text-3xl xl:text-4xl;
+  }
 }

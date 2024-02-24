@@ -1,0 +1,63 @@
+---
+import { getCollection } from "astro:content";
+
+import Layout from "src/layouts/SimpleWithNavigation.astro";
+
+import {
+  FeaturedWritingPreviewHD,
+  TextWritingPreviewHD,
+} from "src/components/astro";
+
+import img from "public/writing-hero.webp";
+
+const writings = await getCollection("writings");
+writings.sort((a, b) =>
+  b.data.date === a.data.date
+    ? 0
+    : (b.data.date || "") < (a.data.date || "")
+      ? -1
+      : 1,
+);
+
+const latestWritings = writings.slice(0, 11);
+const [featuredWriting, ...otherWritings] = latestWritings;
+---
+
+<Layout
+  seo={{
+    title: "Публикации",
+    description:
+      "Здесь вы найдете книги, рабочие тетради и другие материалы для самостоятельного изучения и практики",
+    openGraph: {
+      basic: {
+        type: "website",
+        title: "Публикации",
+        image: img.src,
+      },
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Публикации",
+      image: img.src,
+      imageAlt: "Публикации",
+      description:
+        "Здесь вы найдете книги, рабочие тетради и другие материалы для самостоятельного изучения и практики",
+    },
+  }}
+>
+  <div
+    class="container relative z-40 mx-auto max-w-[130ch] px-6 pb-24 pt-16 md:px-8 lg:px-8 xl:px-10"
+  >
+    <div class="pb-20">
+      <FeaturedWritingPreviewHD writing={featuredWriting} />
+    </div>
+
+    <div class="flex flex-col gap-20">
+      {
+        otherWritings.map((writing) => (
+          <TextWritingPreviewHD writing={writing} />
+        ))
+      }
+    </div>
+  </div>
+</Layout>

@@ -21,7 +21,7 @@ const testimonial = Astro.props.testimonial;
     testimonial?.quote && (
       <blockquote class="mt-2">
         <p
-          class={`font-display text-sm font-medium text-slate-900 before:content-['«'] after:content-['»']`}
+          class={`text-sm font-medium text-slate-900 before:content-['«'] after:content-['»']`}
         >
           {testimonial.quote}
         </p>
