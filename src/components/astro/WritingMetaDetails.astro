@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { reader } from "src/reader";
+import { readingTime } from "src/utils";
+import { Date } from "src/components/astro";
+
+type Props = {
+  writing: CollectionEntry<"writings">;
+};
+
+const { writing } = Astro.props;
+
+const site = await reader.singletons.site.read();
+
+const _readingTime = readingTime(writing.body);
+---
+
+<div class="mb-6 flex gap-3 text-sm text-gray-800">
+  {writing.data.date && <Date value={writing.data.date} />}
+  <span>/</span>
+  <span>{site?.author}</span>
+  <span>/</span>
+  <span>{_readingTime} мин.</span>
+</div>

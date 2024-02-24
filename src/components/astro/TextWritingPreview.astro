@@ -2,6 +2,8 @@
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 
+import { WritingMetaDetails } from "src/components/astro";
+
 import img1 from "public/images/img-3.jpg";
 
 type Props = {
@@ -25,17 +27,19 @@ const { writing } = Astro.props;
   </div>
   <div>
     <h2
-      class="font-display mb-8 text-balance text-2xl font-extrabold text-slate-900 md:text-2xl lg:text-2xl"
+      class="font-display mb-4 text-balance text-2xl font-extrabold text-slate-900 md:text-2xl lg:text-2xl"
     >
       <a href={`/writings/${writing.slug}`}>
         {writing.data.title}
       </a>
     </h2>
-    <div>
-      <p class="mb-6">
-        {writing.data.headline}
-      </p>
+
+    <WritingMetaDetails writing={writing} />
+
+    <div class="mb-8">
+      {writing.data.headline}
     </div>
+
     <div>
       <a
         href={`/writings/${writing.slug}`}
