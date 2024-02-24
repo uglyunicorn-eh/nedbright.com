@@ -12,35 +12,43 @@ import webmanifest from "astro-webmanifest";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), react(), markdoc(), keystatic(), sitemap(), robotsTxt({
-    policy: [{
-      userAgent: "*",
-      allow: "/"
-    }]
-  }), webmanifest({
-    name: "Жить среди людей",
-    start_url: "/",
-    icons: [
-      {
-        "src": "favicon.svg",
-        "type": "image/svg+xml",
-        "sizes": "144x144",
-      },
-      {
-        "src": "favicon.svg",
-        "type": "image/svg+xml",
-        "sizes": "512x512",
-      },
-      {
-        "src": "maskable_icon.png",
-        "type": "image/png",
-        "purpose": "maskable"
-      },
-    ],
-    theme_color: "#f3f4f6",
-    background_color: "#f3f4f6",
-    display: "standalone",
-  })],
+  integrations: [
+    tailwind(),
+    react(),
+    markdoc(),
+    keystatic(),
+    sitemap(),
+    robotsTxt({
+      policy: [{
+        userAgent: "*",
+        allow: "/"
+      }]
+    }),
+    webmanifest({
+      name: "Жить среди людей",
+      start_url: "/",
+      icons: [
+        {
+          "src": "favicon.svg",
+          "type": "image/svg+xml",
+          "sizes": "144x144",
+        },
+        {
+          "src": "favicon.svg",
+          "type": "image/svg+xml",
+          "sizes": "512x512",
+        },
+        {
+          "src": "maskable_icon.png",
+          "type": "image/png",
+          "purpose": "maskable"
+        },
+      ],
+      theme_color: "#f3f4f6",
+      background_color: "#f3f4f6",
+      display: "standalone",
+    }),
+  ],
   output: 'hybrid',
   adapter: cloudflare(),
   site: "https://ng.nedbright.com",
@@ -48,4 +56,14 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
+  image: {
+    image: {
+      service: {
+        entrypoint: 'astro/assets/services/sharp',
+        config: {
+          limitInputPixels: false,
+        },
+      },
+    },
+  }
 });
