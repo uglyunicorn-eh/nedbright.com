@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { TextWritingPreviewSD, WritingsHero } from "src/components/astro";
+
+interface Props {
+  writings: CollectionEntry<"writings">[];
+}
+
+const { writings } = Astro.props;
+
+const heroWritings = writings.slice(0, 4);
+const restWritings = writings.slice(4, 10);
+const nextPage = writings.slice(10);
+---
+
+{
+  heroWritings.length ? (
+    <WritingsHero writings={heroWritings} displayAllLink={false} />
+  ) : null
+}
+
+<div id="more" class="invisible -m-10"></div>
+
+<div class="container relative z-40 mx-auto pb-20 pt-20">
+  <div class="mx-6 columns-1 gap-20 lg:columns-2">
+    {
+      restWritings.map((writing, i) => (
+        <TextWritingPreviewSD writing={writing} displayImage={false} />
+      ))
+    }
+  </div>
+</div>

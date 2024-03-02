@@ -11,3 +11,5 @@ export { default as TextWritingPreview } from './TextWritingPreview.astro';
 export { default as TextWritingPreviewHD } from './TextWritingPreviewHD.astro';
 export { default as Date } from './Date.astro';
 export { default as WritingMetaDetails } from './WritingMetaDetails.astro';
+export { default as WritingsIndex } from './WritingsIndex.astro';
+export { default as TextWritingPreviewSD } from './TextWritingPreviewSD.astro';

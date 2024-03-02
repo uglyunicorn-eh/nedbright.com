@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 
-import { WritingsHero } from "src/components/astro";
+import { WritingsIndex } from "src/components/astro";
 import Layout from "src/layouts/SimpleWithNavigation.astro";
 
 const writings = await getCollection("writings");
@@ -12,10 +12,8 @@ writings.sort((a, b) =>
       ? -1
       : 1,
 );
-
-const latestWritings = writings.slice(0, 4);
 ---
 
 <Layout>
-  {latestWritings.length ? <WritingsHero writings={latestWritings} /> : null}
+  <WritingsIndex writings={writings.concat(writings).concat(writings)} />
 </Layout>

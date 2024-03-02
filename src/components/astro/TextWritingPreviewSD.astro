@@ -1,0 +1,59 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+import { WritingMetaDetails } from "src/components/astro";
+
+import img1 from "public/images/img-3.jpg";
+
+type Props = {
+  writing: CollectionEntry<"writings">;
+  displayImage?: boolean;
+};
+
+const { writing, displayImage = true } = Astro.props;
+---
+
+<div class="mb-16 flex break-inside-avoid-column flex-col gap-8">
+  {
+    displayImage && (
+      <div class="">
+        <div class="relative aspect-[3/1] min-w-64 overflow-hidden rounded-2xl shadow-2xl">
+          <a href={`/writings/${writing.slug}`}>
+            <Image
+              src={img1}
+              alt={writing.data.title!}
+              class="absolute inset-0 -z-10 h-full w-full bg-blob-3 object-cover"
+            />
+          </a>
+        </div>
+      </div>
+    )
+  }
+
+  <div>
+    <h2
+      class="mb-4 text-balance text-2xl font-extrabold text-slate-900 md:text-2xl lg:text-2xl"
+    >
+      <a href={`/writings/${writing.slug}`}>
+        {writing.data.title}
+      </a>
+    </h2>
+
+    <WritingMetaDetails writing={writing} />
+
+    <div class="mb-8">
+      {writing.data.headline}
+    </div>
+
+    <div>
+      <a
+        href={`/writings/${writing.slug}`}
+        class="font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500"
+        data-astro-prefetch
+      >
+        Читать полностью &rarr;
+      </a>
+    </div>
+  </div>
+</div>
