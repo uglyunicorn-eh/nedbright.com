@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 
 import { WritingsIndex } from "src/components/astro";
 import Layout from "src/layouts/SimpleWithNavigation.astro";
+import { reader } from "src/reader";
 
 const writings = await getCollection("writings");
 writings.sort((a, b) =>
@@ -12,8 +13,34 @@ writings.sort((a, b) =>
       ? -1
       : 1,
 );
+
+const site = await reader.singletons.site.read();
+console.log(JSON.stringify(site, null, 2));
 ---
 
-<Layout>
+<Layout
+  seo={{
+    title: site?.writings.title,
+    description: site?.writings.description,
+    openGraph: site?.writings.image
+      ? {
+          basic: {
+            type: "website",
+            title: site.writings.title || "Публикации",
+            image: site.writings.image,
+          },
+        }
+      : undefined,
+    twitter: site?.writings.image
+      ? {
+          card: "summary_large_image",
+          title: site.writings.title || "Публикации",
+          image: site?.writings.image,
+          imageAlt: site.writings.title || "Публикации",
+          description: site?.writings.description,
+        }
+      : undefined,
+  }}
+>
   <WritingsIndex writings={writings.concat(writings).concat(writings)} />
 </Layout>
