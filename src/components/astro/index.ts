@@ -15,3 +15,5 @@ export { default as WritingsIndex } from './WritingsIndex.astro';
 export { default as TextWritingPreviewSD } from './TextWritingPreviewSD.astro';
 export { default as PageCut } from './PageCut.astro';
 export { default as Paginator } from './Paginator.astro';
+export { default as Prose } from './Prose.astro';
+export { default as TextWritingPreviewSM } from './TextWritingPreviewSM.astro';

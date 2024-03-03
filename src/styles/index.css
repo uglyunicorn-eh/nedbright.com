@@ -35,4 +35,39 @@
   .my-h2 {
     @apply mb-4 text-balance text-xl font-extrabold leading-tight text-slate-900 md:text-2xl lg:text-3xl xl:text-4xl;
   }
+
+  .my-prose {
+    @apply prose
+      prose-lg
+      relative
+      mx-auto
+      flex
+      text-pretty
+      px-6
+      tracking-tight
+
+      prose-p:leading-7
+
+      first:prose-p:text-xl
+      first:prose-p:font-semibold
+      first:prose-p:text-black
+
+      prose-a:mx-0.5
+      prose-a:text-indigo-600
+      prose-a:no-underline
+      hover:prose-a:text-indigo-500
+
+      prose-blockquote:rounded-xl
+      prose-blockquote:border-white/30
+      prose-blockquote:bg-blob-3/40
+      prose-blockquote:px-8
+      prose-blockquote:py-3
+      prose-blockquote:not-italic
+      prose-blockquote:ring-2
+      prose-blockquote:ring-blob-1
+      prose-blockquote:drop-shadow-md
+      lg:prose-blockquote:-mx-6
+
+      xl:min-w-[80ch];
+  }
 }

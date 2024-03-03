@@ -5,12 +5,12 @@ import Layout from "src/layouts/SimpleWithNavigation.astro";
 
 import { reader } from "src/reader";
 
-import { BookDetailsHead, Bookshelf } from "src/components/astro";
+import { BookDetailsHead, Bookshelf, Prose } from "src/components/astro";
 import { StarRating } from "src/components/react";
 
 export async function getStaticPaths() {
-  const blogEntries = await getCollection("books");
-  return blogEntries.map((entry) => ({
+  const books = await getCollection("books");
+  return books.map((entry) => ({
     params: { slug: entry.slug },
     props: { entry },
   }));
@@ -47,11 +47,9 @@ const site = await reader.singletons.site.read();
 
   <section class="relative z-10 overflow-hidden bg-transparent">
     <div class="mx-auto flex max-w-6xl flex-col gap-6 pb-24 lg:flex-row">
-      <div
-        class="prose prose-lg relative mx-auto flex text-pretty px-6 tracking-tight prose-p:leading-7 first:prose-p:text-xl first:prose-p:font-semibold first:prose-p:text-black prose-a:mx-0.5 prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:text-indigo-500"
-      >
+      <Prose>
         <Content />
-      </div>
+      </Prose>
 
       <div class="mx-auto sm:px-6 md:w-[73.125ch] lg:w-64">
         <figure
