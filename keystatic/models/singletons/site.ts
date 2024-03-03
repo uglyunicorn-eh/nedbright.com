@@ -15,7 +15,7 @@ export const site = {
       image: fields.image({
         label: 'Cover Image',
         directory: 'public/images',
-        publicPath: '/images/site',
+        publicPath: '/images',
       }),
     }, {
       label: 'Writings',
