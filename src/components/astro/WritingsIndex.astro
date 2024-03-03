@@ -47,7 +47,7 @@ const pages = Math.ceil(writings.length / 10);
         <Paginator
           pages={pages}
           currentPage={1}
-          getPageLink={(p) => `/writings/${p}`}
+          getPageLink={(p) => `/writings/${p}/`}
         />
       </div>
     ) : null

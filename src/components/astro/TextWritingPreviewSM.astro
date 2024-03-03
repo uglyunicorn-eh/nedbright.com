@@ -16,7 +16,7 @@ const { writing } = Astro.props;
     <h2
       class="mb-4 text-balance text-xl font-extrabold text-slate-900 md:text-2xl lg:text-2xl lg:leading-7"
     >
-      <a href={`/writings/${writing.slug}`}>
+      <a href={`/writings/${writing.slug}/`}>
         {writing.data.title}
       </a>
     </h2>
@@ -29,7 +29,7 @@ const { writing } = Astro.props;
 
     <div>
       <a
-        href={`/writings/${writing.slug}`}
+        href={`/writings/${writing.slug}/`}
         class="font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500"
         data-astro-prefetch
       >

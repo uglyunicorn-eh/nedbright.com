@@ -17,7 +17,7 @@ const { writing } = Astro.props;
   <div
     class="relative isolate mb-10 aspect-[7/4] overflow-hidden rounded-2xl shadow-2xl"
   >
-    <a href={`/writings/${writing.slug}`}>
+    <a href={`/writings/${writing.slug}/`}>
       <Image
         src={img}
         alt={writing.data.title!}
@@ -30,7 +30,7 @@ const { writing } = Astro.props;
     <h2
       class="mb-6 text-balance text-2xl font-extrabold text-slate-900 md:text-3xl lg:text-4xl"
     >
-      <a href={`/writings/${writing.slug}`}>
+      <a href={`/writings/${writing.slug}/`}>
         {writing.data.title}
       </a>
     </h2>
@@ -43,7 +43,7 @@ const { writing } = Astro.props;
 
     <div>
       <a
-        href={`/writings/${writing.slug}`}
+        href={`/writings/${writing.slug}/`}
         class="font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500 md:text-lg"
         data-astro-prefetch
       >
