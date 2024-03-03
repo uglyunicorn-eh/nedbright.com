@@ -17,7 +17,10 @@ const siteTitle = site?.title;
 const seo = {
   title: siteTitle,
   defaultTitle: siteTitle,
-  titleTemplate: Astro.props.seo?.title ? `%s | ${siteTitle}` : undefined,
+  titleTemplate:
+    Astro.props.seo?.title && Astro.props.seo?.title !== siteTitle
+      ? `%s | ${siteTitle}`
+      : undefined,
   charset: "UTF-8",
   ...Astro.props.seo,
   extend: {
