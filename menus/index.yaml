@@ -7,6 +7,6 @@ footer:
       - label: Консультации
         url: '#therapy'
       - label: Проект "Жить среди людей"
-        url: /writings
+        url: /writings/
       - label: Мои книги
-        url: /books
+        url: /books/
