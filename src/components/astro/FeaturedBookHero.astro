@@ -31,7 +31,7 @@ const testimonial = sample(
       <div
         class="relative z-10 mx-auto flex aspect-[3/4] w-64 rounded-xl bg-blob-3 shadow-2xl shadow-black/15 md:w-80 lg:w-96"
       >
-        <a href={`/books/${book.slug}`}>
+        <a href={`/books/${book.slug}/`}>
           <Image
             class="aspect-[3/4] w-64 w-full rounded-xl object-cover"
             src={book.data.image}
@@ -59,7 +59,7 @@ const testimonial = sample(
         class="mx-auto text-balance px-4 tracking-tight sm:px-6 md:max-w-2xl md:px-4 lg:px-0"
       >
         <h1 class="mb-8 text-3xl font-extrabold text-slate-900 md:text-4xl">
-          <a href={`/books/${book.slug}`} data-astro-prefetch>
+          <a href={`/books/${book.slug}/`} data-astro-prefetch>
             {book.data.title}
           </a>
         </h1>
@@ -68,7 +68,7 @@ const testimonial = sample(
 
         <div class="my-12 flex gap-4">
           <a
-            href={`/books/${book.slug}`}
+            href={`/books/${book.slug}/`}
             class="my-primary-button-lg"
             data-astro-prefetch
           >

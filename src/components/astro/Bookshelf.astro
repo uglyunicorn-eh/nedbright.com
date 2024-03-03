@@ -27,7 +27,7 @@ const { books }: Props = Astro.props;
       {
         books.slice(0, 3).map((book) => (
           <a
-            href={`/books/${book.slug}`}
+            href={`/books/${book.slug}/`}
             class="rounded-2xl"
             data-astro-prefetch
           >

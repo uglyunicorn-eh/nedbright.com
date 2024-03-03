@@ -17,7 +17,7 @@ const { books } = Astro.props;
           books.map((book) => (
             <article class="relative isolate flex flex-col gap-8 lg:flex-row">
               <a
-                href={`/books/${book.slug}`}
+                href={`/books/${book.slug}/`}
                 class="relative block aspect-[3/4] lg:w-64 lg:shrink-0"
                 data-astro-prefetch
               >
@@ -37,7 +37,7 @@ const { books } = Astro.props;
                   <p class="mt-5 leading-6">{book.data.headline}</p>
                   <p class="mt-5 leading-6">
                     <a
-                      href={`/books/${book.slug}`}
+                      href={`/books/${book.slug}/`}
                       class="font-semibold text-indigo-600 transition-all duration-75 hover:pl-1 hover:text-indigo-500"
                       data-astro-prefetch
                     >
