@@ -14,8 +14,8 @@ export const site = {
       description: fields.text({ label: 'Description', multiline: true }),
       image: fields.image({
         label: 'Cover Image',
-        directory: 'src/assets/images/site',
-        publicPath: '/assets/images/site',
+        directory: 'public/images',
+        publicPath: '/images/site',
       }),
     }, {
       label: 'Writings',
