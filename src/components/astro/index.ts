@@ -14,3 +14,4 @@ export { default as WritingMetaDetails } from './WritingMetaDetails.astro';
 export { default as WritingsIndex } from './WritingsIndex.astro';
 export { default as TextWritingPreviewSD } from './TextWritingPreviewSD.astro';
 export { default as PageCut } from './PageCut.astro';
+export { default as Paginator } from './Paginator.astro';

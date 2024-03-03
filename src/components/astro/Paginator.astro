@@ -1,0 +1,67 @@
+---
+interface Props {
+  pages: number;
+  currentPage: number;
+  getPageLink: (page: number) => string;
+}
+
+const { pages, currentPage, getPageLink } = Astro.props;
+---
+
+<nav
+  class="flex items-center justify-between border-t border-blob-2 px-8 pb-20 sm:px-0"
+>
+  <div class="hidden md:-mt-px md:flex">
+    <span
+      class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-xs font-medium text-slate-800"
+    >
+      Страницы:
+    </span>
+
+    {
+      Array.from({ length: pages }, (_, i) => i + 1).map((page) => (
+        <a
+          href={getPageLink(page)}
+          class:list={[
+            "inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium transition-all duration-100",
+          ]
+            .concat(
+              page === currentPage
+                ? ["border-indigo-500 font-semibold text-indigo-600"]
+                : ["border-transparent text-slate-700"],
+            )
+            .concat(
+              page !== currentPage
+                ? ["hover:border-indigo-600 hover:pt-2"]
+                : [],
+            )}
+        >
+          {page}
+        </a>
+      ))
+    }
+  </div>
+  <div
+    class:list={["-mt-px flex w-0 flex-1 justify-end"].concat(
+      currentPage < pages ? "visible" : "invisible",
+    )}
+  >
+    <a
+      href={getPageLink(currentPage + 1)}
+      class="text-indigo-600-500 inline-flex items-center border-t-2 border-transparent pl-1 pr-4 pt-4 text-sm font-medium text-indigo-600 transition-all duration-100 hover:pr-2 hover:text-indigo-500"
+    >
+      Листать вперед
+      <svg
+        class="ml-3 h-5 w-5"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z"
+          clip-rule="evenodd"></path>
+      </svg>
+    </a>
+  </div>
+</nav>

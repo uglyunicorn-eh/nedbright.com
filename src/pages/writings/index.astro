@@ -15,7 +15,6 @@ writings.sort((a, b) =>
 );
 
 const site = await reader.singletons.site.read();
-console.log(JSON.stringify(site, null, 2));
 ---
 
 <Layout
@@ -42,5 +41,5 @@ console.log(JSON.stringify(site, null, 2));
       : undefined,
   }}
 >
-  <WritingsIndex writings={writings.concat(writings).concat(writings)} />
+  <WritingsIndex writings={writings} />
 </Layout>

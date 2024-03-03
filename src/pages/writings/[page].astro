@@ -3,13 +3,13 @@ import { getCollection } from "astro:content";
 import type { GetStaticPathsOptions } from "astro";
 
 import Layout from "src/layouts/SimpleWithNavigation.astro";
+import { reader } from "src/reader";
 
 import {
   FeaturedWritingPreviewHD,
   TextWritingPreviewHD,
+  WritingsIndex,
 } from "src/components/astro";
-
-import img from "public/writing-hero.webp";
 
 const writings = await getCollection("writings");
 writings.sort((a, b) =>
@@ -20,7 +20,7 @@ writings.sort((a, b) =>
       : 1,
 );
 
-const latestWritings = writings.slice(0, 11);
+const latestWritings = writings.slice(0, 10);
 const [featuredWriting, ...otherWritings] = latestWritings;
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
@@ -33,50 +33,53 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
         : 1,
   );
 
-  // Generate pages from our array of astronauts, with 2 to a page
-  return paginate(writings, { pageSize: 2 });
+  return paginate(writings, { pageSize: 10 });
 }
-// All paginated data is passed on the "page" prop
+
 const { page } = Astro.props;
 
-console.log(JSON.stringify(page, null, 2));
+const site = await reader.singletons.site.read();
 ---
 
 <Layout
   seo={{
-    title: "Публикации",
-    description:
-      "Здесь вы найдете книги, рабочие тетради и другие материалы для самостоятельного изучения и практики",
-    openGraph: {
-      basic: {
-        type: "website",
-        title: "Публикации",
-        image: img.src,
-      },
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: "Публикации",
-      image: img.src,
-      imageAlt: "Публикации",
-      description:
-        "Здесь вы найдете книги, рабочие тетради и другие материалы для самостоятельного изучения и практики",
-    },
+    title: site?.writings.title,
+    description: site?.writings.description,
+    openGraph: site?.writings.image
+      ? {
+          basic: {
+            type: "website",
+            title: site.writings.title || "Публикации",
+            image: site.writings.image,
+          },
+        }
+      : undefined,
+    twitter: site?.writings.image
+      ? {
+          card: "summary_large_image",
+          title: site.writings.title || "Публикации",
+          image: site?.writings.image,
+          imageAlt: site.writings.title || "Публикации",
+          description: site?.writings.description,
+        }
+      : undefined,
   }}
 >
-  <div
-    class="container relative z-40 mx-auto max-w-[130ch] px-6 pb-24 pt-16 md:px-8 lg:px-8 xl:px-10"
-  >
-    <div class="pb-20">
-      <FeaturedWritingPreviewHD writing={featuredWriting} />
-    </div>
+  {
+    page.currentPage === 1 ? (
+      <WritingsIndex writings={page.data} />
+    ) : (
+      <div class="container relative z-40 mx-auto max-w-[130ch] px-6 pb-24 pt-16 md:px-8 lg:px-8 xl:px-10">
+        <div class="pb-20">
+          <FeaturedWritingPreviewHD writing={featuredWriting} />
+        </div>
 
-    <div class="flex flex-col gap-20">
-      {
-        otherWritings.map((writing) => (
-          <TextWritingPreviewHD writing={writing} />
-        ))
-      }
-    </div>
-  </div>
+        <div class="flex flex-col gap-20">
+          {otherWritings.map((writing) => (
+            <TextWritingPreviewHD writing={writing} />
+          ))}
+        </div>
+      </div>
+    )
+  }
 </Layout>
