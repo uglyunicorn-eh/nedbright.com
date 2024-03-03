@@ -9,6 +9,18 @@ export const site = {
     footerNote: fields.text({ label: 'Footer Note', multiline: true }),
     copy: fields.text({ label: 'Copyrights' }),
 
+    writings: fields.object({
+      title: fields.text({ label: 'Title' }),
+      description: fields.text({ label: 'Description', multiline: true }),
+      image: fields.image({
+        label: 'Cover Image',
+        directory: 'src/assets/images/site',
+        publicPath: '/assets/images/site',
+      }),
+    }, {
+      label: 'Writings',
+    }),
+
     social: fields.object({
       facebook: fields.url({ label: 'Facebook' }),
       instagram: fields.url({ label: 'Instagram' }),
