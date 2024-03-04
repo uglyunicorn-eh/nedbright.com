@@ -3,9 +3,9 @@ import { getCollection } from "astro:content";
 import type { GetStaticPathsOptions } from "astro";
 
 import Layout from "src/layouts/SimpleWithNavigation.astro";
-import { reader } from "src/reader";
+import { Paginator, TextWritingPreviewSD } from "src/components/astro";
 
-import { TextWritingPreviewSD, WritingsIndex } from "src/components/astro";
+import { reader } from "src/reader";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   const writings = await getCollection("writings");
@@ -49,17 +49,21 @@ const site = await reader.singletons.site.read();
       : undefined,
   }}
 >
-  {
-    page.currentPage === 0 ? (
-      <WritingsIndex writings={page.data} />
-    ) : (
-      <div class="container relative z-40 mx-auto pb-20 pt-20">
-        <div class="mx-6 columns-1 gap-20 lg:columns-2">
-          {page.data.map((writing, i) => (
-            <TextWritingPreviewSD writing={writing} displayImage={i === 0} />
-          ))}
-        </div>
-      </div>
-    )
-  }
+  <div class="container relative z-40 mx-auto pb-20 pt-20">
+    <div class="mx-6 columns-1 gap-20 lg:columns-2">
+      {
+        page.data.map((writing, i) => (
+          <TextWritingPreviewSD writing={writing} displayImage={i === 0} />
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="container relative z-40 mx-auto px-6">
+    <Paginator
+      currentPage={page.currentPage}
+      pages={page.lastPage}
+      getPageLink={(p) => `/writings/${p}/`}
+    />
+  </div>
 </Layout>
