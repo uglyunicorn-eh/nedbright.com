@@ -13,20 +13,9 @@ const menus = await reader.singletons.menus.read();
 >
   <h2 id="footer-heading" class="sr-only">Footer</h2>
 
-  <div
-    class="z-1 absolute -top-64 left-0 aspect-[10/8] w-[1200px] animate-float bg-[radial-gradient(50%_50%_at_50%_50%,#e3a9c1_0%,theme(colors.blob-1)_24.48%,rgba(239,238,243,0)_100%)]"
-  >
-  </div>
-  <div
-    class="z-1 absolute -left-64 -top-64 aspect-[10/8] h-full w-[1200px] animate-float bg-[radial-gradient(50%_50%_at_50%_50%,#f4ddcd_0%,theme(colors.blob-2)_24.48%,rgba(239,238,243,0)_100%)] opacity-50 mix-blend-overlay [animation-delay:4s]"
-  >
-  </div>
-
-  <div
-    class="relative isolate z-40 mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32"
-  >
-    <div class="md:grid md:grid-cols-2 xl:grid-cols-3 xl:gap-16">
-      <div class="space-y-8 border-r-zinc-700 xl:border-r xl:pr-12">
+  <div class="container relative isolate z-40 mx-auto px-8 pb-16 pt-20">
+    <div class="grid gap-8 lg:grid-cols-4">
+      <div class="space-y-8 border-r-zinc-700 pr-4 lg:border-r xl:pr-12">
         <a href="/" data-astro-prefetch>
           <img
             class="h-16"
@@ -39,7 +28,7 @@ const menus = await reader.singletons.menus.read();
 
         {
           site?.footerNote && (
-            <p class="text-balance text-xs">{site?.footerNote}</p>
+            <p class="text-pretty text-xs">{site?.footerNote}</p>
           )
         }
 
@@ -52,7 +41,7 @@ const menus = await reader.singletons.menus.read();
         </div>
       </div>
 
-      <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+      <div class="pt-16 lg:pt-0">
         {
           menus?.footer.map((section) => (
             <div>
@@ -75,11 +64,18 @@ const menus = await reader.singletons.menus.read();
         }
       </div>
     </div>
+  </div>
 
-    {
-      site?.copy && (
-        <div class="mt-16 text-xs sm:mt-20 lg:mt-24">{site.copy}</div>
-      )
-    }
+  <div
+    class="z-1 absolute -top-64 left-0 aspect-[10/8] w-[1200px] animate-float bg-[radial-gradient(50%_50%_at_50%_50%,#e3a9c1_0%,theme(colors.blob-1)_24.48%,rgba(239,238,243,0)_100%)]"
+  >
+  </div>
+  <div
+    class="z-1 absolute -left-64 -top-64 aspect-[10/8] h-full w-[1200px] animate-float bg-[radial-gradient(50%_50%_at_50%_50%,#f4ddcd_0%,theme(colors.blob-2)_24.48%,rgba(239,238,243,0)_100%)] opacity-50 mix-blend-overlay [animation-delay:4s]"
+  >
+  </div>
+
+  <div class="container relative isolate z-40 mx-auto my-6 px-8 text-xs">
+    {site?.copy && <div>{site.copy}</div>}
   </div>
 </footer>
