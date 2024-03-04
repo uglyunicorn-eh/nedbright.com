@@ -1,0 +1,25 @@
+---
+import { Image } from "astro:assets";
+
+import { reader } from "src/reader";
+
+import logo from "public/favicon.svg";
+
+const site = await reader.singletons.site.read();
+---
+
+<div class="bg-gradient-to-tl from-orange-700/5 to-transparent">
+  <div
+    class="container relative z-40 mx-auto flex items-center gap-20 px-36 py-40"
+  >
+    <div class="flex-grow-3 text-balance text-right">
+      <h1 class="my-h1">{site?.writings.title}</h1>
+      <p>
+        {site?.writings.description}
+      </p>
+    </div>
+    <div class="hidden lg:block">
+      <Image src={logo} alt="Logo" class="mx-auto min-h-80 min-w-80" />
+    </div>
+  </div>
+</div>

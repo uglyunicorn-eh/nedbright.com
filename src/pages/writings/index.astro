@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 
-import { WritingsIndex } from "src/components/astro";
+import { WritingsIndex, WritingsIndexHero } from "src/components/astro";
 import Layout from "src/layouts/SimpleWithNavigation.astro";
 import { reader } from "src/reader";
 
@@ -41,5 +41,6 @@ const site = await reader.singletons.site.read();
       : undefined,
   }}
 >
+  <WritingsIndexHero />
   <WritingsIndex writings={writings} />
 </Layout>
