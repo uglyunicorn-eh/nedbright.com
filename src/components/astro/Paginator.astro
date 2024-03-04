@@ -6,6 +6,36 @@ interface Props {
 }
 
 const { pages, currentPage, getPageLink } = Astro.props;
+
+function buildPages(pages: number, currentPage: number) {
+  if (pages <= 5) {
+    return Array.from({ length: pages }, (_, i) => i + 1);
+  }
+
+  const middle = [
+    currentPage - 1,
+    currentPage,
+    currentPage + 1,
+    currentPage + 2,
+  ].filter((page) => page > 0 && page <= pages);
+
+  const start =
+    middle[0] > 3
+      ? [1, null]
+      : Array.from({ length: middle[0] - 1 }, (_, i) => i + 1);
+
+  const end =
+    middle[middle.length - 1] < pages - 2
+      ? [null, pages]
+      : Array.from(
+          { length: pages - middle[middle.length - 1] },
+          (_, i) => i + middle[middle.length - 1] + 1,
+        );
+
+  return start.concat(middle).concat(end);
+}
+
+const allPages = buildPages(pages, currentPage);
 ---
 
 <nav
@@ -19,26 +49,32 @@ const { pages, currentPage, getPageLink } = Astro.props;
     </span>
 
     {
-      Array.from({ length: pages }, (_, i) => i + 1).map((page) => (
-        <a
-          href={getPageLink(page)}
-          class:list={[
-            "inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium transition-all duration-100",
-          ]
-            .concat(
-              page === currentPage
-                ? ["border-indigo-500 font-semibold text-indigo-600"]
-                : ["border-transparent text-slate-700"],
-            )
-            .concat(
-              page !== currentPage
-                ? ["hover:border-indigo-600 hover:pt-2"]
-                : [],
-            )}
-        >
-          {page}
-        </a>
-      ))
+      allPages.map((page) =>
+        page ? (
+          <a
+            href={getPageLink(page)}
+            class:list={[
+              "inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium transition-all duration-100",
+            ]
+              .concat(
+                page === currentPage
+                  ? ["border-indigo-500 font-semibold text-indigo-600"]
+                  : ["border-transparent text-slate-700"],
+              )
+              .concat(
+                page !== currentPage
+                  ? ["hover:border-indigo-600 hover:pt-2"]
+                  : [],
+              )}
+          >
+            {page}
+          </a>
+        ) : (
+          <span class="inline-flex items-center border-t-2 border-t-transparent px-4 pt-4 text-sm font-medium text-slate-800">
+            ...
+          </span>
+        ),
+      )
     }
   </div>
   <div
