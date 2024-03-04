@@ -75,7 +75,12 @@ const menus = await reader.singletons.menus.read();
   >
   </div>
 
-  <div class="container relative isolate z-40 mx-auto my-6 px-8 text-xs">
-    {site?.copy && <div>{site.copy}</div>}
+  <div class="container relative isolate z-40 mx-auto md:columns-2">
+    <div class="px-8 pb-4 text-sm">{site?.copy}</div>
+    <div class="px-8 pb-4 text-sm md:text-right">
+      <a href="https://savelife.in.ua" target="_blank" class="hover:underline">
+        Be brave like Ukraine &#x1F1FA;&#x1F1E6;
+      </a>
+    </div>
   </div>
 </footer>
