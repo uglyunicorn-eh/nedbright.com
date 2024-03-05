@@ -1,27 +1,19 @@
 import React from "react";
 
+import spinner from "public/spinner.svg"
+
 interface Props {
   site: string;
   lang?: string;
 }
 
 export const ReplyBox = ({ site, lang }: Props) => {
-  const [updateCounter, setUpdateCounter] = React.useState(0);
   const [loading, setLoading] = React.useState(true);
+  const scriptPlaceholderRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     window.replybox = {
       site, lang,
-    };
-
-    const handler = () => {
-      setUpdateCounter((prev) => prev + 1);
-    };
-
-    document.addEventListener('astro:after-swap', handler);
-
-    return () => {
-      document.removeEventListener('astro:after-swap', handler);
     };
   }, [
     site, lang,
@@ -29,34 +21,41 @@ export const ReplyBox = ({ site, lang }: Props) => {
 
   React.useEffect(() => {
     const script = document.createElement("script");
-    script.src = "https://cdn.getreplybox.com/js/embed.js";
-    script.async = true;
 
-    script.onload = () => {
-      setTimeout(() => setLoading(false), 1000);
-    };
+    setTimeout(() => {
+      if (!scriptPlaceholderRef.current) {
+        return;
+      }
 
-    document.body.appendChild(script);
+      script.src = "https://cdn.getreplybox.com/js/embed.js";
+      script.async = true;
+
+      script.onload = () => {
+        setTimeout(() => setLoading(false), 500);
+      };
+
+      scriptPlaceholderRef.current.appendChild(script);
+    }, 100);
 
     return () => {
-      document.body.removeChild(script);
+      if (scriptPlaceholderRef.current) {
+        scriptPlaceholderRef.current.removeChild(script);
+      }
     };
-  }, [
-    updateCounter,
-  ]);
+  }, []);
 
   return (
-    <div className="transition-all duration-100">
+    <div className="transition-all duration-100" ref={scriptPlaceholderRef}>
       {
         loading
           ? (
             <div className="mx-auto text-center pt-16 pb-20 w-32" >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150"><path fill="none" stroke="#CCBDDA" stroke-width="15" stroke-linecap="round" stroke-dasharray="300 385" stroke-dashoffset="0" d="M275 75c0 31-27 50-50 50-58 0-92-100-150-100-28 0-50 22-50 50s23 50 50 50c58 0 92-100 150-100 24 0 50 19 50 50Z"><animate attributeName="stroke-dashoffset" calcMode="spline" dur="2" values="685;-685" keySplines="0 0 1 1" repeatCount="indefinite"></animate></path></svg>
+              <img src={spinner.src} alt="Комментарии загружаются..." width={128} height={64} />
             </div>
           )
           : null
       }
-      <div id="replybox" key={updateCounter} className={loading ? "hidden" : "block"} />
+      <div id="replybox" className={loading ? "hidden" : "block"} />
     </div>
   );
 };
