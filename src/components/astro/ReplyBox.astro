@@ -7,9 +7,7 @@ interface Props {
 const { site, lang } = Astro.props;
 ---
 
-<replybox-init data-site={site} data-lang={lang}>
-  <div id="replybox"></div>
-</replybox-init>
+<replybox-init data-site={site} data-lang={lang}> </replybox-init>
 
 <script>
   class ReplyBoxInit extends HTMLElement {
@@ -21,10 +19,13 @@ const { site, lang } = Astro.props;
       };
 
       const script = document.createElement("script");
-      script.src = "https://cdn.getreplybox.com/js/embed.js?lang=ru";
-      document.head.appendChild(script);
+      script.src = "https://cdn.getreplybox.com/js/embed.js";
+      script.async = true;
+      document.body.appendChild(script);
     }
   }
 
   customElements.define("replybox-init", ReplyBoxInit);
 </script>
+
+<div id="replybox"></div>
