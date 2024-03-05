@@ -1,4 +1,5 @@
 /*
   Access-Control-Allow-Origin: *
+  Access-Control-Allow-Credentials: true
 
   X-Greeting: Made with <3 in Canada by Ugly Unicorn, eh!
