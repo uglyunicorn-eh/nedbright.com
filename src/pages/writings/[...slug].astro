@@ -9,8 +9,8 @@ import {
   TextWritingPreviewSM,
   PageCut,
   WritingMetaDetails,
-  ReplyBox,
 } from "src/components/astro";
+import { ReplyBox } from "src/components/react";
 
 import img1 from "public/images/img-3.jpg";
 
@@ -95,7 +95,7 @@ const site = await reader.singletons.site.read();
     >
       <h3 class="my-h3">Комментарии</h3>
 
-      <ReplyBox site={site?.replybox!} lang="ru" />
+      <ReplyBox client:only site={site?.replybox!} lang="ru" />
     </div>
   </div>
 
