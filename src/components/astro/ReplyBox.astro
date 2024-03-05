@@ -19,11 +19,12 @@ const { site, lang } = Astro.props;
         site: this.dataset.site!,
         lang: this.dataset.lang,
       };
+
+      const script = document.createElement("script");
+      script.src = "https://cdn.getreplybox.com/js/embed.js?lang=ru";
+      document.head.appendChild(script);
     }
   }
 
   customElements.define("replybox-init", ReplyBoxInit);
 </script>
-
-<script is:inline src="https://cdn.getreplybox.com/js/embed.js?lang=fr" defer
-></script>
