@@ -31,5 +31,7 @@ export const site = {
     }, {
       label: 'Social Links',
     }),
+
+    replybox: fields.text({ label: 'ReplyBox site ID' }),
   },
 };

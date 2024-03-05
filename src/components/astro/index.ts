@@ -18,3 +18,4 @@ export { default as Paginator } from './Paginator.astro';
 export { default as Prose } from './Prose.astro';
 export { default as TextWritingPreviewSM } from './TextWritingPreviewSM.astro';
 export { default as WritingsIndexHero } from './WritingsIndexHero.astro';
+export { default as ReplyBox } from './ReplyBox.astro';

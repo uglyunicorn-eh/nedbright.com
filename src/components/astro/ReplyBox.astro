@@ -1,0 +1,15 @@
+---
+import { reader } from "src/reader";
+
+const site = await reader.singletons.site.read();
+
+const replybox = site?.replybox;
+---
+
+<div id="replybox"></div>
+<script>
+  window.replybox = {
+    site: replybox,
+  };
+</script>
+<script src="https://cdn.getreplybox.com/js/embed.js" defer></script>
