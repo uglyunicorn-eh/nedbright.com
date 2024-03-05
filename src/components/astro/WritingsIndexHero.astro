@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 
 import { reader } from "src/reader";
+import { SocialIcon } from "src/components/react";
 
 import logo from "public/logo-hd.svg";
 
@@ -10,23 +11,31 @@ const site = await reader.singletons.site.read();
 
 <div class="bg-gradient-to-tl from-orange-700/5 to-transparent">
   <div
-    class="container relative z-40 mx-auto flex items-center px-8 py-20 md:gap-10 lg:gap-20 lg:py-40 xl:px-36"
+    class="container relative z-40 mx-auto flex items-start px-8 py-20 md:gap-10 lg:gap-20 lg:py-40 xl:px-36"
   >
-    <div class="flex-grow-3 text-balance lg:text-right">
+    <div class="flex-grow-3 space-y-10 text-balance lg:text-right">
       <h1 class="my-h1">{site?.writings.title}</h1>
-      <p class="my-8 text-lg">
+      <p class="text-lg">
         {site?.writings.description}
       </p>
-      <div class="pt-10">
+      <div class="pt-6">
         <a
           href="https://www.buymeacoffee.com/nadiareznikova"
           target="_blank"
-          class="my-hero-primary-button-lg rounded-full"
+          class="my-hero-primary-button-lg"
         >
           Поддержать проект
         </a>
       </div>
+      <div class="flex space-x-4 pt-20 lg:justify-end">
+        <SocialIcon icon="Facebook" href={site?.social.facebook} />
+        <SocialIcon icon="Instagram" href={site?.social.instagram} />
+        <SocialIcon icon="X" href={site?.social.twitter} />
+        <SocialIcon icon="YouTube" href={site?.social.youtube} />
+        <SocialIcon icon="TikTok" href={site?.social.tiktok} />
+      </div>
     </div>
+
     <div class="hidden lg:block">
       <Image
         src={logo}
