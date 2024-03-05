@@ -86,4 +86,15 @@
 
       xl:min-w-[80ch];
   }
+
+  .my-prose h1 strong,
+  .my-prose h2 strong,
+  .my-prose h3 strong,
+  .my-prose h4 strong,
+  .my-prose h5 strong {
+    @apply text-balance;
+
+    font-family: "Oswald", sans-serif;
+    font-weight: 400;
+  }
 }
