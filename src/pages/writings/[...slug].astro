@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 
 import Layout from "src/layouts/SimpleWithNavigation.astro";
+import { reader } from "src/reader";
 import {
   Prose,
   TextWritingPreviewSM,
@@ -38,6 +39,8 @@ const readAlso = [
 ]
   .filter(Boolean)
   .slice(0, 3);
+
+const site = await reader.singletons.site.read();
 ---
 
 <Layout
@@ -84,8 +87,16 @@ const readAlso = [
     <Prose>
       <Content />
     </Prose>
+  </div>
 
-    <ReplyBox />
+  <div class="relative z-40 bg-gradient-to-tl from-white/20 to-white/50 pt-20">
+    <div
+      class="mx-auto pb-20 sm:max-w-[74ch] md:max-w-[74ch] lg:max-w-[76ch] xl:max-w-[90ch]"
+    >
+      <h3 class="my-h3">Комментарии</h3>
+
+      <ReplyBox site={site?.replybox!} lang="ru" />
+    </div>
   </div>
 
   <div

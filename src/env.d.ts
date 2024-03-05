@@ -11,3 +11,10 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+interface Window {
+  replybox: {
+    site: string;
+    lang?: string;
+  },
+}

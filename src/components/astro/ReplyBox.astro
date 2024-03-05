@@ -1,15 +1,29 @@
 ---
-import { reader } from "src/reader";
+interface Props {
+  site: string;
+  lang?: string;
+}
 
-const site = await reader.singletons.site.read();
-
-const replybox = site?.replybox;
+const { site, lang } = Astro.props;
 ---
 
-<div id="replybox"></div>
+<replybox-init data-site={site} data-lang={lang}>
+  <div id="replybox"></div>
+</replybox-init>
+
 <script>
-  window.replybox = {
-    site: replybox,
-  };
+  class ReplyBoxInit extends HTMLElement {
+    constructor() {
+      super();
+      window.replybox = {
+        site: this.dataset.site!,
+        lang: this.dataset.lang,
+      };
+    }
+  }
+
+  customElements.define("replybox-init", ReplyBoxInit);
 </script>
-<script src="https://cdn.getreplybox.com/js/embed.js" defer></script>
+
+<script is:inline src="https://cdn.getreplybox.com/js/embed.js?lang=fr" defer
+></script>
