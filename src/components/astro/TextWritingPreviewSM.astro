@@ -13,13 +13,11 @@ const { writing } = Astro.props;
 
 <div class="mb-16 flex break-inside-avoid-column flex-col gap-8">
   <div>
-    <h2
-      class="mb-4 text-balance text-xl font-extrabold text-slate-900 md:text-2xl lg:text-2xl lg:leading-7"
-    >
+    <h3 class="my-h2 mb-3">
       <a href={`/writings/${writing.slug}/`}>
         {writing.data.title}
       </a>
-    </h2>
+    </h3>
 
     <WritingMetaDetails writing={writing} />
 

@@ -32,12 +32,23 @@
     @apply __my-hero-button-base px-6 py-3 text-xl;
   }
 
+  .__my-hX-base {
+    @apply text-balance leading-tight tracking-tight text-slate-800;
+
+    font-family: "Oswald", sans-serif;
+    font-weight: 400;
+  }
+
   .my-h1 {
-    @apply mb-6 text-balance text-2xl font-extrabold leading-tight tracking-tight text-slate-900 md:text-3xl lg:text-4xl xl:text-5xl;
+    @apply __my-hX-base mb-8 text-2xl md:text-3xl lg:text-4xl xl:text-5xl;
   }
 
   .my-h2 {
-    @apply font-comforter-400 mb-4 text-balance text-xl font-extrabold leading-tight tracking-tight text-slate-900 md:text-2xl lg:text-3xl xl:text-4xl;
+    @apply __my-hX-base mb-6 text-xl md:text-2xl lg:text-3xl xl:text-4xl;
+  }
+
+  .my-h3 {
+    @apply __my-hX-base mb-4 text-lg md:text-xl lg:text-2xl xl:text-3xl;
   }
 
   .my-prose {
@@ -48,19 +59,19 @@
       flex
       text-pretty
       px-6
+
       tracking-tight
 
       prose-p:leading-7
-
       first:prose-p:text-xl
       first:prose-p:font-semibold
-      first:prose-p:text-black
 
+      first:prose-p:text-black
       prose-a:mx-0.5
       prose-a:text-indigo-600
       prose-a:no-underline
-      hover:prose-a:text-indigo-500
 
+      hover:prose-a:text-indigo-500
       prose-blockquote:rounded-xl
       prose-blockquote:border-white/30
       prose-blockquote:bg-blob-3/40
@@ -70,6 +81,7 @@
       prose-blockquote:ring-2
       prose-blockquote:ring-blob-1
       prose-blockquote:drop-shadow-md
+
       lg:prose-blockquote:-mx-6
 
       xl:min-w-[80ch];
