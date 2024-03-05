@@ -73,7 +73,7 @@ export const SocialIcon = ({
 }: Props) => (
   <>
     {href && (
-      <a href={href} target="_blank" title={icon} className={className}>
+      <a href={href} target="_blank" title={icon} className={`${className} opacity-80 hover:opacity-100 transition-all duration-75`}>
         <span className="sr-only">{icon}</span>
         {SocialIcons[icon]}
       </a>
