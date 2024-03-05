@@ -11,9 +11,9 @@ type Props = {
 const { writing } = Astro.props;
 ---
 
-<div class="mb-16 flex break-inside-avoid-column flex-col gap-8">
+<div class="flex break-inside-avoid-column flex-col pb-10">
   <div>
-    <h3 class="my-h2 mb-3">
+    <h3 class="my-h2">
       <a href={`/writings/${writing.slug}/`}>
         {writing.data.title}
       </a>

@@ -80,32 +80,31 @@ const site = await reader.singletons.site.read();
                 ценно для меня.
               </p>
             </div>
-            <div class="mx-auto mt-10 flow-root max-w-2xl columns-1 md:columns-2 lg:mx-0 lg:max-w-none lg:columns-3">
-              <div class="-mt-8 gap-4 sm:-mx-4 sm:text-[0]">
-                {entry.data.testimonies.map((testimonial) => (
-                  <div class="pt-4 sm:inline-block sm:w-full sm:px-4 md:max-w-xl">
-                    <figure class="rounded-2xl bg-gray-50/20 p-8 text-sm leading-6 backdrop-blur-sm">
-                      <div class="pb-2 text-center text-yellow-500">
-                        <StarRating />
-                      </div>
-                      <blockquote class="text-gray-900">
-                        <p class="text-pretty before:content-['«'] after:content-['»']">
-                          {testimonial.quote}
-                        </p>
-                      </blockquote>
-                      {testimonial.author && testimonial.showAuthor && (
-                        <figcaption class="mt-6 flex items-center gap-x-4">
-                          <div>
-                            <div class="text-sm before:content-['—_']">
-                              {testimonial.author}
-                            </div>
+
+            <div class="mx-auto mt-10 flow-root columns-1 md:columns-2 lg:mx-0 lg:max-w-none lg:columns-3">
+              {entry.data.testimonies.map((testimonial) => (
+                <div class="break-inside-avoid-column pb-4 sm:inline-block sm:w-full md:max-w-xl">
+                  <figure class="rounded-2xl bg-gray-50/20 p-8 text-sm leading-6 backdrop-blur-sm">
+                    <div class="pb-2 text-center text-yellow-500">
+                      <StarRating />
+                    </div>
+                    <blockquote class="text-gray-900">
+                      <p class="text-pretty before:content-['«'] after:content-['»']">
+                        {testimonial.quote}
+                      </p>
+                    </blockquote>
+                    {testimonial.author && testimonial.showAuthor && (
+                      <figcaption class="mt-6 flex items-center gap-x-4">
+                        <div>
+                          <div class="text-sm before:content-['—_']">
+                            {testimonial.author}
                           </div>
-                        </figcaption>
-                      )}
-                    </figure>
-                  </div>
-                ))}
-              </div>
+                        </div>
+                      </figcaption>
+                    )}
+                  </figure>
+                </div>
+              ))}
             </div>
           </div>
         </div>
