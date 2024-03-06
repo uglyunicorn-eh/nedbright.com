@@ -13,11 +13,11 @@
   }
 
   .my-primary-button-lg {
-    @apply __my-primary-button-base rounded-md px-6 py-3 text-xl;
+    @apply __my-primary-button-base rounded-md px-4 py-3 text-xl;
   }
 
   .my-hero-primary-button-lg {
-    @apply __my-primary-button-base rounded-full px-6 py-3 text-xl;
+    @apply __my-primary-button-base rounded-full px-4 py-3 text-xl;
   }
 
   .__my-hero-button-base {
@@ -29,7 +29,7 @@
   }
 
   .my-hero-button-lg {
-    @apply __my-hero-button-base px-6 py-3 text-xl;
+    @apply __my-hero-button-base px-4 py-3 text-xl;
   }
 
   .__my-hX-base {
@@ -58,7 +58,7 @@
       mx-auto
       flex
       text-pretty
-      px-6
+      px-4
 
       tracking-tight
 
