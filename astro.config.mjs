@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, squooshImageService } from 'astro/config';
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import markdoc from "@astrojs/markdoc";
@@ -56,14 +56,5 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
-  image: {
-    image: {
-      service: {
-        entrypoint: 'astro/assets/services/sharp',
-        config: {
-          limitInputPixels: false,
-        },
-      },
-    },
-  }
+  image: squooshImageService(),
 });
