@@ -1,5 +1,8 @@
 /*
-  Access-Control-Allow-Origin: *
-  Access-Control-Allow-Credentials: true
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
 
   X-Greeting: Made with <3 in Canada by Ugly Unicorn, eh!
+
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
