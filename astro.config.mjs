@@ -50,9 +50,7 @@ export default defineConfig({
     }),
   ],
   output: 'hybrid',
-  adapter: cloudflare({
-    imageService: 'cloudflare',
-  }),
+  adapter: cloudflare(),
   site: "https://ng.nedbright.com",
   prefetch: true,
   devToolbar: {
