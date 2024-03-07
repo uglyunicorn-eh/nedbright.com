@@ -5,10 +5,10 @@ import markdoc from "@astrojs/markdoc";
 import cloudflare from "@astrojs/cloudflare";
 import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
-
 import keystatic from '@keystatic/astro';
-
 import webmanifest from "astro-webmanifest";
+
+import sentry from "@sentry/astro";
 
 // https://astro.build/config
 export default defineConfig({
@@ -27,26 +27,29 @@ export default defineConfig({
     webmanifest({
       name: "Жить среди людей",
       start_url: "/",
-      icons: [
-        {
-          "src": "favicon.svg",
-          "type": "image/svg+xml",
-          "sizes": "144x144",
-        },
-        {
-          "src": "favicon.svg",
-          "type": "image/svg+xml",
-          "sizes": "512x512",
-        },
-        {
-          "src": "maskable_icon.png",
-          "type": "image/png",
-          "purpose": "maskable"
-        },
-      ],
+      icons: [{
+        "src": "favicon.svg",
+        "type": "image/svg+xml",
+        "sizes": "144x144"
+      }, {
+        "src": "favicon.svg",
+        "type": "image/svg+xml",
+        "sizes": "512x512"
+      }, {
+        "src": "maskable_icon.png",
+        "type": "image/png",
+        "purpose": "maskable"
+      }],
       theme_color: "#f3f4f6",
       background_color: "#f3f4f6",
-      display: "standalone",
+      display: "standalone"
+    }),
+    sentry({
+      dsn: import.meta.env.PUBLIC_SENTRY_DSN,
+      sourceMapsUploadOptions: {
+        project: "nedbright-com",
+        authToken: import.meta.env.SENTRY_AUTH_TOKEN,
+      },
     }),
   ],
   output: 'hybrid',
@@ -54,7 +57,7 @@ export default defineConfig({
   site: "https://ng.nedbright.com",
   prefetch: true,
   devToolbar: {
-    enabled: false,
+    enabled: false
   },
   // image: squooshImageService(),
   image: {
@@ -62,8 +65,8 @@ export default defineConfig({
     service: {
       entrypoint: 'astro/assets/services/sharp',
       config: {
-        limitInputPixels: false,
-      },
-    },
-  },
+        limitInputPixels: false
+      }
+    }
+  }
 });

@@ -6,6 +6,8 @@
 interface ImportMetaEnv {
   readonly SITE_URL: string;
   readonly PUBLIC_GITHUB_REPO: string;
+  readonly PUBLIC_SENTRY_DSN: string;
+  readonly SENTRY_AUTH_TOKEN: string;
 }
 
 interface ImportMeta {
