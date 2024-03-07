@@ -38,6 +38,9 @@ const latestWritings = writings.slice(0, 3);
       heroIntroText: "landingPage.heroIntroText",
     }}
   /> -->
+  <button onclick="throw new Error('This is a test error')">
+    Throw test error
+  </button>
 
   {latestWritings.length ? <WritingsHero writings={latestWritings} /> : null}
 
