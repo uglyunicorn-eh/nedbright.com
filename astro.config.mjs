@@ -50,7 +50,7 @@ export default defineConfig({
     }),
   ],
   output: 'hybrid',
-  adapter: cloudflare(),
+  adapter: cloudflare({ mode: "directory" }),
   site: "https://ng.nedbright.com",
   prefetch: true,
   devToolbar: {
