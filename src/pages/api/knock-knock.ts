@@ -53,7 +53,7 @@ export async function GET({ request }: APIContext) {
   }
   catch (error) {
     if (!isJsonResponse) {
-      return Response.redirect(`${SITE_URL}/?status=error`, 307);
+      return Response.redirect(`${SITE_URL}/?status=0xdeadbeef`, 307);
     }
 
     if (error instanceof ZodError) {
