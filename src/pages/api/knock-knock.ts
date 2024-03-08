@@ -1,14 +1,26 @@
 import * as jose from "jose";
+import * as Sentry from "@sentry/astro";
 import { z, ZodError } from "zod";
 
 import type { APIContext } from 'astro';
 
 export const prerender = false;
 
-const SITE_URL = import.meta.env.SITE_URL.replace(/\/$/, '');
-const DOMAIN = new URL(import.meta.env.SITE_URL).host;
-const PRIVATE_KEY = await jose.importPKCS8(import.meta.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RSA");
-const PUBLIC_KEY = await jose.importSPKI(import.meta.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RSA");
+let SITE_URL: string;
+let DOMAIN: string;
+let PRIVATE_KEY: jose.KeyLike;
+let PUBLIC_KEY: jose.KeyLike;
+
+
+try {
+  SITE_URL = import.meta.env.SITE_URL.replace(/\/$/, '');
+  DOMAIN = new URL(import.meta.env.SITE_URL).host;
+  PRIVATE_KEY = await jose.importPKCS8(import.meta.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RSA");
+  PUBLIC_KEY = await jose.importSPKI(import.meta.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RSA");
+}
+catch (error) {
+  Sentry.captureException(error);
+}
 
 const Query = z.object({
   token: z.string(),
