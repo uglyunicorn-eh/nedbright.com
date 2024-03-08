@@ -15,7 +15,7 @@ const Query = z.object({
 });
 
 const KnockKnock = z.object({
-  cty: z.literal("Knock-Knock"),
+  cty: z.literal("X-Knock-Knock"),
   sub: z.string().email(),
 });
 
@@ -23,10 +23,17 @@ const Input = z.object({
   email: z.string().email(),
 });
 
-export async function GET({ request }: APIContext) {
+type User = {
+  iat: number;
+  sub: string;
+  name?: string;
+};
+
+export async function GET({ request, locals, cookies }: APIContext) {
   const contentType = request.headers.get('Content-Type');
   const isJsonResponse = contentType === 'application/json';
   try {
+
     const { token } = Query.parse({ token: new URL(request.url).searchParams.get('token') });
 
     const knockKnockToken = await jose.jwtVerify(
@@ -44,16 +51,47 @@ export async function GET({ request }: APIContext) {
       sub: knockKnockToken.payload.sub,
     });
 
+    const iat = Math.floor(Date.now() / 1000);
     const sub = knockKnockRequest.sub;
 
-    if (!isJsonResponse) {
-      return Response.redirect(`${SITE_URL}/`, 307);
-    }
-    return Response.json({ status: 'ok', sub });
+    const Users = locals.runtime.env['com.nedbright.users'];
+
+    let user: User;
+
+    // let user = await Users.get<User>(sub);
+    // if (!user) {
+    user = { iat, sub };
+
+    //   await Users.put(sub, JSON.stringify(user));
+    // }
+
+    const userToken = (
+      await new jose
+        .SignJWT({
+          iss: DOMAIN,
+          iat,
+          exp: iat + 60 * 60 * 24 * 30,
+          aud: DOMAIN,
+          name: user.name,
+          verifiedEmail: user.sub,
+        })
+        .setProtectedHeader({
+          alg: "RS256",
+          typ: "JWT",
+          cty: "X-Visitor-Badge",
+        })
+        .sign(PRIVATE_KEY)
+    );
+
+    if (isJsonResponse)
+      return Response.json({ status: 'ok', token: userToken });
+
+    cookies.set('X-Visitor-Badge', userToken, { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN });
+    return Response.redirect(`${SITE_URL}/`, 307);
   }
   catch (error) {
     if (!isJsonResponse) {
-      return Response.redirect(`${SITE_URL}/?status=0xdeadbeef`, 307);
+      return Response.redirect(`${SITE_URL}/401`, 307);
     }
 
     if (error instanceof ZodError) {
@@ -80,7 +118,7 @@ export async function POST({ request }: APIContext) {
         .setProtectedHeader({
           alg: "RS256",
           typ: "JWT",
-          cty: "Knock-Knock",
+          cty: "X-Knock-Knock",
         })
         .sign(PRIVATE_KEY)
     );
