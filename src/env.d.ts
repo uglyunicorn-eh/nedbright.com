@@ -22,5 +22,20 @@ interface Window {
   replybox: {
     site: string;
     lang?: string;
+    sso?: {
+      hash: string;
+      payload: string;
+    };
+    identifier?: string;
   },
 }
+
+type KVNamespace = import("@cloudflare/workers-types").KVNamespace;
+type ENV = {
+  ["com.nedbright.users"]: KVNamespace;
+};
+
+type Runtime = import("@astrojs/cloudflare").AdvancedRuntime<ENV>;
+declare namespace App {
+  interface Locals extends Runtime { }
+};
