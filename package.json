@@ -6,8 +6,8 @@
     "dev": "astro dev --host 127.0.0.1",
     "start": "astro dev --host 127.0.0.1",
     "build": "astro check && astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "preview": "wrangler pages dev ./dist"
   },
   "dependencies": {
     "@astrojs/check": "^0.5.6",
