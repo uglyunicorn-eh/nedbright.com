@@ -24,6 +24,7 @@
     "astro-seo": "^0.8.3",
     "astro-webmanifest": "^1.0.0",
     "dayjs": "^1.11.10",
+    "jose": "^5.2.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "zod": "^3.22.4"
