@@ -95,7 +95,12 @@ const site = await reader.singletons.site.read();
     >
       <h2 class="my-h3">Комментарии</h2>
 
-      <ReplyBox client:only site={site?.replybox!} lang="ru" />
+      <ReplyBox
+        client:only
+        site={site?.replybox!}
+        lang="ru"
+        identifier={`/writings/${entry.slug}`}
+      />
     </div>
   </div>
 

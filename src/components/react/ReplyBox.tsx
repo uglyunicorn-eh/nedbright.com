@@ -3,20 +3,23 @@ import React from "react";
 import spinner from "public/spinner.svg"
 
 interface Props {
+  identifier?: string;
   site: string;
   lang?: string;
 }
 
-export const ReplyBox = ({ site, lang }: Props) => {
+export const ReplyBox = ({ site, lang, identifier }: Props) => {
   const [loading, setLoading] = React.useState(true);
   const scriptPlaceholderRef = React.useRef<HTMLDivElement | null>(null);
 
+  const { sso } = useReplyBoxSSO();
+
   React.useEffect(() => {
     window.replybox = {
-      site, lang,
+      site, lang, sso, identifier,
     };
   }, [
-    site, lang,
+    site, lang, sso, identifier,
   ]);
 
   React.useEffect(() => {
@@ -59,3 +62,14 @@ export const ReplyBox = ({ site, lang }: Props) => {
     </div>
   );
 };
+
+function useReplyBoxSSO() {
+  const [sso, setSSO] = React.useState<{ hash: string; payload: string }>();
+
+  React.useEffect(() => {
+  }, []);
+
+  return {
+    sso,
+  };
+}
