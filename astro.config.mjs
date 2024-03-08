@@ -57,20 +57,13 @@ export default defineConfig({
     }),
   ],
   output: 'hybrid',
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    imageService: 'compile',
+  }),
   site: "https://ng.nedbright.com",
   prefetch: true,
   devToolbar: {
     enabled: false
   },
-  // image: squooshImageService(),
-  image: {
-    // Example: Enable the Sharp-based image service with a custom config
-    service: {
-      entrypoint: 'astro/assets/services/sharp',
-      config: {
-        limitInputPixels: false
-      }
-    }
-  }
+  image: squooshImageService(),
 });
