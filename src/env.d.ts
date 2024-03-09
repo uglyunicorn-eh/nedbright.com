@@ -9,9 +9,11 @@ interface ImportMetaEnv {
   readonly PUBLIC_SENTRY_DSN: string;
   readonly SENTRY_AUTH_TOKEN: string;
   readonly SENDGRID_API_KEY: string;
+  readonly SENDGRID_FROM_EMAIL: string;
   readonly REPLYBOX_SECRET_KEY: string;
   readonly PUBLIC_KEY: string;
   readonly PRIVATE_KEY: string;
+  readonly SIGN_IN_TEMPLATE_ID: string;
 }
 
 interface ImportMeta {
