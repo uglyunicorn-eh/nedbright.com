@@ -27,6 +27,10 @@ type User = {
   iat: number;
   sub: string;
   name?: string;
+  'replybox:sso'?: {
+    hash: string;
+    payload: string;
+  },
 };
 
 export async function GET({ request, locals, cookies }: APIContext) {
@@ -71,6 +75,8 @@ export async function GET({ request, locals, cookies }: APIContext) {
           exp: iat + 60 * 60 * 24 * 30,
           aud: DOMAIN,
           name: user.name,
+          verifiedEmail: user.sub,
+          'replybox:sso': user['replybox:sso'],
         })
         .setProtectedHeader({
           alg: "RS256",
