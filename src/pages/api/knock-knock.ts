@@ -61,6 +61,7 @@ export async function GET({ request, locals, cookies }: APIContext) {
     const { Users } = locals.runtime.env;
 
     let user = await Users.get<User>(sub);
+    console.log({ user });
     if (!user) {
       user = { iat, sub };
 
