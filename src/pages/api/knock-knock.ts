@@ -1,5 +1,6 @@
 import * as jose from "jose";
 import { z, ZodError } from "zod";
+import SendGrid from "@sendgrid/mail";
 
 import type { APIContext } from 'astro';
 
@@ -9,6 +10,8 @@ const SITE_URL = import.meta.env.SITE_URL.replace(/\/$/, '');
 const DOMAIN = new URL(import.meta.env.SITE_URL).host;
 const PRIVATE_KEY = await jose.importPKCS8(import.meta.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
 const PUBLIC_KEY = await jose.importSPKI(import.meta.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
+
+SendGrid.setApiKey(import.meta.env.SENDGRID_API_KEY);
 
 const Query = z.object({
   token: z.string(),
@@ -146,6 +149,15 @@ export async function POST({ request }: APIContext) {
         })
         .sign(PRIVATE_KEY)
     );
+
+    await SendGrid.send({
+      templateId: import.meta.env.SIGN_IN_TEMPLATE_ID,
+      to: email,
+      from: import.meta.env.SENDGRID_FROM_EMAIL,
+      dynamicTemplateData: {
+        magicLink: `${SITE_URL}/api/knock-knock?token=${token}`,
+      },
+    });
 
     return Response.json({ status: 'ok', token });
   }
