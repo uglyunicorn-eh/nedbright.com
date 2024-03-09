@@ -61,36 +61,54 @@ export async function GET({ request, locals, cookies }: APIContext) {
     const { Users } = locals.runtime.env;
 
     let user = await Users.get<User>(sub, { type: 'json' });
-    console.log({ user });
     if (!user) {
       user = { iat, sub };
 
       await Users.put(sub, JSON.stringify(user));
     }
 
-    const userToken = (
+    const identityBadge = (
       await new jose
         .SignJWT({
           iss: DOMAIN,
           iat,
           exp: iat + 60 * 60 * 24 * 30,
           aud: DOMAIN,
-          name: user.name,
-          verifiedEmail: user.sub,
-          'replybox:sso': user['replybox:sso'],
+          sub: user.sub,
         })
         .setProtectedHeader({
           alg: "RS256",
           typ: "JWT",
-          cty: "X-Visitor-Badge",
+          cty: "X-Identity-Badge",
+        })
+        .sign(PRIVATE_KEY)
+    );
+
+    const visitorBadge = (
+      await new jose
+        .SignJWT({
+          iss: DOMAIN,
+          iat: new Date().getTime() / 1000,
+          aud: DOMAIN,
+          name: user.name ?? null,
+          "replybox:sso": user['replybox:sso'] ?? null,
+        })
+        .setProtectedHeader({
+          alg: "RS256",
+          typ: "JWT",
+          cty: "X-Profile-Badge",
         })
         .sign(PRIVATE_KEY)
     );
 
     if (isJsonResponse)
-      return Response.json({ status: 'ok', token: userToken });
+      return Response.json({ status: 'ok', identity: identityBadge, profile: visitorBadge });
 
-    cookies.set('X-Visitor-Badge', userToken, { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN });
+    cookies.set('X-Identity-Badge', identityBadge, { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN });
+
+    if (visitorBadge) {
+      cookies.set('X-Profile-Badge', visitorBadge, { secure: true, sameSite: 'strict', domain: DOMAIN });
+    }
 
     return Response.redirect(`${SITE_URL}/`, 307);
   }
