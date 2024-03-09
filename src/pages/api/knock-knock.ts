@@ -88,6 +88,8 @@ export async function GET({ request, locals, cookies }: APIContext) {
     return Response.redirect(`${SITE_URL}/`, 307);
   }
   catch (error) {
+    console.error(error);
+
     if (!isJsonResponse) {
       return Response.redirect(`${SITE_URL}/401`, 307);
     }
@@ -96,8 +98,7 @@ export async function GET({ request, locals, cookies }: APIContext) {
       return Response.json({ status: 'error', errors: error.errors }, { status: 400 });
     }
 
-    throw error;
-    // return Response.json({ status: '0xdeadbeef' }, { status: 400 });
+    return Response.json({ status: '0xdeadbeef' }, { status: 400 });
   }
 }
 
@@ -126,6 +127,8 @@ export async function POST({ request }: APIContext) {
     return Response.json({ status: 'ok', token });
   }
   catch (error) {
+    console.error(error);
+
     if (error instanceof ZodError) {
       return Response.json({ status: 'error', errors: error.errors }, { status: 400 });
     }
