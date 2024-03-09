@@ -32,7 +32,7 @@ interface Window {
 
 type KVNamespace = import("@cloudflare/workers-types").KVNamespace;
 type ENV = {
-  ["com.nedbright.users"]: KVNamespace;
+  Users: KVNamespace;
 };
 
 type Runtime = import("@astrojs/cloudflare").AdvancedRuntime<ENV>;
