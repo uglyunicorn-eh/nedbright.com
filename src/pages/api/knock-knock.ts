@@ -101,10 +101,11 @@ export async function GET({ request, locals, cookies }: APIContext) {
         .sign(PRIVATE_KEY)
     );
 
-    if (isJsonResponse)
-      return Response.json({ status: 'ok', identity, profile });
-
     cookies.set('X-Identity-Badge', identity, { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN });
+
+    if (isJsonResponse)
+      return Response.json({ status: 'ok', profile });
+
     cookies.set('X-Profile-Badge', profile, { secure: true, sameSite: 'strict', domain: DOMAIN });
 
     return Response.redirect(`${SITE_URL}/`, 307);
