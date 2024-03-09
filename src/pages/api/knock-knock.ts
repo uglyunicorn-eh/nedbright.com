@@ -67,13 +67,13 @@ export async function GET({ request, locals, cookies }: APIContext) {
       await Users.put(sub, JSON.stringify(user));
     }
 
-    const identityBadge = (
+    const identity = (
       await new jose
         .SignJWT({
           iss: DOMAIN,
+          aud: DOMAIN,
           iat,
           exp: iat + 60 * 60 * 24 * 30,
-          aud: DOMAIN,
           sub: user.sub,
         })
         .setProtectedHeader({
@@ -84,12 +84,12 @@ export async function GET({ request, locals, cookies }: APIContext) {
         .sign(PRIVATE_KEY)
     );
 
-    const visitorBadge = (
+    const profile = (
       await new jose
         .SignJWT({
           iss: DOMAIN,
-          iat: new Date().getTime() / 1000,
           aud: DOMAIN,
+          iat: Math.ceil(new Date().getTime() / 1000),
           name: user.name ?? null,
           "replybox:sso": user['replybox:sso'] ?? null,
         })
@@ -102,13 +102,10 @@ export async function GET({ request, locals, cookies }: APIContext) {
     );
 
     if (isJsonResponse)
-      return Response.json({ status: 'ok', identity: identityBadge, profile: visitorBadge });
+      return Response.json({ status: 'ok', identity, profile });
 
-    cookies.set('X-Identity-Badge', identityBadge, { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN });
-
-    if (visitorBadge) {
-      cookies.set('X-Profile-Badge', visitorBadge, { secure: true, sameSite: 'strict', domain: DOMAIN });
-    }
+    cookies.set('X-Identity-Badge', identity, { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN });
+    cookies.set('X-Profile-Badge', profile, { secure: true, sameSite: 'strict', domain: DOMAIN });
 
     return Response.redirect(`${SITE_URL}/`, 307);
   }
@@ -136,9 +133,9 @@ export async function POST({ request }: APIContext) {
       await new jose
         .SignJWT({
           iss: DOMAIN,
+          aud: DOMAIN,
           iat,
           exp: iat + 600 * 20,
-          aud: DOMAIN,
           sub: email,
         })
         .setProtectedHeader({
