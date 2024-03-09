@@ -56,14 +56,12 @@ export async function GET({ request, locals, cookies }: APIContext) {
 
     const Users = locals.runtime.env['com.nedbright.users'];
 
-    let user: User;
+    let user = await Users.get<User>(sub);
+    if (!user) {
+      user = { iat, sub };
 
-    // let user = await Users.get<User>(sub);
-    // if (!user) {
-    user = { iat, sub };
-
-    //   await Users.put(sub, JSON.stringify(user));
-    // }
+      await Users.put(sub, JSON.stringify(user));
+    }
 
     const userToken = (
       await new jose
@@ -73,7 +71,6 @@ export async function GET({ request, locals, cookies }: APIContext) {
           exp: iat + 60 * 60 * 24 * 30,
           aud: DOMAIN,
           name: user.name,
-          verifiedEmail: user.sub,
         })
         .setProtectedHeader({
           alg: "RS256",
@@ -87,6 +84,7 @@ export async function GET({ request, locals, cookies }: APIContext) {
       return Response.json({ status: 'ok', token: userToken });
 
     cookies.set('X-Visitor-Badge', userToken, { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN });
+
     return Response.redirect(`${SITE_URL}/`, 307);
   }
   catch (error) {
