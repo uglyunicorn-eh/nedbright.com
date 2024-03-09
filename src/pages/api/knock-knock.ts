@@ -54,7 +54,7 @@ export async function GET({ request, locals, cookies }: APIContext) {
     const iat = Math.floor(Date.now() / 1000);
     const sub = knockKnockRequest.sub;
 
-    const Users = locals.runtime.env['com.nedbright.users'];
+    const { Users } = locals.runtime.env;
 
     let user = await Users.get<User>(sub);
     if (!user) {
