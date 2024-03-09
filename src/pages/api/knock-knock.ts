@@ -75,7 +75,7 @@ export async function GET({ request, locals, cookies }: APIContext) {
           exp: iat + 60 * 60 * 24 * 30,
           aud: DOMAIN,
           name: user.name,
-          verifiedEmail: user.sub || 'Pavel Reznikov',
+          verifiedEmail: user.sub,
           'replybox:sso': user['replybox:sso'],
         })
         .setProtectedHeader({
