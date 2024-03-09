@@ -95,7 +95,9 @@ export async function GET({ request, locals, cookies }: APIContext) {
     if (error instanceof ZodError) {
       return Response.json({ status: 'error', errors: error.errors }, { status: 400 });
     }
-    return Response.json({ status: '0xdeadbeef' }, { status: 400 });
+
+    throw error;
+    // return Response.json({ status: '0xdeadbeef' }, { status: 400 });
   }
 }
 
