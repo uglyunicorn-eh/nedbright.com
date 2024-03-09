@@ -9,15 +9,15 @@
   }
 
   .my-primary-button {
-    @apply __my-primary-button-base rounded-md px-4 py-2.5;
+    @apply __my-primary-button-base rounded-md px-6 py-2.5;
   }
 
   .my-primary-button-lg {
-    @apply __my-primary-button-base rounded-md px-4 py-3 text-xl;
+    @apply __my-primary-button-base rounded-md px-6 py-3 text-xl;
   }
 
   .my-hero-primary-button-lg {
-    @apply __my-primary-button-base rounded-full px-4 py-3 text-xl;
+    @apply __my-primary-button-base rounded-full px-6 py-3 text-xl;
   }
 
   .__my-hero-button-base {
@@ -25,11 +25,11 @@
   }
 
   .my-hero-button {
-    @apply __my-hero-button-base px-4 py-2.5;
+    @apply __my-hero-button-base px-6 py-2.5;
   }
 
   .my-hero-button-lg {
-    @apply __my-hero-button-base px-4 py-3 text-xl;
+    @apply __my-hero-button-base px-6 py-3 text-xl;
   }
 
   .__my-hX-base {
@@ -96,5 +96,9 @@
 
     font-family: "Oswald", sans-serif;
     font-weight: 400;
+  }
+
+  .my-nav-active {
+    @apply bg-white/90 shadow-sm backdrop-blur-sm;
   }
 }
