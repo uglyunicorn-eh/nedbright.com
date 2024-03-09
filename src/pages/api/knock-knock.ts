@@ -89,7 +89,7 @@ export async function GET({ request, locals, cookies }: APIContext) {
         .SignJWT({
           iss: DOMAIN,
           aud: DOMAIN,
-          iat: Math.ceil(new Date().getTime() / 1000),
+          iat,
           name: user.name ?? null,
           "replybox:sso": user['replybox:sso'] ?? null,
         })
