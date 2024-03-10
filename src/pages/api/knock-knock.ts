@@ -167,7 +167,7 @@ export async function POST({ request }: APIContext) {
       }),
     });
 
-    return Response.json({ status: 'ok', token });
+    return Response.json({ status: 'ok' });
   }
   catch (error) {
     console.error(error);
