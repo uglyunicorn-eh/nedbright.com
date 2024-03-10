@@ -13,9 +13,8 @@ const menus = await reader.singletons.menus.read();
 ---
 
 <Layout>
-  <BackgroundBlobs />
   <div
-    class="grid h-[100vh] w-full items-stretch bg-blob-2 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
+    class="lg:my-profile grid h-[100vh] w-full items-stretch bg-[#eeeeee] sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
   >
     <div class="hidden p-8 lg:block xl:col-span-2">
       <div class="flex h-full flex-col justify-between gap-8">
@@ -25,9 +24,7 @@ const menus = await reader.singletons.menus.read();
 
         <div class="z-40">
           <div class="flex gap-8">
-            <div
-              class="w-[36ch] space-y-8 border-r-zinc-700 pr-4 lg:border-r xl:pr-12"
-            >
+            <div class="w-[36ch] space-y-8 pr-4 xl:pr-12">
               <a href="/" data-astro-prefetch>
                 <img
                   class="h-16"
@@ -37,55 +34,32 @@ const menus = await reader.singletons.menus.read();
                   alt={site?.title}
                 />
               </a>
-
-              {
-                site?.footerNote && (
-                  <p class="text-pretty text-xs">{site?.footerNote}</p>
-                )
-              }
-
-              <div class="flex space-x-4">
-                <SocialIcon icon="Facebook" href={site?.social.facebook} />
-                <SocialIcon icon="Instagram" href={site?.social.instagram} />
-                <SocialIcon icon="X" href={site?.social.twitter} />
-                <SocialIcon icon="YouTube" href={site?.social.youtube} />
-                <SocialIcon icon="TikTok" href={site?.social.tiktok} />
-              </div>
-            </div>
-
-            <div class="pt-16 lg:pt-0">
-              {
-                menus?.footer.map((section) => (
-                  <div>
-                    <h3 class="text-sm font-semibold leading-6">
-                      {section.section}
-                    </h3>
-                    <ul role="list" class="mt-6 space-y-4">
-                      {section.items.map((item) => (
-                        <li>
-                          <a
-                            href={item.url ?? "#"}
-                            class="text-sm leading-6 hover:underline hover:underline-offset-2"
-                            data-astro-prefetch
-                          >
-                            {item.label}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))
-              }
             </div>
           </div>
-          <div class="mt-16 text-sm">{site?.copy}</div>
+          <div class="mt-8 text-sm">
+            {site?.copy}
+            Фото
+            <a
+              href="https://unsplash.com/@joannakosinska?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+              class="underline underline-offset-2 hover:text-slate-700"
+            >
+              Joanna Kosinska
+            </a>
+            на
+            <a
+              href="https://unsplash.com/photos/pink-covered-book-in-top-view-photography-I3adKpDNAjM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+              class="underline underline-offset-2 hover:text-slate-700"
+            >
+              Unsplash
+            </a>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="p-8">
       <div
-        class="flex h-full flex-col gap-4 rounded-3xl bg-white/50 p-8 shadow-2xl shadow-black/15 backdrop-blur-sm"
+        class="flex h-full flex-col gap-4 rounded-3xl bg-white/50 p-8 shadow-2xl shadow-black/30 backdrop-blur-lg"
       >
         <Image src={logo} alt="Logo" class="mx-auto mb-10 h-64" />
 

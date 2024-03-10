@@ -51,6 +51,12 @@
     @apply __my-hX-base mb-4 text-2xl md:text-3xl;
   }
 
+  .my-profile {
+    @apply bg-[#eeeeee] bg-cover bg-center bg-no-repeat;
+    background-image: url("/public/profile-bg.webp");
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.3);
+  }
+
   .my-prose {
     @apply prose
       prose-lg
