@@ -32,7 +32,7 @@ type User = {
   },
 };
 
-export async function GET({ request, locals, cookies }: APIContext) {
+export async function GET({ request, locals, cookies, redirect }: APIContext) {
   const contentType = request.headers.get('Content-Type');
   const isJsonResponse = contentType === 'application/json';
   try {
@@ -105,9 +105,9 @@ export async function GET({ request, locals, cookies }: APIContext) {
     if (isJsonResponse)
       return Response.json({ status: 'ok', profile });
 
-    // cookies.set('X-Profile-Badge', profile, { secure: true, sameSite: 'strict', domain: DOMAIN });
+    cookies.set('X-Profile-Badge', profile, { secure: true, sameSite: 'strict', domain: DOMAIN });
 
-    return Response.redirect(`${SITE_URL}/`, 307);
+    return redirect(`${SITE_URL}/`, 307);
   }
   catch (error) {
     console.error(error);
