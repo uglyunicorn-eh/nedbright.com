@@ -2,14 +2,13 @@
 import { Image } from "astro:assets";
 
 import { reader } from "src/reader";
-import { BackgroundBlobs, SocialIcon } from "src/components/react";
 import Layout from "src/layouts/Layout.astro";
 import { Breadcrumbs } from "src/components/astro";
 
 import logo from "public/logo-hd.svg";
+import image from "public/profile-bg.webp";
 
 const site = await reader.singletons.site.read();
-const menus = await reader.singletons.menus.read();
 ---
 
 <Layout
@@ -21,13 +20,13 @@ const menus = await reader.singletons.menus.read();
       basic: {
         type: "website",
         title: "Мой профиль",
-        image: logo.src,
+        image: image.src,
       },
     },
     twitter: {
       card: "summary_large_image",
       title: "Мой профиль",
-      image: logo.src,
+      image: image.src,
       imageAlt: "Мой профиль",
       description:
         "Прежде чем иметь возможность оставлять комментарии, пожалуйста, представтесь",
