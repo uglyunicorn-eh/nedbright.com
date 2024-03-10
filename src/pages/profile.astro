@@ -1,8 +1,12 @@
 ---
+import { Image } from "astro:assets";
+
 import { reader } from "src/reader";
 import { BackgroundBlobs, SocialIcon } from "src/components/react";
 import Layout from "src/layouts/Layout.astro";
 import { Breadcrumbs } from "src/components/astro";
+
+import logo from "public/logo-hd.svg";
 
 const site = await reader.singletons.site.read();
 const menus = await reader.singletons.menus.read();
@@ -11,11 +15,13 @@ const menus = await reader.singletons.menus.read();
 <Layout>
   <BackgroundBlobs />
   <div
-    class="h-[100vh] w-full items-stretch bg-blob-2 md:grid md:grid-cols-2 xl:grid-cols-3"
+    class="grid h-[100vh] w-full items-stretch bg-blob-2 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
   >
-    <div class="p-8 sm:hidden lg:block xl:col-span-2">
+    <div class="hidden p-8 lg:block xl:col-span-2">
       <div class="flex h-full flex-col justify-between gap-8">
-        <Breadcrumbs items={[{ label: "Мой профиль", href: "/profile" }]} />
+        <div class="z-40">
+          <Breadcrumbs items={[{ label: "Мой профиль", href: "/profile" }]} />
+        </div>
 
         <div class="z-40">
           <div class="flex gap-8">
@@ -76,15 +82,18 @@ const menus = await reader.singletons.menus.read();
         </div>
       </div>
     </div>
+
     <div class="p-8">
       <div
-        class="flex h-full flex-col justify-center rounded-3xl bg-white/30 p-8 shadow-2xl shadow-black/15 backdrop-blur-sm"
+        class="flex h-full flex-col gap-4 rounded-3xl bg-white/30 p-8 shadow-2xl shadow-black/15 backdrop-blur-sm"
       >
-        <div class="bg-yellow-300/30">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
-          aspernatur dolorum autem soluta quos beatae nostrum maiores! Adipisci
-          esse, quae dolor ullam molestias tempora voluptatum eos, velit
-          temporibus qui tenetur.
+        <Image src={logo} alt="Logo" class="mx-auto h-64" />
+        <div class="bg-yellow-300/30">1</div>
+        <div class="border-b-1 flex-grow"></div>
+
+        <div class="flex items-center gap-8">
+          <button class="my-primary-button">Сохранить</button>
+          <a href="/" class="underline-offset-2 hover:underline">На главную</a>
         </div>
       </div>
     </div>
