@@ -12,11 +12,32 @@ const site = await reader.singletons.site.read();
 const menus = await reader.singletons.menus.read();
 ---
 
-<Layout>
+<Layout
+  seo={{
+    title: "Мой профиль",
+    description:
+      "Прежде чем иметь возможность оставлять комментарии, пожалуйста, представтесь",
+    openGraph: {
+      basic: {
+        type: "website",
+        title: "Мой профиль",
+        image: logo.src,
+      },
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Мой профиль",
+      image: logo.src,
+      imageAlt: "Мой профиль",
+      description:
+        "Прежде чем иметь возможность оставлять комментарии, пожалуйста, представтесь",
+    },
+  }}
+>
   <div
-    class="lg:my-profile grid h-[100vh] w-full items-stretch bg-[#eeeeee] sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
+    class="md:my-profile grid h-[100vh] w-full items-stretch bg-[#eeeeee] sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
   >
-    <div class="hidden p-8 lg:block xl:col-span-2">
+    <div class="hidden p-8 md:block xl:col-span-2">
       <div class="flex h-full flex-col justify-between gap-8">
         <div class="z-40">
           <Breadcrumbs items={[{ label: "Мой профиль", href: "/profile/" }]} />
