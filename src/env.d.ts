@@ -10,6 +10,7 @@ interface ImportMetaEnv {
   readonly SENTRY_AUTH_TOKEN: string;
   readonly SENDGRID_API_KEY: string;
   readonly SENDGRID_FROM_EMAIL: string;
+  readonly SENDGRID_FROM_NAME: string;
   readonly SENDGRID_REPLY_TO: string;
   readonly REPLYBOX_SECRET_KEY: string;
   readonly PUBLIC_KEY: string;
