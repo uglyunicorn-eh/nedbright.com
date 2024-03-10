@@ -107,7 +107,14 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
 
     cookies.set('X-Profile-Badge', profile, { secure: true, sameSite: 'strict', domain: DOMAIN });
 
-    return redirect(`${SITE_URL}/`, 307);
+    //   return new Response(null, {
+    //     status: 307,
+    //     headers: {
+    //         Location: '/dashboard',
+    //         'Set-Cookie': 'jid=HelloWorld; Path=/;',
+    //     },
+    // });
+    return redirect("/", 307);
   }
   catch (error) {
     console.error(error);
