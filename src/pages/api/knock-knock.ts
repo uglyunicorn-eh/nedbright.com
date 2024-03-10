@@ -100,12 +100,14 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
         .sign(PRIVATE_KEY)
     );
 
-    cookies.set('X-Identity-Badge', identity, { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN });
+    const maxAge = 60 * 60 * 24 * 30;
+
+    cookies.set('X-Identity-Badge', identity, { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge });
 
     if (isJsonResponse)
       return Response.json({ status: 'ok', profile });
 
-    cookies.set('X-Profile-Badge', profile, { secure: true, sameSite: 'strict', domain: DOMAIN });
+    cookies.set('X-Profile-Badge', profile, { secure: true, sameSite: 'strict', domain: DOMAIN, maxAge });
 
     return redirect("/", 307);
   }
