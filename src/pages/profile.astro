@@ -1,11 +1,9 @@
 ---
-import { Image } from "astro:assets";
-
 import { reader } from "src/reader";
 import Layout from "src/layouts/Layout.astro";
 import { Breadcrumbs } from "src/components/astro";
+import { ProfilePanel } from "src/components/react";
 
-import logo from "public/logo-hd.svg";
 import image from "public/profile-bg.webp";
 
 const site = await reader.singletons.site.read();
@@ -78,56 +76,7 @@ const site = await reader.singletons.site.read();
     </div>
 
     <div class="p-8">
-      <div
-        class="flex h-full flex-col gap-4 rounded-3xl bg-white/50 p-8 shadow-2xl shadow-black/30 backdrop-blur-lg"
-      >
-        <Image src={logo} alt="Logo" class="mx-auto mb-10 h-64" />
-
-        <div class="flex flex-col gap-4">
-          <div class="flex flex-col gap-2">
-            <label class="font-semibold">Имя</label>
-            <input class="rounded-lg bg-white/80 p-2 ring-2 ring-blob-2" />
-            <div class="text-sm text-slate-600">
-              Прежде чем иметь возможность оставлять комментарии, пожалуйста,
-              представтесь.
-            </div>
-          </div>
-
-          <h2 class="mt-6 text-lg font-medium leading-7">Оповещения</h2>
-
-          <div class="space-y-6">
-            <fieldset>
-              <div class="space-y-6">
-                <div class="relative flex gap-x-3">
-                  <div class="flex h-6 items-center">
-                    <input
-                      id="comments"
-                      name="comments"
-                      type="checkbox"
-                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    />
-                  </div>
-                  <div class="text-sm leading-6">
-                    <label for="comments" class="font-medium"
-                      >Публикации и видео</label
-                    >
-                    <p class="text-gray-500">
-                      Получайте уведомления о выходе новых публикаций.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-
-        <div class="border-b-1 flex-grow"></div>
-
-        <div class="flex items-center gap-8">
-          <button class="my-primary-button">Сохранить</button>
-          <a href="/" class="underline-offset-2 hover:underline">На главную</a>
-        </div>
-      </div>
+      <ProfilePanel client:only />
     </div>
   </div>
 </Layout>
