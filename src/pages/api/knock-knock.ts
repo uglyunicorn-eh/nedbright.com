@@ -59,11 +59,11 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
 
     const { Users } = locals.runtime.env;
 
-    let user = await Users.get<User>(sub, { type: 'json' });
+    let user //= await Users.get<User>(sub, { type: 'json' });
     if (!user) {
-      user = { iat, sub };
+      user = { iat, sub, name: undefined, 'replybox:sso': undefined };
 
-      await Users.put(sub, JSON.stringify(user));
+      // await Users.put(sub, JSON.stringify(user));
     }
 
     const identity = (
@@ -102,12 +102,24 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
 
     const maxAge = 60 * 60 * 24 * 30;
 
-    cookies.set('X-Identity-Badge', identity, { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge });
+    cookies.set(
+      'X-Identity-Badge',
+      identity,
+      import.meta.env.PROD
+        ? { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge }
+        : undefined,
+    );
 
     if (isJsonResponse)
       return Response.json({ status: 'ok', profile });
 
-    cookies.set('X-Profile-Badge', profile, { secure: true, sameSite: 'strict', domain: DOMAIN, maxAge });
+    cookies.set(
+      'X-Profile-Badge',
+      profile,
+      import.meta.env.PROD
+        ? { secure: true, sameSite: 'strict', domain: DOMAIN, maxAge }
+        : undefined,
+    );
 
     return redirect("/", 307);
   }
@@ -159,7 +171,7 @@ export async function POST({ request }: APIContext) {
           {
             to: [{ email }],
             dynamic_template_data: {
-              link: `${SITE_URL}/api/knock-knock?token=${token}`,
+              link: `${SITE_URL}/api/knock-knock/?token=${token}`,
             },
           },
         ],
