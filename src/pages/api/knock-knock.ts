@@ -157,7 +157,7 @@ export async function POST({ request }: APIContext) {
           {
             to: [{ email }],
             dynamic_template_data: {
-              magicLink: `${SITE_URL}/api/knock-knock?token=${token}`,
+              link: `${SITE_URL}/api/knock-knock?token=${token}`,
             },
           },
         ],
