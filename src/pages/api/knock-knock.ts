@@ -59,11 +59,11 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
 
     const { Users } = locals.runtime.env;
 
-    let user //= await Users.get<User>(sub, { type: 'json' });
+    let user = await Users.get<User>(sub, { type: 'json' });
     if (!user) {
       user = { iat, sub, name: undefined, 'replybox:sso': undefined };
 
-      // await Users.put(sub, JSON.stringify(user));
+      await Users.put(sub, JSON.stringify(user));
     }
 
     const identity = (
@@ -121,7 +121,7 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
         : undefined,
     );
 
-    return redirect("/", 307);
+    return redirect(user.name ? "/" : "/profile", 307);
   }
   catch (error) {
     console.error(error);
