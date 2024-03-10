@@ -1,0 +1,92 @@
+---
+import { reader } from "src/reader";
+import { BackgroundBlobs, SocialIcon } from "src/components/react";
+import Layout from "src/layouts/Layout.astro";
+import { Breadcrumbs } from "src/components/astro";
+
+const site = await reader.singletons.site.read();
+const menus = await reader.singletons.menus.read();
+---
+
+<Layout>
+  <BackgroundBlobs />
+  <div
+    class="h-[100vh] w-full items-stretch bg-blob-2 md:grid md:grid-cols-2 xl:grid-cols-3"
+  >
+    <div class="p-8 sm:hidden lg:block xl:col-span-2">
+      <div class="flex h-full flex-col justify-between gap-8">
+        <Breadcrumbs items={[{ label: "Мой профиль", href: "/profile" }]} />
+
+        <div class="z-40">
+          <div class="flex gap-8">
+            <div
+              class="w-[36ch] space-y-8 border-r-zinc-700 pr-4 lg:border-r xl:pr-12"
+            >
+              <a href="/" data-astro-prefetch>
+                <img
+                  class="h-16"
+                  width={64}
+                  height={64}
+                  src="/logo.svg"
+                  alt={site?.title}
+                />
+              </a>
+
+              {
+                site?.footerNote && (
+                  <p class="text-pretty text-xs">{site?.footerNote}</p>
+                )
+              }
+
+              <div class="flex space-x-4">
+                <SocialIcon icon="Facebook" href={site?.social.facebook} />
+                <SocialIcon icon="Instagram" href={site?.social.instagram} />
+                <SocialIcon icon="X" href={site?.social.twitter} />
+                <SocialIcon icon="YouTube" href={site?.social.youtube} />
+                <SocialIcon icon="TikTok" href={site?.social.tiktok} />
+              </div>
+            </div>
+
+            <div class="pt-16 lg:pt-0">
+              {
+                menus?.footer.map((section) => (
+                  <div>
+                    <h3 class="text-sm font-semibold leading-6">
+                      {section.section}
+                    </h3>
+                    <ul role="list" class="mt-6 space-y-4">
+                      {section.items.map((item) => (
+                        <li>
+                          <a
+                            href={item.url ?? "#"}
+                            class="text-sm leading-6 hover:underline hover:underline-offset-2"
+                            data-astro-prefetch
+                          >
+                            {item.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+          <div class="mt-16 text-sm">{site?.copy}</div>
+        </div>
+      </div>
+    </div>
+    <div class="p-8">
+      <div
+        class="flex h-full flex-col justify-center rounded-3xl bg-white/30 p-8 shadow-2xl shadow-black/15 backdrop-blur-sm"
+      >
+        <div class="bg-yellow-300/30">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
+          aspernatur dolorum autem soluta quos beatae nostrum maiores! Adipisci
+          esse, quae dolor ullam molestias tempora voluptatum eos, velit
+          temporibus qui tenetur.
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
