@@ -1,7 +1,8 @@
 import * as jose from "jose";
 import { z, ZodError } from "zod";
-
 import type { APIContext } from 'astro';
+
+import { reader } from "src/reader";
 
 export const prerender = false;
 
@@ -9,6 +10,8 @@ const SITE_URL = import.meta.env.SITE_URL.replace(/\/$/, '');
 const DOMAIN = new URL(import.meta.env.SITE_URL).host;
 const PRIVATE_KEY = await jose.importPKCS8(import.meta.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
 const PUBLIC_KEY = await jose.importSPKI(import.meta.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
+
+const site = await reader.singletons.site.read();
 
 const Query = z.object({
   token: z.string(),
@@ -162,7 +165,8 @@ export async function POST({ request }: APIContext) {
             },
           },
         ],
-        from: { email: import.meta.env.SENDGRID_FROM_EMAIL },
+        from: { email: import.meta.env.SENDGRID_FROM_EMAIL, name: site?.title },
+        reply_to: { email: import.meta.env.SENDGRID_REPLY_TO },
         template_id: import.meta.env.SIGN_IN_TEMPLATE_ID,
       }),
     });
