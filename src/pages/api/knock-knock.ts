@@ -106,7 +106,7 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
       'X-Identity-Badge',
       identity,
       import.meta.env.PROD
-        ? { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge }
+        ? { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/' }
         : undefined,
     );
 
@@ -117,7 +117,7 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
       'X-Profile-Badge',
       profile,
       import.meta.env.PROD
-        ? { secure: true, sameSite: 'strict', domain: DOMAIN, maxAge }
+        ? { secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/' }
         : undefined,
     );
 
