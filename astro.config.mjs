@@ -19,10 +19,16 @@ export default defineConfig({
     keystatic(),
     sitemap(),
     robotsTxt({
-      policy: [{
-        userAgent: "*",
-        allow: "/"
-      }]
+      policy: [
+        {
+          userAgent: "*",
+          allow: "/",
+        },
+        {
+          userAgent: "*",
+          disallow: "/profile/",
+        },
+      ],
     }),
     webmanifest({
       name: "Жить среди людей",
