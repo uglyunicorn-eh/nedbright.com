@@ -6,7 +6,7 @@ export const ProfilePanel = () => {
     <div
       className="flex h-full flex-col gap-4 rounded-3xl bg-white/50 p-8 shadow-2xl shadow-black/30 backdrop-blur-lg"
     >
-      <img src={logo} alt="Logo" className="mx-auto mb-10 h-64" />
+      <img src={logo} alt="Logo" className="mx-auto mb-10 h-52" />
 
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
