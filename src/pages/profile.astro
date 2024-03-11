@@ -55,21 +55,23 @@ const site = await reader.singletons.site.read();
             </div>
           </div>
           <div class="mt-8 text-sm">
-            {site?.copy}
-            Фото
-            <a
-              href="https://unsplash.com/@joannakosinska?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
-              class="underline underline-offset-2 hover:text-slate-700"
-            >
-              Joanna Kosinska
-            </a>
-            на
-            <a
-              href="https://unsplash.com/photos/pink-covered-book-in-top-view-photography-I3adKpDNAjM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
-              class="underline underline-offset-2 hover:text-slate-700"
-            >
-              Unsplash
-            </a>
+            <div class="inline-block rounded-md bg-[#eeeeee]/5 px-2 py-1">
+              {site?.copy}
+              Фото
+              <a
+                href="https://unsplash.com/@joannakosinska?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+                class="underline underline-offset-2 hover:text-slate-700"
+              >
+                Joanna Kosinska
+              </a>
+              на
+              <a
+                href="https://unsplash.com/photos/pink-covered-book-in-top-view-photography-I3adKpDNAjM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+                class="underline underline-offset-2 hover:text-slate-700"
+              >
+                Unsplash
+              </a>
+            </div>
           </div>
         </div>
       </div>
