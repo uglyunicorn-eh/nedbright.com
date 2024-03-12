@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useProfile } from "./useProfile";
+
 import spinner from "public/spinner.svg"
 
 interface Props {
@@ -66,8 +68,11 @@ export const ReplyBox = ({ site, lang, identifier }: Props) => {
 function useReplyBoxSSO() {
   const [sso, setSSO] = React.useState<{ hash: string; payload: string }>();
 
+  const { profileBadge } = useProfile();
+
   React.useEffect(() => {
-  }, []);
+    setSSO(profileBadge?.["replybox:sso"]);
+  }, [profileBadge?.["replybox:sso"]]);
 
   return {
     sso,
