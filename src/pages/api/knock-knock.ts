@@ -121,13 +121,13 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
         : undefined,
     );
 
-    return redirect(user.name ? "/" : "/profile", 307);
+    return redirect(user.name ? "/" : "/profile/", 307);
   }
   catch (error) {
     console.error(error);
 
     if (!isJsonResponse) {
-      return Response.redirect(`${SITE_URL}/401`, 307);
+      return Response.redirect(`${SITE_URL}/401/`, 307);
     }
 
     if (error instanceof ZodError) {
