@@ -25,6 +25,7 @@
     "astro-webmanifest": "^1.0.0",
     "dayjs": "^1.11.10",
     "jose": "^5.2.3",
+    "js-cookie": "^3.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "zod": "^3.22.4"
@@ -33,6 +34,7 @@
     "@astrojs/ts-plugin": "^1.5.3",
     "@cloudflare/workers-types": "^4.20240222.0",
     "@tailwindcss/typography": "^0.5.10",
+    "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
     "prettier": "^3.2.5",
