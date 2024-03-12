@@ -1,15 +1,18 @@
 import { ProfileForm } from "./ProfileForm";
+import { useProfile } from './useProfile';
 
 import logo from "/logo-hd.svg?url";
 
 export const ProfilePanel = () => {
+  const { profileBadge } = useProfile();
+
   return (
     <div
       className="flex h-full flex-col gap-4 rounded-3xl bg-white/50 p-8 shadow-2xl shadow-black/30 backdrop-blur-lg"
     >
       <img src={logo} alt="Logo" className="mx-auto mb-10 h-56 py-4" />
 
-      <ProfileForm />
+      {profileBadge && <ProfileForm profileBadge={profileBadge} />}
     </div>
   );
 };

@@ -1,14 +1,26 @@
-export const ProfileForm = () => {
+import { type Profile } from "./useProfile";
+
+type Props = {
+  profileBadge: Profile;
+};
+
+export const ProfileForm = ({ profileBadge }: Props) => {
   return (
     <>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <label className="font-semibold">Имя</label>
           <input className="rounded-lg bg-white/80 p-2 ring-2 ring-blob-2" />
-          <div className="text-sm text-slate-600">
-            Прежде чем иметь возможность оставлять комментарии, пожалуйста,
-            представтесь.
-          </div>
+
+          {!profileBadge.name
+            ? (
+              <div className="text-sm text-slate-600">
+                Прежде чем иметь возможность оставлять комментарии, пожалуйста,
+                представтесь.
+              </div>
+            )
+            : null
+          }
         </div>
 
         <h2 className="mt-6 text-lg font-medium leading-7">Оповещения</h2>
