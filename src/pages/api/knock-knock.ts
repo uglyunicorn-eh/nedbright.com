@@ -5,7 +5,7 @@ import type { APIContext } from 'astro';
 export const prerender = false;
 
 const SITE_URL = import.meta.env.SITE_URL.replace(/\/$/, '');
-const DOMAIN = new URL(import.meta.env.SITE_URL).host;
+const DOMAIN = import.meta.env.PUBLIC_DOMAIN || new URL(import.meta.env.SITE_URL).host;
 const PRIVATE_KEY = await jose.importPKCS8(import.meta.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
 const PUBLIC_KEY = await jose.importSPKI(import.meta.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
 
