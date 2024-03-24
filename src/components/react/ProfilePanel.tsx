@@ -1,5 +1,4 @@
-import { ProfileForm } from "./ProfileForm";
-import { useProfile } from './useProfile';
+import { ProfileForm, SignInForm, useProfile } from ".";
 
 import logo from "/logo-hd.svg?url";
 
@@ -12,7 +11,10 @@ export const ProfilePanel = () => {
     >
       <img src={logo} alt="Logo" className="mx-auto mb-10 h-56 py-4" />
 
-      {profileBadge && <ProfileForm profileBadge={profileBadge} />}
+      {profileBadge
+        ? <ProfileForm profileBadge={profileBadge} />
+        : <SignInForm />
+      }
     </div>
   );
 };
