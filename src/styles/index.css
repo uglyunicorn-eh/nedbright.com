@@ -4,7 +4,7 @@
 
 @layer utilities {
   .__my-primary-button-base {
-    @apply border border-white/50 bg-indigo-600 text-white shadow-lg shadow-indigo-500/25 transition-all duration-150 hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
+    @apply border border-white/50 bg-indigo-600 text-white shadow-lg shadow-indigo-500/25 transition-all duration-150 hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-80;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
   }
 
