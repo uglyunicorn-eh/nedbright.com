@@ -21,7 +21,7 @@ export const collections = {
 
   'writings': defineCollection({
     type: 'content',
-    schema: ({ image }) =>
+    schema: () =>
       z.object({
         title: z.string().optional(),
         headline: z.string().optional(),
