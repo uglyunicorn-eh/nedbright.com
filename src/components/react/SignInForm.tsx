@@ -3,6 +3,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from "react";
 
+import { Button } from "src/components/react";
+
+
 const Schema = z.object({
   email: z.string().email("Введен некорректый емейл"),
 });
@@ -58,7 +61,7 @@ export const SignInForm = () => {
         <div className="border-b-1 flex-grow"></div>
 
         <div className="flex items-center gap-8">
-          <button className="my-primary-button" disabled={isSubmitting}>Продолжить</button>
+          <Button className="my-primary-button" loading={isSubmitting}>Продолжить</Button>
           <a href="/" className="underline-offset-2 hover:underline">На главную</a>
         </div>
       </form >
