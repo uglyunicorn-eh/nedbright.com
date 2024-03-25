@@ -2,7 +2,8 @@ import React from "react";
 
 import { useProfile } from "./useProfile";
 
-import spinner from "public/spinner.svg"
+import spinner from "/public/spinner.svg"
+
 
 interface Props {
   identifier?: string;
