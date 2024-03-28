@@ -10,3 +10,7 @@ footer:
         url: /writings/
       - label: Мои книги
         url: /books/
+  - section: Для гостей
+    items:
+      - label: Мой профиль
+        url: /profile/
