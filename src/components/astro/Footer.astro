@@ -41,28 +41,26 @@ const menus = await reader.singletons.menus.read();
         </div>
       </div>
 
-      <div class="pt-16 lg:pt-0">
-        {
-          menus?.footer.map((section) => (
-            <div>
-              <h3 class="text-sm font-semibold leading-6">{section.section}</h3>
-              <ul role="list" class="mt-6 space-y-4">
-                {section.items.map((item) => (
-                  <li>
-                    <a
-                      href={item.url ?? "#"}
-                      class="text-sm leading-6 hover:underline hover:underline-offset-2"
-                      data-astro-prefetch
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-        }
-      </div>
+      {
+        menus?.footer.map((section) => (
+          <div class="pt-16 lg:pt-0">
+            <h3 class="text-sm font-semibold leading-6">{section.section}</h3>
+            <ul role="list" class="mt-6 space-y-4">
+              {section.items.map((item) => (
+                <li>
+                  <a
+                    href={item.url ?? "#"}
+                    class="text-sm leading-6 hover:underline hover:underline-offset-2"
+                    data-astro-prefetch
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
     </div>
   </div>
 
