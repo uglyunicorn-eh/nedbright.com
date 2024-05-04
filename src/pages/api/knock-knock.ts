@@ -60,6 +60,7 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
     const { Users } = locals.runtime.env;
 
     let user = await Users.get<User>(sub, { type: 'json' });
+
     if (!user) {
       user = { iat, sub, name: undefined, 'replybox:sso': undefined };
 
@@ -101,13 +102,14 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
     );
 
     const maxAge = 60 * 60 * 24 * 30;
+    const expires = new Date(Date.now() + maxAge * 1000);
 
     cookies.set(
       'X-Identity-Badge',
       identity,
       import.meta.env.PROD
-        ? { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/' }
-        : undefined,
+        ? { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
+        : { httpOnly: true, maxAge, path: '/', expires },
     );
 
     if (isJsonResponse)
@@ -117,8 +119,8 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
       'X-Profile-Badge',
       profile,
       import.meta.env.PROD
-        ? { secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/' }
-        : undefined,
+        ? { httpOnly: false, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
+        : { httpOnly: false, maxAge, path: '/', expires },
     );
 
     return redirect(user.name ? "/" : "/profile/", 307);
