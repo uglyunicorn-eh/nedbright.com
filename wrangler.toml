@@ -1,0 +1,5 @@
+name = "nedbright-com-ng"
+upload_source_maps = true
+compatibility_flags = ["nodejs_compat"]
+
+kv_namespaces = [{ binding = "Users", id = "99e41afdc82d4bf98c54082e3288625f" }]
