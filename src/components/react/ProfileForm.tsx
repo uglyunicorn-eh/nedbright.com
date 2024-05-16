@@ -1,8 +1,18 @@
+import { z } from "zod";
+// import { useForm } from "react-hook-form";
+// import { zodResolver } from '@hookform/resolvers/zod';
+
 import { type Profile } from "./useProfile";
 
 type Props = {
   profileBadge: Profile;
 };
+
+const Schema = z.object({
+  name: z.string(),
+});
+
+// type Input = z.infer<typeof Schema>;
 
 export const ProfileForm = ({ profileBadge }: Props) => {
   return (
