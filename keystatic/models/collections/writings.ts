@@ -10,6 +10,7 @@ export default collection({
   columns: ['title', 'date'],
   schema: {
     title: fields.slug({ name: { label: 'Title' } }),
+    cover: fields.url({ label: 'Cover Image URL (Unsplash)' }),
     date: fields.date({
       label: 'Publication Date',
       defaultValue: { kind: 'today' },
