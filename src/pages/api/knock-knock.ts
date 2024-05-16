@@ -59,7 +59,7 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
 
     const { Users } = locals.runtime.env;
 
-    let user = await Users.get<User>(sub, { type: 'json' });
+    let user: User | null = await Users.get(sub, { type: 'json' });
 
     if (!user) {
       user = { iat, sub, name: undefined, 'replybox:sso': undefined };
