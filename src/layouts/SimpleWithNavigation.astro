@@ -4,20 +4,25 @@ import { type Props as SEOProps } from "astro-seo";
 import Layout from "src/layouts/Layout.astro";
 
 import { Footer } from "src/components/astro";
-import { BackgroundBlobs } from "src/components/react";
-
-import { Navbar } from "src/components";
+import { BackgroundBlobs, Navbar } from "src/components/react";
 
 type Props = {
   seo?: SEOProps;
+  displayNav?: boolean;
 };
 
-const { seo } = Astro.props;
+const { seo, displayNav = true } = Astro.props;
 ---
 
 <Layout seo={seo}>
   <div class="relative w-full">
-    <!-- <Navbar /> -->
+    {
+      displayNav && (
+        <div class="sticky top-0 z-20">
+          <Navbar />
+        </div>
+      )
+    }
     <main class="relative z-10 bg-gray-100 shadow-2xl shadow-slate-700/15">
       <BackgroundBlobs />
       <slot />
