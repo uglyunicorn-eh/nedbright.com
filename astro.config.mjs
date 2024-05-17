@@ -65,11 +65,16 @@ export default defineConfig({
   ],
   output: 'hybrid',
   adapter: cloudflare({
-    imageService: 'cloudflare',
+    // imageService: 'cloudflare',
     platformProxy: {
       enabled: true,
     },
   }),
+  vite: {
+    ssr: {
+      external: ['node:path', 'node:fs/promises'],
+    },
+  },
   site: "https://ng.nedbright.com",
   prefetch: true,
   devToolbar: {
