@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "update": "npm update -S && npx @astrojs/upgrade",
     "dev": "wrangler types && astro dev --host 127.0.0.1",
     "start": "wrangler types && astro dev --host 127.0.0.1",
     "build": "wrangler types && astro check && astro build",
