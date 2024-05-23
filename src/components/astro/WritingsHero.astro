@@ -1,13 +1,12 @@
 ---
-import type { CollectionEntry } from "astro:content";
-
 import {
   FeaturedWritingPreview,
   TextWritingPreview,
 } from "src/components/astro";
+import type { Collections } from "src/content";
 
 interface Props {
-  writings: CollectionEntry<"writings">[];
+  writings: {slug: string, entry: Collections["writings"]}[];
   displayAllLink?: boolean;
 }
 

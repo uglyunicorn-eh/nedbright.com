@@ -1,13 +1,13 @@
 ---
 import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
 
 import { WritingMetaDetails } from "src/components/astro";
+import type { Collections } from "src/content";
 
 import img from "public/writing-hero.webp";
 
 type Props = {
-  writing: CollectionEntry<"writings">;
+  writing: {slug: string, entry: Collections["writings"]};
 };
 
 const { writing } = Astro.props;
@@ -20,7 +20,7 @@ const { writing } = Astro.props;
     <a href={`/writings/${writing.slug}/`}>
       <Image
         src={img}
-        alt={writing.data.title!}
+        alt={writing.entry.title!}
         class="absolute inset-0 -z-10 h-full w-full bg-blob-3 object-cover"
       />
     </a>
@@ -29,14 +29,14 @@ const { writing } = Astro.props;
   <div>
     <h2 class="my-h1 mb-6">
       <a href={`/writings/${writing.slug}/`}>
-        {writing.data.title}
+        {writing.entry.title}
       </a>
     </h2>
 
     <WritingMetaDetails writing={writing} />
 
     <div class="mb-8 text-pretty md:text-lg">
-      {writing.data.headline}
+      {writing.entry.headline}
     </div>
 
     <div>

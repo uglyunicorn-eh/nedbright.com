@@ -1,25 +1,27 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import { getEntry } from 'astro:content';
 
 import { reader } from "src/reader";
 import { readingTime } from "src/utils";
 import { Date } from "src/components/astro";
+import type { Collections } from "src/content";
 
 type Props = {
-  writing: CollectionEntry<"writings">;
+  writing: {slug: string, entry: Collections["writings"]};
 };
 
 const { writing } = Astro.props;
 
 const site = await reader.singletons.site.read();
 
-const _readingTime = readingTime(writing.body);
+const post = await getEntry('writings', writing.slug);
+const _readingTime = readingTime(post?.body || "");
 ---
 
 <div
   class="mb-6 flex items-center gap-1 text-sm text-gray-800 md:gap-2 lg:gap-3"
 >
-  {writing.data.date && <Date value={writing.data.date} />}
+  {writing.entry.date && <Date value={writing.entry.date} />}
   <span>/</span>
   <span class="text-nowrap">{site?.author}</span>
   <span>/</span>
