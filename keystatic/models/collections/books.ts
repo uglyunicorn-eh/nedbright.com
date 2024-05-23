@@ -21,12 +21,8 @@ export default collection({
       multiline: true,
     }),
     link: fields.url({ label: 'Link' }),
-    content: fields.document({
+    content: fields.markdoc({
       label: 'Content',
-      formatting: true,
-      dividers: true,
-      links: true,
-      images: true,
     }),
     testimonies: fields.array(
       fields.object({
