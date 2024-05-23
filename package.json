@@ -11,15 +11,14 @@
     "preview": "wrangler types && wrangler pages dev ./dist"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.4.0",
-    "@keystatic/astro": "^3.0.2",
-    "@keystatic/core": "^0.3.19",
+    "@hookform/resolvers": "^3.4.2",
+    "@keystatic/core": "^0.5.17",
     "dayjs": "^1.11.11",
     "jose": "^5.3.0",
     "js-cookie": "^3.0.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-hook-form": "^7.51.4",
+    "react-hook-form": "^7.51.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -27,16 +26,17 @@
     "@astrojs/cloudflare": "^10.2.6",
     "@astrojs/markdoc": "^0.11.0",
     "@astrojs/react": "^3.3.4",
-    "@astrojs/sitemap": "^3.1.4",
+    "@astrojs/sitemap": "^3.1.5",
     "@astrojs/tailwind": "^5.1.0",
     "@astrojs/ts-plugin": "^1.8.0",
     "@cloudflare/workers-types": "^4.20240512.0",
+    "@keystatic/astro": "^5.0.0",
     "@sentry/astro": "^7.116.0",
     "@tailwindcss/typography": "^0.5.13",
     "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",
-    "astro": "^4.8.6",
+    "astro": "^4.8.7",
     "astro-robots-txt": "^1.0.0",
     "astro-seo": "^0.8.3",
     "astro-webmanifest": "^1.0.0",
@@ -45,6 +45,6 @@
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5",
-    "wrangler": "^3.57.0"
+    "wrangler": "^3.57.1"
   }
 }
