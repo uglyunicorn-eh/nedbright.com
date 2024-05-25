@@ -27,7 +27,7 @@ const { entry: writing } = Astro.props;
 const post = await getEntry('writings', writing.slug);
 const { Content } = await post!.render();
 
-const allWritings = (await getCollection("writings",)).filter(({ slug }) => slug !== writing.slug);
+const allWritings = (await getCollection("writings")).filter(({ slug }) => slug !== writing.slug);
 
 const index = allWritings.findIndex(({ slug }) => slug === writing.slug);
 const readAlso = [

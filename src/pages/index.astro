@@ -2,8 +2,8 @@
 import { getCollection } from "src/content";
 
 import {
-  // FeaturedBookHero,
-  // Bookshelf,
+  FeaturedBookHero,
+  Bookshelf,
   WritingsHero,
 } from "src/components/astro";
 import Layout from "src/layouts/SimpleWithNavigation.astro";
@@ -30,14 +30,7 @@ const latestWritings = writings.slice(0, 3);
 ---
 
 <Layout>
-  <!-- <Hero
-    data={{
-      heroHeadline: "landingPage.heroHeadline",
-      heroIntroText: "landingPage.heroIntroText",
-    }}
-  /> -->
   {latestWritings.length ? <WritingsHero writings={latestWritings} /> : null}
-<!--
   {featuredBook && <FeaturedBookHero book={featuredBook} />}
-  {books && <Bookshelf books={books} />} -->
+  {books && <Bookshelf books={books} />}
 </Layout>

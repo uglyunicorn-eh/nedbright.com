@@ -1,19 +1,19 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { Image } from "astro:assets";
+// import { Image } from "astro:assets";
 
+import type { Collections } from "src/content";
 import { sample } from "src/utils";
 
 import { Testimonial } from "src/components/astro";
 import { GridPattern } from "src/components/react";
 
 type Props = {
-  book: CollectionEntry<"books">;
+  book: {slug: string, entry: Collections["books"]};
 };
 
 const { book } = Astro.props;
 const testimonial = sample(
-  book.data.testimonies?.filter((t) => t.isFeatured) || [],
+  book.entry.testimonies?.filter((t) => t.isFeatured) || [],
 );
 ---
 
@@ -32,13 +32,13 @@ const testimonial = sample(
         class="relative z-10 mx-auto flex aspect-[3/4] w-64 rounded-xl bg-blob-3 shadow-2xl shadow-black/15 md:w-80 lg:w-96"
       >
         <a href={`/books/${book.slug}/`}>
-          <Image
+          <!-- <Image
             class="aspect-[3/4] w-64 w-full rounded-xl object-cover"
-            src={book.data.image}
-            alt={book.data.title!}
+            src={book.entry.image}
+            alt={book.entry.title!}
             width={600}
             data-astro-prefetch
-          />
+          /> -->
         </a>
       </div>
     </div>
@@ -60,11 +60,11 @@ const testimonial = sample(
       >
         <h1 class="my-h1">
           <a href={`/books/${book.slug}/`} data-astro-prefetch>
-            {book.data.title}
+            {book.entry.title}
           </a>
         </h1>
 
-        {book.data.headline && <p class="mb-6 text-lg">{book.data.headline}</p>}
+        {book.entry.headline && <p class="mb-6 text-lg">{book.entry.headline}</p>}
 
         <div class="my-12 flex gap-4">
           <a

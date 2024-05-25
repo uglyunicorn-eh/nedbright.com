@@ -1,18 +1,18 @@
 ---
-import { getCollection } from "astro:content";
 import type { GetStaticPathsOptions } from "astro";
 
 import Layout from "src/layouts/SimpleWithNavigation.astro";
 import { Paginator, TextWritingPreviewSD } from "src/components/astro";
+import { getCollection } from "src/content";
 
 import { reader } from "src/reader";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   const writings = await getCollection("writings");
   writings.sort((a, b) =>
-    b.data.date === a.data.date
+    b.entry.date === a.entry.date
       ? 0
-      : (b.data.date || "") < (a.data.date || "")
+      : (b.entry.date || "") < (a.entry.date || "")
         ? -1
         : 1,
   );

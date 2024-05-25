@@ -1,15 +1,14 @@
 ---
-import type { CollectionEntry } from "astro:content";
-
 import {
   PageCut,
   Paginator,
   TextWritingPreviewSD,
   WritingsHero,
 } from "src/components/astro";
+import type { Collections } from "src/content";
 
 interface Props {
-  writings: CollectionEntry<"writings">[];
+  writings: {slug: string, entry: Collections["writings"]}[];
 }
 
 const { writings } = Astro.props;
