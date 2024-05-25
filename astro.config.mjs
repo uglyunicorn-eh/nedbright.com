@@ -78,7 +78,7 @@ export default defineConfig({
   site: "https://ng.nedbright.com",
   prefetch: true,
   devToolbar: {
-    enabled: false
+    // enabled: false
   },
   image: squooshImageService(),
 });
