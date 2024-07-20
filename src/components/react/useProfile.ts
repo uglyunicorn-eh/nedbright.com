@@ -3,6 +3,8 @@ import Cookies from 'js-cookie';
 import React from "react";
 
 // const PUBLIC_KEY = await jose.importSPKI(import.meta.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
+console.log("!!!!!!!!!!!!!!!!!!!!!");
+console.log(import.meta.env);
 
 export type Profile = {
   iat: number;
