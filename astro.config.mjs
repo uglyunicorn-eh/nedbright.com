@@ -65,7 +65,7 @@ export default defineConfig({
   ],
   output: 'hybrid',
   adapter: cloudflare({
-    // imageService: 'cloudflare',
+    imageService: 'cloudflare',
     platformProxy: {
       enabled: true,
     },
@@ -73,6 +73,9 @@ export default defineConfig({
   vite: {
     ssr: {
       external: ['node:path', 'node:fs/promises'],
+    },
+    define: {
+      "process.env": process.env
     },
   },
   site: "https://ng.nedbright.com",
