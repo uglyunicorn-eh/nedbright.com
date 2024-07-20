@@ -6,8 +6,8 @@ export const prerender = false;
 
 const SITE_URL = import.meta.env.SITE_URL.replace(/\/$/, '');
 const DOMAIN = import.meta.env.PUBLIC_DOMAIN || new URL(import.meta.env.SITE_URL).host;
-// const PRIVATE_KEY = await jose.importPKCS8(import.meta.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
-// const PUBLIC_KEY = await jose.importSPKI(import.meta.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
+const PRIVATE_KEY = '' as any; // await jose.importPKCS8(import.meta.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
+const PUBLIC_KEY = '' as any; // await jose.importSPKI(import.meta.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
 
 const Query = z.object({
   token: z.string(),
@@ -81,7 +81,7 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
           typ: "JWT",
           cty: "X-Identity-Badge",
         })
-      // .sign(PRIVATE_KEY)
+        .sign(PRIVATE_KEY)
     );
 
     const profile = (
@@ -98,7 +98,7 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
           typ: "JWT",
           cty: "X-Profile-Badge",
         })
-      // .sign(PRIVATE_KEY)
+        .sign(PRIVATE_KEY)
     );
 
     const maxAge = 60 * 60 * 24 * 30;
@@ -159,7 +159,7 @@ export async function POST({ request }: APIContext) {
           typ: "JWT",
           cty: "X-Knock-Knock",
         })
-      // .sign(PRIVATE_KEY)
+        .sign(PRIVATE_KEY)
     );
 
     await fetch("https://api.sendgrid.com/v3/mail/send", {
