@@ -2,7 +2,7 @@ import * as jose from "jose";
 import Cookies from 'js-cookie';
 import React from "react";
 
-const PUBLIC_KEY = await jose.importSPKI(import.meta.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
+// const PUBLIC_KEY = await jose.importSPKI(import.meta.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
 
 export type Profile = {
   iat: number;
@@ -18,8 +18,8 @@ const readProfileBadge = async () => {
   if (!profileBadgeCookie) {
     return undefined;
   }
-  const knockKnockToken = await jose.jwtVerify(profileBadgeCookie, PUBLIC_KEY);
-  return knockKnockToken.payload as Profile;
+  // const knockKnockToken = await jose.jwtVerify(profileBadgeCookie, PUBLIC_KEY);
+  // return knockKnockToken.payload as Profile;
 }
 
 export const useProfile = () => {
