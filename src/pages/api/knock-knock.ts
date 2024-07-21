@@ -32,114 +32,115 @@ type User = {
   },
 };
 
-export async function GET({ request, locals, cookies, redirect }: APIContext) {
+export async function GET({ /*request,*/ locals, /*cookies, redirect*/ }: APIContext) {
   return Response.json({ status: '0xdeadbeef', env: locals.runtime.env }, { status: 400 });
+  /*
+    const contentType = request.headers.get('Content-Type');
+    const isJsonResponse = contentType === 'application/json';
+    try {
 
-  const contentType = request.headers.get('Content-Type');
-  const isJsonResponse = contentType === 'application/json';
-  try {
+      const { token } = Query.parse({ token: new URL(request.url).searchParams.get('token') });
 
-    const { token } = Query.parse({ token: new URL(request.url).searchParams.get('token') });
-
-    const knockKnockToken = await jose.jwtVerify(
-      token,
-      PUBLIC_KEY,
-      {
-        audience: DOMAIN,
-        issuer: DOMAIN,
-        typ: "JWT",
-      },
-    );
-
-    const knockKnockRequest = KnockKnock.parse({
-      cty: knockKnockToken.protectedHeader.cty,
-      sub: knockKnockToken.payload.sub,
-    });
-
-    const iat = Math.floor(Date.now() / 1000);
-    const sub = knockKnockRequest.sub;
-
-    const { Users } = locals.runtime.env;
-
-    let user: User | null = await Users.get(sub, { type: 'json' });
-
-    if (!user) {
-      user = { iat, sub, name: undefined, 'replybox:sso': undefined };
-
-      await Users.put(sub, JSON.stringify(user));
-    }
-
-    const identity = (
-      await new jose
-        .SignJWT({
-          iss: DOMAIN,
-          aud: DOMAIN,
-          iat,
-          exp: iat + 60 * 60 * 24 * 30,
-          sub: user.sub,
-        })
-        .setProtectedHeader({
-          alg: "RS256",
+      const knockKnockToken = await jose.jwtVerify(
+        token,
+        PUBLIC_KEY,
+        {
+          audience: DOMAIN,
+          issuer: DOMAIN,
           typ: "JWT",
-          cty: "X-Identity-Badge",
-        })
-        .sign(PRIVATE_KEY)
-    );
+        },
+      );
 
-    const profile = (
-      await new jose
-        .SignJWT({
-          iss: DOMAIN,
-          aud: DOMAIN,
-          iat,
-          name: user.name ?? null,
-          "replybox:sso": user['replybox:sso'] ?? null,
-        })
-        .setProtectedHeader({
-          alg: "RS256",
-          typ: "JWT",
-          cty: "X-Profile-Badge",
-        })
-        .sign(PRIVATE_KEY)
-    );
+      const knockKnockRequest = KnockKnock.parse({
+        cty: knockKnockToken.protectedHeader.cty,
+        sub: knockKnockToken.payload.sub,
+      });
 
-    const maxAge = 60 * 60 * 24 * 30;
-    const expires = new Date(Date.now() + maxAge * 1000);
+      const iat = Math.floor(Date.now() / 1000);
+      const sub = knockKnockRequest.sub;
 
-    cookies.set(
-      'X-Identity-Badge',
-      identity,
-      import.meta.env.PROD
-        ? { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
-        : { httpOnly: true, maxAge, path: '/', expires },
-    );
+      const { Users } = locals.runtime.env;
 
-    if (isJsonResponse)
-      return Response.json({ status: 'ok', profile });
+      let user: User | null = await Users.get(sub, { type: 'json' });
 
-    cookies.set(
-      'X-Profile-Badge',
-      profile,
-      import.meta.env.PROD
-        ? { httpOnly: false, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
-        : { httpOnly: false, maxAge, path: '/', expires },
-    );
+      if (!user) {
+        user = { iat, sub, name: undefined, 'replybox:sso': undefined };
 
-    return redirect(user.name ? "/" : "/profile/", 307);
-  }
-  catch (error) {
-    console.error(error);
+        await Users.put(sub, JSON.stringify(user));
+      }
 
-    if (!isJsonResponse) {
-      return Response.redirect(`${SITE_URL}/401/`, 307);
+      const identity = (
+        await new jose
+          .SignJWT({
+            iss: DOMAIN,
+            aud: DOMAIN,
+            iat,
+            exp: iat + 60 * 60 * 24 * 30,
+            sub: user.sub,
+          })
+          .setProtectedHeader({
+            alg: "RS256",
+            typ: "JWT",
+            cty: "X-Identity-Badge",
+          })
+          .sign(PRIVATE_KEY)
+      );
+
+      const profile = (
+        await new jose
+          .SignJWT({
+            iss: DOMAIN,
+            aud: DOMAIN,
+            iat,
+            name: user.name ?? null,
+            "replybox:sso": user['replybox:sso'] ?? null,
+          })
+          .setProtectedHeader({
+            alg: "RS256",
+            typ: "JWT",
+            cty: "X-Profile-Badge",
+          })
+          .sign(PRIVATE_KEY)
+      );
+
+      const maxAge = 60 * 60 * 24 * 30;
+      const expires = new Date(Date.now() + maxAge * 1000);
+
+      cookies.set(
+        'X-Identity-Badge',
+        identity,
+        import.meta.env.PROD
+          ? { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
+          : { httpOnly: true, maxAge, path: '/', expires },
+      );
+
+      if (isJsonResponse)
+        return Response.json({ status: 'ok', profile });
+
+      cookies.set(
+        'X-Profile-Badge',
+        profile,
+        import.meta.env.PROD
+          ? { httpOnly: false, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
+          : { httpOnly: false, maxAge, path: '/', expires },
+      );
+
+      return redirect(user.name ? "/" : "/profile/", 307);
     }
+    catch (error) {
+      console.error(error);
 
-    if (error instanceof ZodError) {
-      return Response.json({ status: 'error', errors: error.errors }, { status: 400 });
+      if (!isJsonResponse) {
+        return Response.redirect(`${SITE_URL}/401/`, 307);
+      }
+
+      if (error instanceof ZodError) {
+        return Response.json({ status: 'error', errors: error.errors }, { status: 400 });
+      }
+
+      return Response.json({ status: '0xdeadbeef' }, { status: 400 });
     }
-
-    return Response.json({ status: '0xdeadbeef' }, { status: 400 });
-  }
+*/
 }
 
 export async function POST({ request }: APIContext) {
