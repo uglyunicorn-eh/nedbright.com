@@ -33,6 +33,8 @@ type User = {
 };
 
 export async function GET({ request, locals, cookies, redirect }: APIContext) {
+  return Response.json({ status: '0xdeadbeef', env: locals.runtime.env }, { status: 400 });
+
   const contentType = request.headers.get('Content-Type');
   const isJsonResponse = contentType === 'application/json';
   try {
