@@ -27,11 +27,11 @@ type User = {
   },
 };
 
-export async function GET({ request, locals, cookies, redirect }: APIContext) {
+export async function GET({ request, locals, cookies, redirect, url }: APIContext) {
   const {
-    SITE_URL,
     DOMAIN,
   } = locals.runtime.env;
+  const SITE_URL = `${url.protocol}//${url.host}`;
 
   const contentType = request.headers.get('Content-Type');
   const isJsonResponse = contentType === 'application/json';
@@ -142,9 +142,8 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
   }
 }
 
-export async function POST({ request, locals }: APIContext) {
+export async function POST({ request, locals, url }: APIContext) {
   const {
-    SITE_URL,
     DOMAIN,
     SENDGRID_API_KEY,
     SENDGRID_FROM_EMAIL,
@@ -152,6 +151,7 @@ export async function POST({ request, locals }: APIContext) {
     SENDGRID_REPLY_TO,
     SIGN_IN_TEMPLATE_ID,
   } = locals.runtime.env;
+  const SITE_URL = `${url.protocol}//${url.host}`;
 
   try {
     const PRIVATE_KEY = await jose.importPKCS8(locals.runtime.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
