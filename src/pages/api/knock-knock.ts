@@ -59,8 +59,6 @@ export async function GET({ request, locals, cookies, redirect, url }: APIContex
     const iat = Math.floor(Date.now() / 1000);
     const sub = knockKnockRequest.sub;
 
-    console.log(locals.runtime.env);
-
     const { Users } = locals.runtime.env;
 
     let user: User | null = await Users.get(sub, { type: 'json' });
