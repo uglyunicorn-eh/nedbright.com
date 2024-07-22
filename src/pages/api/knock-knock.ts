@@ -157,6 +157,7 @@ export async function POST({ request, locals, url }: APIContext) {
 
   try {
     const PRIVATE_KEY = await jose.importPKCS8(locals.runtime.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
+
     const { email } = Input.parse(await request.json());
     const iat = Math.floor(Date.now() / 1000);
 
