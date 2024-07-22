@@ -59,73 +59,76 @@ export async function GET({ request, locals, cookies, redirect, url }: APIContex
     const iat = Math.floor(Date.now() / 1000);
     const sub = knockKnockRequest.sub;
 
-    const { Users } = locals.runtime.env;
+    return Response.json(locals.runtime.env);
+    /*
+        const { Users } = locals.runtime.env;
 
-    let user: User | null = await Users.get(sub, { type: 'json' });
+        let user: User | null = await Users.get(sub, { type: 'json' });
 
-    if (!user) {
-      user = { iat, sub, name: undefined, 'replybox:sso': undefined };
+        if (!user) {
+          user = { iat, sub, name: undefined, 'replybox:sso': undefined };
 
-      await Users.put(sub, JSON.stringify(user));
-    }
+          await Users.put(sub, JSON.stringify(user));
+        }
 
-    const identity = (
-      await new jose
-        .SignJWT({
-          iss: DOMAIN,
-          aud: DOMAIN,
-          iat,
-          exp: iat + 60 * 60 * 24 * 30,
-          sub: user.sub,
-        })
-        .setProtectedHeader({
-          alg: "RS256",
-          typ: "JWT",
-          cty: "X-Identity-Badge",
-        })
-        .sign(PRIVATE_KEY)
-    );
+        const identity = (
+          await new jose
+            .SignJWT({
+              iss: DOMAIN,
+              aud: DOMAIN,
+              iat,
+              exp: iat + 60 * 60 * 24 * 30,
+              sub: user.sub,
+            })
+            .setProtectedHeader({
+              alg: "RS256",
+              typ: "JWT",
+              cty: "X-Identity-Badge",
+            })
+            .sign(PRIVATE_KEY)
+        );
 
-    const profile = (
-      await new jose
-        .SignJWT({
-          iss: DOMAIN,
-          aud: DOMAIN,
-          iat,
-          name: user.name ?? null,
-          "replybox:sso": user['replybox:sso'] ?? null,
-        })
-        .setProtectedHeader({
-          alg: "RS256",
-          typ: "JWT",
-          cty: "X-Profile-Badge",
-        })
-        .sign(PRIVATE_KEY)
-    );
+        const profile = (
+          await new jose
+            .SignJWT({
+              iss: DOMAIN,
+              aud: DOMAIN,
+              iat,
+              name: user.name ?? null,
+              "replybox:sso": user['replybox:sso'] ?? null,
+            })
+            .setProtectedHeader({
+              alg: "RS256",
+              typ: "JWT",
+              cty: "X-Profile-Badge",
+            })
+            .sign(PRIVATE_KEY)
+        );
 
-    const maxAge = 60 * 60 * 24 * 30;
-    const expires = new Date(Date.now() + maxAge * 1000);
+        const maxAge = 60 * 60 * 24 * 30;
+        const expires = new Date(Date.now() + maxAge * 1000);
 
-    cookies.set(
-      'X-Identity-Badge',
-      identity,
-      import.meta.env.PROD
-        ? { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
-        : { httpOnly: true, maxAge, path: '/', expires },
-    );
+        cookies.set(
+          'X-Identity-Badge',
+          identity,
+          import.meta.env.PROD
+            ? { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
+            : { httpOnly: true, maxAge, path: '/', expires },
+        );
 
-    if (isJsonResponse)
-      return Response.json({ status: 'ok', profile });
+        if (isJsonResponse)
+          return Response.json({ status: 'ok', profile });
 
-    cookies.set(
-      'X-Profile-Badge',
-      profile,
-      import.meta.env.PROD
-        ? { httpOnly: false, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
-        : { httpOnly: false, maxAge, path: '/', expires },
-    );
+        cookies.set(
+          'X-Profile-Badge',
+          profile,
+          import.meta.env.PROD
+            ? { httpOnly: false, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
+            : { httpOnly: false, maxAge, path: '/', expires },
+        );
 
-    return redirect(user.name ? "/" : "/profile/", 307);
+        return redirect(user.name ? "/" : "/profile/", 307);
+        */
   }
   catch (error) {
     console.error(error);
