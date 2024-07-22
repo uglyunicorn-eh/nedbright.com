@@ -74,6 +74,9 @@ export default defineConfig({
     ssr: {
       external: ['node:path', 'node:fs/promises'],
     },
+    define: {
+      "process.env": process.env,
+    },
   },
   site: "https://ng.nedbright.com",
   prefetch: true,
