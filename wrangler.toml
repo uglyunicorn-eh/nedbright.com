@@ -5,5 +5,5 @@ compatibility_flags = ["nodejs_compat"]
 
 kv_namespaces = [{ binding = "Users", id = "99e41afdc82d4bf98c54082e3288625f" }]
 
-[vars]
+[vars.production]
 PUBLIC_GITHUB_REPO = "uglyunicorn-eh/nedbright.com"
