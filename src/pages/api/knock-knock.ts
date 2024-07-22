@@ -28,8 +28,6 @@ type User = {
 };
 
 export async function GET({ request, locals, cookies, redirect }: APIContext) {
-  const PRIVATE_KEY = await jose.importPKCS8(locals.runtime.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
-  const PUBLIC_KEY = await jose.importSPKI(locals.runtime.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
   const {
     SITE_URL,
     DOMAIN,
@@ -37,8 +35,10 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
 
   const contentType = request.headers.get('Content-Type');
   const isJsonResponse = contentType === 'application/json';
-  try {
 
+  try {
+    const PRIVATE_KEY = await jose.importPKCS8(locals.runtime.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
+    const PUBLIC_KEY = await jose.importSPKI(locals.runtime.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
     const { token } = Query.parse({ token: new URL(request.url).searchParams.get('token') });
 
     const knockKnockToken = await jose.jwtVerify(
@@ -143,13 +143,18 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
 }
 
 export async function POST({ request, locals }: APIContext) {
-  const PRIVATE_KEY = await jose.importPKCS8(locals.runtime.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
   const {
     SITE_URL,
     DOMAIN,
+    SENDGRID_API_KEY,
+    SENDGRID_FROM_EMAIL,
+    SENDGRID_FROM_NAME,
+    SENDGRID_REPLY_TO,
+    SIGN_IN_TEMPLATE_ID,
   } = locals.runtime.env;
 
   try {
+    const PRIVATE_KEY = await jose.importPKCS8(locals.runtime.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
     const { email } = Input.parse(await request.json());
     const iat = Math.floor(Date.now() / 1000);
 
@@ -173,7 +178,7 @@ export async function POST({ request, locals }: APIContext) {
     await fetch("https://api.sendgrid.com/v3/mail/send", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${import.meta.env.SENDGRID_API_KEY}`,
+        Authorization: `Bearer ${SENDGRID_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -185,9 +190,9 @@ export async function POST({ request, locals }: APIContext) {
             },
           },
         ],
-        from: { email: import.meta.env.SENDGRID_FROM_EMAIL, name: import.meta.env.SENDGRID_FROM_NAME },
-        reply_to: { email: import.meta.env.SENDGRID_REPLY_TO },
-        template_id: import.meta.env.SIGN_IN_TEMPLATE_ID,
+        from: { email: SENDGRID_FROM_EMAIL, name: SENDGRID_FROM_NAME },
+        reply_to: { email: SENDGRID_REPLY_TO },
+        template_id: SIGN_IN_TEMPLATE_ID,
       }),
     });
 
