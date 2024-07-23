@@ -4,8 +4,10 @@ import {
   Paginator,
   TextWritingPreviewSD,
   WritingsHero,
+  FeaturedBookHero,
 } from "src/components/astro";
-import type { Collections } from "src/content";
+import { type Collections, getCollection } from "src/content";
+import { sample } from "src/utils";
 
 interface Props {
   writings: {slug: string, entry: Collections["writings"]}[];
@@ -17,6 +19,10 @@ const heroWritings = writings.slice(0, 4);
 const restWritings = writings.slice(4, 10);
 
 const pages = Math.ceil(writings.length / 10);
+
+const featuredBook = sample(
+  (await getCollection("books")).filter(({entry}) => entry.isFeatured),
+);
 ---
 
 {
@@ -24,6 +30,8 @@ const pages = Math.ceil(writings.length / 10);
     <WritingsHero writings={heroWritings} displayAllLink={false} />
   ) : null
 }
+
+{featuredBook && <FeaturedBookHero book={featuredBook} />}
 
 <div id="more" class="mb-36"></div>
 
