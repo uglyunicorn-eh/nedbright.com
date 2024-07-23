@@ -6,6 +6,8 @@ import { singletons, collections } from 'keystatic/models';
 const repo = 'uglyunicorn-eh/nedbright.com';
 const isRemote = !!repo;
 
+console.log({ AAAA: import.meta.env });
+
 const localMode: LocalConfig["storage"] = {
   kind: 'local',
 }
