@@ -10,8 +10,10 @@ import {
   TextWritingPreviewSM,
   PageCut,
   WritingMetaDetails,
+FeaturedBookHero,
 } from "src/components/astro";
 import { ReplyBox } from "src/components/react";
+import { sample } from "src/utils";
 
 import img1 from "public/images/img-3.jpg";
 
@@ -40,6 +42,10 @@ const readAlso = [
   .slice(0, 3);
 
 const site = await reader.singletons.site.read();
+
+const featuredBook = sample(
+  (await getCollection("books")).filter(({entry}) => entry.isFeatured),
+);
 ---
 
 <Layout
@@ -107,6 +113,8 @@ const site = await reader.singletons.site.read();
   >
     <PageCut text="Читайте также:" />
 
+    {featuredBook && <FeaturedBookHero book={featuredBook} />}
+
     <div
       class="container relative z-40 mx-auto px-4 pb-20 pt-20 md:px-8 lg:px-10 xl:px-6"
     >
@@ -119,4 +127,5 @@ const site = await reader.singletons.site.read();
       </div>
     </div>
   </div>
+
 </Layout>
