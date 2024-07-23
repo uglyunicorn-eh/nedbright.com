@@ -2,8 +2,7 @@ import { config, type LocalConfig, type GitHubConfig } from '@keystatic/core';
 
 import { singletons, collections } from 'keystatic/models';
 
-// const repo: string | undefined = process.env.PUBLIC_GITHUB_REPO;
-const repo = 'uglyunicorn-eh/nedbright.com';
+const repo = import.meta.env.PUBLIC_GITHUB_REPO;
 const isRemote = !!repo;
 
 console.log({ AAAA: import.meta.env });
