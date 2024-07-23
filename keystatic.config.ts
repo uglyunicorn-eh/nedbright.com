@@ -5,8 +5,6 @@ import { singletons, collections } from 'keystatic/models';
 const repo = import.meta.env.PUBLIC_GITHUB_REPO;
 const isRemote = !!repo;
 
-console.log({ AAAA: import.meta.env });
-
 const localMode: LocalConfig["storage"] = {
   kind: 'local',
 }
