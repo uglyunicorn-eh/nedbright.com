@@ -9,8 +9,6 @@ interface Env {
 	PUBLIC_KEYSTATIC_GITHUB_APP_SLUG: string;
 	PUBLIC_DOMAIN: string;
 	SITE_URL: string;
-	PUBLIC_SENTRY_DSN: string;
-	SENTRY_AUTH_TOKEN: string;
 	REPLYBOX_SECRET_KEY: string;
 	PRIVATE_KEY: string;
 	PUBLIC_KEY: string;

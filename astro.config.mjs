@@ -8,8 +8,6 @@ import robotsTxt from "astro-robots-txt";
 import keystatic from '@keystatic/astro';
 import webmanifest from "astro-webmanifest";
 
-// import sentry from "@sentry/astro";
-
 // https://astro.build/config
 export default defineConfig({
   integrations: [
@@ -50,18 +48,6 @@ export default defineConfig({
       background_color: "#f3f4f6",
       display: "standalone"
     }),
-
-    // sentry({
-    //   dsn: import.meta.env.PUBLIC_SENTRY_DSN,
-    //   environment: import.meta.env.PROD ? "production" : "development",
-    //   enabled: import.meta.env.PROD,
-    //   attachStacktrace: true,
-    //   sourceMapsUploadOptions: {
-    //     project: "nedbright-com",
-    //     authToken: import.meta.env.SENTRY_AUTH_TOKEN,
-    //   },
-    //   enableTracing: true,
-    // }),
   ],
   output: 'hybrid',
   adapter: cloudflare({
