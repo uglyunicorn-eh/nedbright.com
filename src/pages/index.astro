@@ -31,6 +31,6 @@ const latestWritings = writings.slice(0, 3);
 
 <Layout>
   {latestWritings.length ? <WritingsHero writings={latestWritings} /> : null}
-  {featuredBook && <FeaturedBookHero book={featuredBook} />}
+  <FeaturedBookHero book={featuredBook} />
   {books && <Bookshelf books={books} />}
 </Layout>
