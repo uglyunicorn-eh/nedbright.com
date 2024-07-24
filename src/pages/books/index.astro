@@ -9,7 +9,9 @@ const featuredBook = sample(
   (await getCollection("books")).filter(({ entry }) => entry.isFeatured),
 );
 
-const books = (await getCollection("books")).filter(({ slug }) => slug !== featuredBook?.slug);
+const books = (await getCollection("books"))
+  .filter(({ slug }) => slug !== featuredBook?.slug)
+  .sort((a, b) => (b.entry.priority || 0) - (a.entry.priority || 0));
 ---
 
 <Layout

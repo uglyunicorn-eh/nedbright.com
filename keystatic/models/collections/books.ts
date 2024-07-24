@@ -21,6 +21,7 @@ export default collection({
       multiline: true,
     }),
     link: fields.url({ label: 'Link' }),
+    priority: fields.number({ label: 'Priority', defaultValue: 0 }),
     content: fields.markdoc({
       label: 'Content',
     }),
