@@ -1,13 +1,13 @@
 ---
 import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
 
 import { WritingMetaDetails } from "src/components/astro";
+import type { Writing } from "src/content";
 
 import img1 from "public/images/img-3.jpg";
 
 type Props = {
-  writing: CollectionEntry<"writings">;
+  writing: Writing;
 };
 
 const { writing } = Astro.props;

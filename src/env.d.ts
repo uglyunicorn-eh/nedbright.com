@@ -7,8 +7,6 @@ interface ImportMetaEnv {
   readonly SITE_URL: string;
   readonly PUBLIC_DOMAIN?: string;
   readonly PUBLIC_GITHUB_REPO: string;
-  readonly PUBLIC_SENTRY_DSN: string;
-  readonly SENTRY_AUTH_TOKEN: string;
   readonly SENDGRID_API_KEY: string;
   readonly SENDGRID_FROM_EMAIL: string;
   readonly SENDGRID_FROM_NAME: string;

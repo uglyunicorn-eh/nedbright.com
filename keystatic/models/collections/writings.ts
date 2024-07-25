@@ -22,12 +22,8 @@ export default collection({
       label: 'Headline',
       multiline: true,
     }),
-    content: fields.document({
+    content: fields.markdoc({
       label: 'Content',
-      formatting: true,
-      dividers: true,
-      links: true,
-      images: true,
     }),
   },
 });

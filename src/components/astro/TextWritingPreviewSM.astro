@@ -1,10 +1,9 @@
 ---
-import type { CollectionEntry } from "astro:content";
-
 import { WritingMetaDetails } from "src/components/astro";
+import { type Writing } from "src/content";
 
 type Props = {
-  writing: CollectionEntry<"writings">;
+  writing: Writing;
   displayImage?: boolean;
 };
 

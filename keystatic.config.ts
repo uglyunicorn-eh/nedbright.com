@@ -2,7 +2,7 @@ import { config, type LocalConfig, type GitHubConfig } from '@keystatic/core';
 
 import { singletons, collections } from 'keystatic/models';
 
-const repo: string | null = import.meta.env.PUBLIC_GITHUB_REPO;
+const repo = import.meta.env.PUBLIC_GITHUB_REPO;
 const isRemote = !!repo;
 
 const localMode: LocalConfig["storage"] = {

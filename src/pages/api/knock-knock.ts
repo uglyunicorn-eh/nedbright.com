@@ -4,11 +4,6 @@ import type { APIContext } from 'astro';
 
 export const prerender = false;
 
-const SITE_URL = import.meta.env.SITE_URL.replace(/\/$/, '');
-const DOMAIN = import.meta.env.PUBLIC_DOMAIN || new URL(import.meta.env.SITE_URL).host;
-const PRIVATE_KEY = await jose.importPKCS8(import.meta.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
-const PUBLIC_KEY = await jose.importSPKI(import.meta.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
-
 const Query = z.object({
   token: z.string(),
 });
@@ -32,11 +27,18 @@ type User = {
   },
 };
 
-export async function GET({ request, locals, cookies, redirect }: APIContext) {
+export async function GET({ request, locals, cookies, redirect, url }: APIContext) {
+  const {
+    DOMAIN,
+  } = locals.runtime.env;
+  const SITE_URL = `${url.protocol}//${url.host}`;
+
   const contentType = request.headers.get('Content-Type');
   const isJsonResponse = contentType === 'application/json';
-  try {
 
+  try {
+    const PRIVATE_KEY = await jose.importPKCS8(locals.runtime.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
+    const PUBLIC_KEY = await jose.importSPKI(locals.runtime.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
     const { token } = Query.parse({ token: new URL(request.url).searchParams.get('token') });
 
     const knockKnockToken = await jose.jwtVerify(
@@ -140,8 +142,20 @@ export async function GET({ request, locals, cookies, redirect }: APIContext) {
   }
 }
 
-export async function POST({ request }: APIContext) {
+export async function POST({ request, locals, url }: APIContext) {
+  const {
+    DOMAIN,
+    SENDGRID_API_KEY,
+    SENDGRID_FROM_EMAIL,
+    SENDGRID_FROM_NAME,
+    SENDGRID_REPLY_TO,
+    SIGN_IN_TEMPLATE_ID,
+  } = locals.runtime.env;
+  const SITE_URL = `${url.protocol}//${url.host}`;
+
   try {
+    const PRIVATE_KEY = await jose.importPKCS8(locals.runtime.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
+
     const { email } = Input.parse(await request.json());
     const iat = Math.floor(Date.now() / 1000);
 
@@ -165,7 +179,7 @@ export async function POST({ request }: APIContext) {
     await fetch("https://api.sendgrid.com/v3/mail/send", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${import.meta.env.SENDGRID_API_KEY}`,
+        Authorization: `Bearer ${SENDGRID_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -177,17 +191,15 @@ export async function POST({ request }: APIContext) {
             },
           },
         ],
-        from: { email: import.meta.env.SENDGRID_FROM_EMAIL, name: import.meta.env.SENDGRID_FROM_NAME },
-        reply_to: { email: import.meta.env.SENDGRID_REPLY_TO },
-        template_id: import.meta.env.SIGN_IN_TEMPLATE_ID,
+        from: { email: SENDGRID_FROM_EMAIL, name: SENDGRID_FROM_NAME },
+        reply_to: { email: SENDGRID_REPLY_TO },
+        template_id: SIGN_IN_TEMPLATE_ID,
       }),
     });
 
     return Response.json({ status: 'ok' });
   }
   catch (error) {
-    console.error(error);
-
     if (error instanceof ZodError) {
       return Response.json({ status: 'error', errors: error.errors }, { status: 400 });
     }
