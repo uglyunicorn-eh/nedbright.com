@@ -51,7 +51,7 @@ export default defineConfig({
   ],
   output: 'hybrid',
   adapter: cloudflare({
-    imageService: 'compile',
+    imageService: 'squoosh',
     platformProxy: {
       enabled: true,
     },
