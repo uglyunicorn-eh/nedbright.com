@@ -6,7 +6,7 @@ export default collection({
   path: 'src/content/books/*/',
   entryLayout: 'content',
   format: { contentField: 'content' },
-  columns: ['title', 'isFeatured', 'priority'],
+  columns: ['title', 'isFeatured', 'priority', 'link'],
   schema: {
     image: fields.image({
       label: 'Cover Image',
