@@ -1,11 +1,12 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
+
+import { type Book } from "src/content";
 
 import { GridPattern } from "src/components/react";
 
 interface Props {
-  book: CollectionEntry<"books">;
+  book: Book;
 }
 
 const { book } = Astro.props;

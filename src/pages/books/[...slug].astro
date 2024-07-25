@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 
 import Layout from "src/layouts/SimpleWithNavigation.astro";
 
@@ -16,34 +16,35 @@ export async function getStaticPaths() {
   }));
 }
 
-const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { entry: book } = Astro.props;
+const post = await getEntry('books', book.slug);
+const { Content } = await post!.render();
 
-const books = await getCollection("books", ({ id }) => id !== entry.id);
+const books = await getCollection("books", ({ slug }) => slug !== book.slug);
 const site = await reader.singletons.site.read();
 ---
 
 <Layout
   seo={{
-    title: entry.data.title,
-    description: entry.data.headline!,
+    title: book.data.title,
+    description: book.data.headline!,
     openGraph: {
       basic: {
         type: "website",
-        title: entry.data.title!,
-        image: entry.data.image.src!,
+        title: book.data.title!,
+        image: book.data.image.src,
       },
     },
     twitter: {
       card: "summary_large_image",
-      title: entry.data.title,
-      image: entry.data.image.src!,
-      imageAlt: entry.data.title,
-      description: entry.data.headline,
+      title: book.data.title,
+      image: book.data.image.src,
+      imageAlt: book.data.title,
+      description: book.data.headline,
     },
   }}
 >
-  <BookDetailsHead book={entry} />
+  <BookDetailsHead book={book} />
 
   <section class="relative z-10 overflow-hidden bg-transparent">
     <div class="mx-auto flex max-w-6xl flex-col gap-6 pb-24 lg:flex-row">
@@ -69,7 +70,7 @@ const site = await reader.singletons.site.read();
   </section>
 
   {
-    (entry.data.testimonies?.length && (
+    (book.data.testimonies?.length && (
       <section>
         <div class="relative z-40 bg-gradient-to-t from-white/0 to-white/20 py-16">
           <div class="mx-auto max-w-7xl px-4 lg:px-8">
@@ -82,7 +83,7 @@ const site = await reader.singletons.site.read();
             </div>
 
             <div class="mx-auto mt-10 flow-root columns-1 md:columns-2 lg:mx-0 lg:max-w-none lg:columns-3">
-              {entry.data.testimonies.map((testimonial) => (
+              {book.data.testimonies.map((testimonial) => (
                 <div class="break-inside-avoid-column pb-4 sm:inline-block sm:w-full md:max-w-xl">
                   <figure class="rounded-2xl bg-gray-50/20 p-8 text-sm leading-6 backdrop-blur-sm">
                     <div class="pb-2 text-center text-yellow-500">

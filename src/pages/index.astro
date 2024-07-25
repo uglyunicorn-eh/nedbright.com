@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection } from 'astro:content';
 
 import {
   FeaturedBookHero,
@@ -10,14 +10,8 @@ import Layout from "src/layouts/SimpleWithNavigation.astro";
 
 import { sample } from "src/utils";
 
-const featuredBook = sample(
-  await getCollection("books", (entry) => entry.data.isFeatured),
-);
-
-const books = await getCollection(
-  "books",
-  (entry) => entry.id !== featuredBook?.id,
-);
+const featuredBook = sample((await getCollection("books", ({data: { isFeatured }}) => isFeatured)));
+const books = (await getCollection("books", ({slug}) => slug !== featuredBook?.slug));
 
 const writings = await getCollection("writings");
 writings.sort((a, b) =>
@@ -32,14 +26,7 @@ const latestWritings = writings.slice(0, 3);
 ---
 
 <Layout>
-  <!-- <Hero
-    data={{
-      heroHeadline: "landingPage.heroHeadline",
-      heroIntroText: "landingPage.heroIntroText",
-    }}
-  /> -->
   {latestWritings.length ? <WritingsHero writings={latestWritings} /> : null}
-
-  {featuredBook && <FeaturedBookHero book={featuredBook} />}
+  <FeaturedBookHero book={featuredBook} />
   {books && <Bookshelf books={books} />}
 </Layout>

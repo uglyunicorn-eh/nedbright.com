@@ -1,19 +1,21 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import { getEntry } from 'astro:content';
 
 import { reader } from "src/reader";
 import { readingTime } from "src/utils";
 import { Date } from "src/components/astro";
+import type { Writing } from "src/content";
 
 type Props = {
-  writing: CollectionEntry<"writings">;
+  writing: Writing;
 };
 
 const { writing } = Astro.props;
 
 const site = await reader.singletons.site.read();
 
-const _readingTime = readingTime(writing.body);
+const post = await getEntry('writings', writing.slug);
+const _readingTime = readingTime(post?.body || "");
 ---
 
 <div

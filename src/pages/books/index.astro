@@ -3,17 +3,14 @@ import { getCollection } from "astro:content";
 
 import Layout from "src/layouts/SimpleWithNavigation.astro";
 import { BooksList, FeaturedBookHero } from "src/components/astro";
-
 import { sample } from "src/utils";
 
-const featuredBook = sample(
-  await getCollection("books", (entry) => entry.data.isFeatured),
-);
+const featuredBook = sample(await getCollection("books", ({ data: { isFeatured } }) => isFeatured));
 
-const books = await getCollection(
-  "books",
-  (entry) => entry.id !== featuredBook?.id,
-);
+const books = (
+    await getCollection("books", ({ slug }) => slug !== featuredBook?.slug)
+  )
+  .sort((a, b) => (b.data.priority || 0) - (a.data.priority || 0));
 ---
 
 <Layout
@@ -38,7 +35,7 @@ const books = await getCollection(
     },
   }}
 >
-  {featuredBook && <FeaturedBookHero book={featuredBook} />}
+  <FeaturedBookHero book={featuredBook} />
   <h2 class="sr-only">Все книги</h2>
   <BooksList books={books} />
 </Layout>

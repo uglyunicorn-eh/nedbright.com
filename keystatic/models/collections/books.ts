@@ -6,7 +6,7 @@ export default collection({
   path: 'src/content/books/*/',
   entryLayout: 'content',
   format: { contentField: 'content' },
-  columns: ['title', 'isFeatured'],
+  columns: ['title', 'isFeatured', 'priority', 'link'],
   schema: {
     image: fields.image({
       label: 'Cover Image',
@@ -21,12 +21,9 @@ export default collection({
       multiline: true,
     }),
     link: fields.url({ label: 'Link' }),
-    content: fields.document({
+    priority: fields.number({ label: 'Priority', defaultValue: 0 }),
+    content: fields.markdoc({
       label: 'Content',
-      formatting: true,
-      dividers: true,
-      links: true,
-      images: true,
     }),
     testimonies: fields.array(
       fields.object({

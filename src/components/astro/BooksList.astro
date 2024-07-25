@@ -1,9 +1,10 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 
+import { type Book } from "src/content";
+
 interface Props {
-  books: CollectionEntry<"books">[];
+  books: Book[];
 }
 
 const { books } = Astro.props;

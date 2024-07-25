@@ -1,12 +1,8 @@
 ---
-import type { CollectionEntry } from "astro:content";
-
+import { type Testimony } from "src/content/config";
 import { StarRating } from "src/components/react";
-
-type Unpacked<T> = T extends (infer U)[] ? U : T;
-
 type Props = {
-  testimonial?: Unpacked<CollectionEntry<"books">["data"]["testimonies"]>;
+  testimonial?: Testimony;
 };
 
 const testimonial = Astro.props.testimonial;

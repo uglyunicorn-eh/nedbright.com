@@ -1,6 +1,6 @@
 ---
-import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
+import { getCollection, getEntry } from "astro:content";
 
 import Layout from "src/layouts/SimpleWithNavigation.astro";
 import { reader } from "src/reader";
@@ -9,6 +9,7 @@ import {
   TextWritingPreviewSM,
   PageCut,
   WritingMetaDetails,
+FeaturedBookHero,
 } from "src/components/astro";
 import { ReplyBox } from "src/components/react";
 
@@ -22,15 +23,13 @@ export async function getStaticPaths() {
   }));
 }
 
-const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { entry: writing } = Astro.props;
+const post = await getEntry('writings', writing.slug);
+const { Content } = await post!.render();
 
-const allWritings = await getCollection(
-  "writings",
-  ({ id }) => id !== entry.id,
-);
+const allWritings = await getCollection("writings", ({ slug }) => slug !== writing.slug);
 
-const index = allWritings.findIndex(({ id }) => id === entry.id);
+const index = allWritings.findIndex(({ slug }) => slug === writing.slug);
 const readAlso = [
   allWritings[index - 1],
   allWritings[index + 1],
@@ -45,21 +44,21 @@ const site = await reader.singletons.site.read();
 
 <Layout
   seo={{
-    title: entry.data.title,
-    description: entry.data.headline!,
+    title: writing.data.title,
+    description: writing.data.headline!,
     openGraph: {
       basic: {
         type: "website",
-        title: entry.data.title!,
+        title: writing.data.title!,
         image: img1.src,
       },
     },
     twitter: {
       card: "summary_large_image",
-      title: entry.data.title,
+      title: writing.data.title,
       image: img1.src,
-      imageAlt: entry.data.title,
-      description: entry.data.headline,
+      imageAlt: writing.data.title,
+      description: writing.data.headline,
     },
   }}
 >
@@ -70,7 +69,7 @@ const site = await reader.singletons.site.read();
       <Image
         class="h-full w-full rounded-xl object-cover"
         src={img1}
-        alt={entry.data.title || ""}
+        alt={writing.data.title || ""}
       />
     </div>
   </div>
@@ -78,10 +77,10 @@ const site = await reader.singletons.site.read();
   <div
     class="relative z-40 mx-auto pb-20 sm:max-w-[74ch] md:max-w-[74ch] lg:max-w-[76ch] xl:max-w-[90ch]"
   >
-    <div class="px-4 sm:px-4 md:px-8 lg:px-10 xl:px-6">
-      <h1 class="my-h1">{entry.data.title}</h1>
+    <div class="px-4 lg:px-8 xl:px-4">
+      <h1 class="my-h1">{writing.data.title}</h1>
 
-      <WritingMetaDetails writing={entry} />
+      <WritingMetaDetails writing={writing} />
     </div>
 
     <Prose>
@@ -96,10 +95,9 @@ const site = await reader.singletons.site.read();
       <h2 class="my-h3">Комментарии</h2>
 
       <ReplyBox
-        client:only
         site={site?.replybox!}
         lang="ru"
-        identifier={`/writings/${entry.slug}`}
+        identifier={`/writings/${writing.slug}`}
       />
     </div>
   </div>
@@ -108,6 +106,8 @@ const site = await reader.singletons.site.read();
     class="relative z-40 bg-gradient-to-tr from-white/5 to-orange-700/5 pt-20"
   >
     <PageCut text="Читайте также:" />
+
+    <FeaturedBookHero />
 
     <div
       class="container relative z-40 mx-auto px-4 pb-20 pt-20 md:px-8 lg:px-10 xl:px-6"
@@ -121,4 +121,5 @@ const site = await reader.singletons.site.read();
       </div>
     </div>
   </div>
+
 </Layout>

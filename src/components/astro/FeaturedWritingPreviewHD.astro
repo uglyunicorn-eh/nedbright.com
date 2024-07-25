@@ -1,13 +1,13 @@
 ---
 import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
 
 import { WritingMetaDetails } from "src/components/astro";
+import type { Writing } from "src/content";
 
 import img from "public/writing-hero.webp";
 
 type Props = {
-  writing: CollectionEntry<"writings">;
+  writing: Writing;
 };
 
 const { writing } = Astro.props;
