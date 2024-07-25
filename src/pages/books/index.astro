@@ -1,17 +1,16 @@
 ---
+import { getCollection } from "astro:content";
+
 import Layout from "src/layouts/SimpleWithNavigation.astro";
 import { BooksList, FeaturedBookHero } from "src/components/astro";
-import { getCollection } from "src/content";
-
 import { sample } from "src/utils";
 
-const featuredBook = sample(
-  (await getCollection("books")).filter(({ entry }) => entry.isFeatured),
-);
+const featuredBook = sample(await getCollection("books", ({ data: { isFeatured } }) => isFeatured));
 
-const books = (await getCollection("books"))
-  .filter(({ slug }) => slug !== featuredBook?.slug)
-  .sort((a, b) => (b.entry.priority || 0) - (a.entry.priority || 0));
+const books = (
+    await getCollection("books", ({ slug }) => slug !== featuredBook?.slug)
+  )
+  .sort((a, b) => (b.data.priority || 0) - (a.data.priority || 0));
 ---
 
 <Layout
@@ -23,13 +22,13 @@ const books = (await getCollection("books"))
       basic: {
         type: "website",
         title: "Библиотека",
-        image: featuredBook?.entry.image!,
+        image: featuredBook?.data.image.src!,
       },
     },
     twitter: {
       card: "summary_large_image",
       title: "Библиотека",
-      image: featuredBook?.entry.image,
+      image: featuredBook?.data.image.src!,
       imageAlt: "Библиотека",
       description:
         "Здесь вы найдете книги, рабочие тетради и другие материалы для самостоятельного изучения и практики",

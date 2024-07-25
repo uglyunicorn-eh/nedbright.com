@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "src/content";
+import { getCollection } from 'astro:content';
 
 import {
   FeaturedBookHero,
@@ -10,18 +10,14 @@ import Layout from "src/layouts/SimpleWithNavigation.astro";
 
 import { sample } from "src/utils";
 
-const featuredBook = sample(
-  (await getCollection("books")).filter(({entry}) => entry.isFeatured),
-);
-const books = (await getCollection(
-  "books",
-)).filter((entry) => entry.slug !== featuredBook?.slug);
+const featuredBook = sample((await getCollection("books", ({data: { isFeatured }}) => isFeatured)));
+const books = (await getCollection("books", ({slug}) => slug !== featuredBook?.slug));
 
 const writings = await getCollection("writings");
 writings.sort((a, b) =>
-  b.entry.date === a.entry.date
+  b.data.date === a.data.date
     ? 0
-    : (b.entry.date || "") < (a.entry.date || "")
+    : (b.data.date || "") < (a.data.date || "")
       ? -1
       : 1,
 );

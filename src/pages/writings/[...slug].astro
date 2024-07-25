@@ -1,8 +1,7 @@
 ---
 import { Image } from "astro:assets";
-import { getEntry } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 
-import { getCollection } from "src/content";
 import Layout from "src/layouts/SimpleWithNavigation.astro";
 import { reader } from "src/reader";
 import {
@@ -28,7 +27,7 @@ const { entry: writing } = Astro.props;
 const post = await getEntry('writings', writing.slug);
 const { Content } = await post!.render();
 
-const allWritings = (await getCollection("writings")).filter(({ slug }) => slug !== writing.slug);
+const allWritings = await getCollection("writings", ({ slug }) => slug !== writing.slug);
 
 const index = allWritings.findIndex(({ slug }) => slug === writing.slug);
 const readAlso = [
@@ -45,21 +44,21 @@ const site = await reader.singletons.site.read();
 
 <Layout
   seo={{
-    title: writing.entry.title,
-    description: writing.entry.headline!,
+    title: writing.data.title,
+    description: writing.data.headline!,
     openGraph: {
       basic: {
         type: "website",
-        title: writing.entry.title!,
+        title: writing.data.title!,
         image: img1.src,
       },
     },
     twitter: {
       card: "summary_large_image",
-      title: writing.entry.title,
+      title: writing.data.title,
       image: img1.src,
-      imageAlt: writing.entry.title,
-      description: writing.entry.headline,
+      imageAlt: writing.data.title,
+      description: writing.data.headline,
     },
   }}
 >
@@ -70,7 +69,7 @@ const site = await reader.singletons.site.read();
       <Image
         class="h-full w-full rounded-xl object-cover"
         src={img1}
-        alt={writing.entry.title || ""}
+        alt={writing.data.title || ""}
       />
     </div>
   </div>
@@ -79,7 +78,7 @@ const site = await reader.singletons.site.read();
     class="relative z-40 mx-auto pb-20 sm:max-w-[74ch] md:max-w-[74ch] lg:max-w-[76ch] xl:max-w-[90ch]"
   >
     <div class="px-4 lg:px-8 xl:px-4">
-      <h1 class="my-h1">{writing.entry.title}</h1>
+      <h1 class="my-h1">{writing.data.title}</h1>
 
       <WritingMetaDetails writing={writing} />
     </div>

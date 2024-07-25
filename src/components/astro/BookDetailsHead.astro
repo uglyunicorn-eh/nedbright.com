@@ -1,10 +1,12 @@
 ---
-import type { Collections } from "src/content";
+import { Image } from "astro:assets";
+
+import { type Book } from "src/content";
 
 import { GridPattern } from "src/components/react";
 
 interface Props {
-  book: {slug: string, entry: Collections["books"]};
+  book: Book;
 }
 
 const { book } = Astro.props;
@@ -24,10 +26,10 @@ const { book } = Astro.props;
       <div
         class="relative z-10 mx-auto flex aspect-[3/4] w-64 rounded-xl shadow-2xl shadow-black/15 md:w-80 lg:w-96"
       >
-        <img
+        <Image
           class="h-full w-full rounded-xl object-cover"
-          src={book.entry.image}
-          alt={book.entry.title || ""}
+          src={book.data.image}
+          alt={book.data.title || ""}
         />
       </div>
     </div>
@@ -37,20 +39,20 @@ const { book } = Astro.props;
         class="mx-auto text-balance px-10 tracking-tight md:mt-14 md:max-w-2xl md:px-6 lg:pl-0 lg:pr-10"
       >
         <h1 class="my-h1">
-          {book.entry.title}
+          {book.data.title}
         </h1>
 
         {
-          book.entry.headline && (
-            <p class="mb-6 text-pretty text-lg">{book.entry.headline}</p>
+          book.data.headline && (
+            <p class="mb-6 text-pretty text-lg">{book.data.headline}</p>
           )
         }
 
         {
-          book.entry.link && (
+          book.data.link && (
             <div class="my-12 flex gap-4">
               <a
-                href={book.entry.link}
+                href={book.data.link}
                 target="_blank"
                 class="my-primary-button-lg"
               >

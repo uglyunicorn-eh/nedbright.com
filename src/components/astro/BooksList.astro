@@ -1,8 +1,10 @@
 ---
-import type { Collections } from "src/content";
+import { Image } from "astro:assets";
+
+import { type Book } from "src/content";
 
 interface Props {
-  books: {slug: string, entry: Collections["books"]}[];
+  books: Book[];
 }
 
 const { books } = Astro.props;
@@ -20,9 +22,9 @@ const { books } = Astro.props;
                 class="relative block aspect-[3/4] lg:w-64 lg:shrink-0"
                 data-astro-prefetch
               >
-                <img
-                  src={book.entry.image}
-                  alt={book.entry.title || ""}
+                <Image
+                  src={book.data.image}
+                  alt={book.data.title || ""}
                   class="absolute inset-0 h-full w-full rounded-2xl bg-blob-3 object-cover shadow-xl shadow-black/5"
                 />
               </a>
@@ -30,10 +32,10 @@ const { books } = Astro.props;
                 <div class="group relative mt-8 max-w-xl">
                   <h2 class="my-h2">
                     <a href={`/books/${book.slug}`} data-astro-prefetch>
-                      {book.entry.title}
+                      {book.data.title}
                     </a>
                   </h2>
-                  <p class="mt-5 leading-6">{book.entry.headline}</p>
+                  <p class="mt-5 leading-6">{book.data.headline}</p>
                   <p class="mt-5 leading-6">
                     <a
                       href={`/books/${book.slug}/`}

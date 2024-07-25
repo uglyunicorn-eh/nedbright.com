@@ -1,15 +1,16 @@
 ---
+import { getCollection } from "astro:content";
+
 import { WritingsIndex, WritingsIndexHero } from "src/components/astro";
 import Layout from "src/layouts/SimpleWithNavigation.astro";
 
-import { getCollection } from "src/content";
 import { reader } from "src/reader";
 
 const writings = await getCollection("writings");
 writings.sort((a, b) =>
-  b.entry.date === a.entry.date
+  b.data.date === a.data.date
     ? 0
-    : (b.entry.date || "") < (a.entry.date || "")
+    : (b.data.date || "") < (a.data.date || "")
       ? -1
       : 1,
 );

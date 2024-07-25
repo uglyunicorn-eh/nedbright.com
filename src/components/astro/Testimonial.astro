@@ -1,15 +1,8 @@
 ---
+import { type Testimony } from "src/content/config";
 import { StarRating } from "src/components/react";
-
-type Unpacked<T> = T extends (infer U)[] ? U : T;
-
 type Props = {
-  testimonial?: {
-    quote: string,
-    author: string,
-    showAuthor: boolean,
-    isFeatured: boolean,
-  };
+  testimonial?: Testimony;
 };
 
 const testimonial = Astro.props.testimonial;

@@ -1,10 +1,9 @@
 ---
-import { getEntry } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 
 import Layout from "src/layouts/SimpleWithNavigation.astro";
 
 import { reader } from "src/reader";
-import { getCollection } from "src/content";
 
 import { BookDetailsHead, Bookshelf, Prose } from "src/components/astro";
 import { StarRating } from "src/components/react";
@@ -21,27 +20,27 @@ const { entry: book } = Astro.props;
 const post = await getEntry('books', book.slug);
 const { Content } = await post!.render();
 
-const books = (await getCollection("books")).filter(({ slug }) => slug !== book.slug);
+const books = await getCollection("books", ({ slug }) => slug !== book.slug);
 const site = await reader.singletons.site.read();
 ---
 
 <Layout
   seo={{
-    title: book.entry.title,
-    description: book.entry.headline!,
+    title: book.data.title,
+    description: book.data.headline!,
     openGraph: {
       basic: {
         type: "website",
-        title: book.entry.title!,
-        image: book.entry.image,
+        title: book.data.title!,
+        image: book.data.image.src,
       },
     },
     twitter: {
       card: "summary_large_image",
-      title: book.entry.title,
-      image: book.entry.image,
-      imageAlt: book.entry.title,
-      description: book.entry.headline,
+      title: book.data.title,
+      image: book.data.image.src,
+      imageAlt: book.data.title,
+      description: book.data.headline,
     },
   }}
 >
@@ -71,7 +70,7 @@ const site = await reader.singletons.site.read();
   </section>
 
   {
-    (book.entry.testimonies?.length && (
+    (book.data.testimonies?.length && (
       <section>
         <div class="relative z-40 bg-gradient-to-t from-white/0 to-white/20 py-16">
           <div class="mx-auto max-w-7xl px-4 lg:px-8">
@@ -84,7 +83,7 @@ const site = await reader.singletons.site.read();
             </div>
 
             <div class="mx-auto mt-10 flow-root columns-1 md:columns-2 lg:mx-0 lg:max-w-none lg:columns-3">
-              {book.entry.testimonies.map((testimonial) => (
+              {book.data.testimonies.map((testimonial) => (
                 <div class="break-inside-avoid-column pb-4 sm:inline-block sm:w-full md:max-w-xl">
                   <figure class="rounded-2xl bg-gray-50/20 p-8 text-sm leading-6 backdrop-blur-sm">
                     <div class="pb-2 text-center text-yellow-500">

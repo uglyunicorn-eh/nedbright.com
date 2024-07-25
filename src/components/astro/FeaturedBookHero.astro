@@ -2,31 +2,23 @@
 import { Image } from "astro:assets";
 import { getCollection } from 'astro:content';
 
-import { getCollection as _getCollection, type Collections } from "src/content";
 import { sample } from "src/utils";
+import type { Testimony, Book } from "src/content";
 
 import { Testimonial } from "src/components/astro";
 import { GridPattern } from "src/components/react";
 
 type Props = {
-  book?: {slug: string, entry: Collections["books"]};
+  book?: Book;
 };
 
 const { book } = Astro.props;
 
-const _featuredBook = book || sample(
-  (await _getCollection("books")).filter(({entry}) => entry.isFeatured),
-);
-
-const featuredBook = sample((await getCollection("books")).filter(({data: {isFeatured}}) => isFeatured));
-const testimonial = sample(featuredBook?.data.testimonies || []);
-
-const _testimonial = sample(
-  _featuredBook?.entry.testimonies?.filter((t) => t.isFeatured) || [],
-);
+const featuredBook: Book | undefined = book || sample(await getCollection("books", (({ data: { isFeatured } }) => isFeatured) || []));
+const testimonial: Testimony | undefined = sample(featuredBook?.data.testimonies || []);
 ---
 
-{ _featuredBook && featuredBook && (
+{ featuredBook && (
   <header class="relative z-10 overflow-hidden lg:bg-transparent">
     <div
       class="mx-auto grid max-w-6xl grid-cols-1 grid-rows-[auto_1fr] gap-y-16 pt-16 md:pt-20 lg:grid-cols-12 lg:gap-y-20 lg:px-3 lg:pb-16 lg:pt-20"
@@ -54,10 +46,10 @@ const _testimonial = sample(
       </div>
 
       {
-        _testimonial && (
+        testimonial && (
           <div class="relative px-4 sm:px-4 lg:col-span-7 lg:pb-14 lg:pl-16 lg:pr-0 xl:pl-20">
             <div class="hidden opacity-25 backdrop-blur-md lg:absolute lg:-top-32 lg:bottom-0 lg:left-[-100vw] lg:right-[-100vw] lg:block lg:bg-slate-100" />
-            <Testimonial testimonial={_testimonial} />
+            <Testimonial testimonial={testimonial} />
           </div>
         )
       }
@@ -69,16 +61,16 @@ const _testimonial = sample(
           class="container mx-auto text-balance px-4 tracking-tight sm:px-4 md:max-w-2xl md:px-4 lg:px-0"
         >
           <h1 class="my-h1">
-            <a href={`/books/${_featuredBook.slug}/`} data-astro-prefetch>
-              {_featuredBook.entry.title}
+            <a href={`/books/${featuredBook.slug}/`} data-astro-prefetch>
+              {featuredBook.data.title}
             </a>
           </h1>
 
-          {_featuredBook.entry.headline && <p class="mb-6 text-lg">{_featuredBook.entry.headline}</p>}
+          {featuredBook.data.headline && <p class="mb-6 text-lg">{featuredBook.data.headline}</p>}
 
           <div class="my-12 flex gap-4">
             <a
-              href={`/books/${_featuredBook.slug}/`}
+              href={`/books/${featuredBook.slug}/`}
               class="my-primary-button-lg"
               data-astro-prefetch
             >
