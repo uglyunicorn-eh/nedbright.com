@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
-    "@keystatic/core": "^0.5.28",
+    "@keystatic/core": "^0.5.29",
     "dayjs": "^1.11.12",
     "jose": "^5.6.3",
     "js-cookie": "^3.0.5",
@@ -44,6 +44,6 @@
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.6",
     "typescript": "^5.5.4",
-    "wrangler": "^3.65.1"
+    "wrangler": "^3.66.0"
   }
 }
