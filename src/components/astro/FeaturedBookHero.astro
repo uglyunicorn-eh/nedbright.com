@@ -1,7 +1,8 @@
 ---
-// import { Image } from "astro:assets";
+import { Image } from "astro:assets";
+import { getCollection } from 'astro:content';
 
-import { getCollection, type Collections } from "src/content";
+import { getCollection as _getCollection, type Collections } from "src/content";
 import { sample } from "src/utils";
 
 import { Testimonial } from "src/components/astro";
@@ -13,12 +14,15 @@ type Props = {
 
 const { book } = Astro.props;
 
-const featuredBook = book || sample(
-  (await getCollection("books")).filter(({entry}) => entry.isFeatured),
+const _featuredBook = book || sample(
+  (await _getCollection("books")).filter(({entry}) => entry.isFeatured),
 );
 
-const testimonial = sample(
-  featuredBook?.entry.testimonies?.filter((t) => t.isFeatured) || [],
+const featuredBook = sample((await getCollection("books")).filter(({data: {isFeatured}}) => isFeatured));
+const testimonial = sample(featuredBook?.data.testimonies || []);
+
+const _testimonial = sample(
+  _featuredBook?.entry.testimonies?.filter((t) => t.isFeatured) || [],
 );
 ---
 
@@ -38,22 +42,22 @@ const testimonial = sample(
           class="relative z-10 mx-auto flex aspect-[3/4] w-64 rounded-xl bg-blob-3 shadow-2xl shadow-black/15 md:w-80 lg:w-96"
         >
           <a href={`/books/${featuredBook.slug}/`}>
-            <!-- <Image
+            <Image
               class="aspect-[3/4] w-64 w-full rounded-xl object-cover"
-              src={book.entry.image}
-              alt={book.entry.title!}
+              src={featuredBook.data.image}
+              alt={featuredBook.data.title!}
               width={600}
               data-astro-prefetch
-            /> -->
+            />
           </a>
         </div>
       </div>
 
       {
-        testimonial && (
+        _testimonial && (
           <div class="relative px-4 sm:px-4 lg:col-span-7 lg:pb-14 lg:pl-16 lg:pr-0 xl:pl-20">
             <div class="hidden opacity-25 backdrop-blur-md lg:absolute lg:-top-32 lg:bottom-0 lg:left-[-100vw] lg:right-[-100vw] lg:block lg:bg-slate-100" />
-            <Testimonial testimonial={testimonial} />
+            <Testimonial testimonial={_testimonial} />
           </div>
         )
       }
@@ -65,16 +69,16 @@ const testimonial = sample(
           class="container mx-auto text-balance px-4 tracking-tight sm:px-4 md:max-w-2xl md:px-4 lg:px-0"
         >
           <h1 class="my-h1">
-            <a href={`/books/${featuredBook.slug}/`} data-astro-prefetch>
-              {featuredBook.entry.title}
+            <a href={`/books/${_featuredBook.slug}/`} data-astro-prefetch>
+              {_featuredBook.entry.title}
             </a>
           </h1>
 
-          {featuredBook.entry.headline && <p class="mb-6 text-lg">{featuredBook.entry.headline}</p>}
+          {_featuredBook.entry.headline && <p class="mb-6 text-lg">{_featuredBook.entry.headline}</p>}
 
           <div class="my-12 flex gap-4">
             <a
-              href={`/books/${featuredBook.slug}/`}
+              href={`/books/${_featuredBook.slug}/`}
               class="my-primary-button-lg"
               data-astro-prefetch
             >
