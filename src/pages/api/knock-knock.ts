@@ -1,6 +1,7 @@
 import * as jose from "jose";
 import { z, ZodError } from "zod";
 import type { APIContext } from 'astro';
+import { createHmac } from 'node:crypto';
 
 export const prerender = false;
 
@@ -86,14 +87,25 @@ export async function GET({ request, locals, cookies, redirect, url }: APIContex
         .sign(PRIVATE_KEY)
     );
 
+    const payload = Buffer.from(JSON.stringify({
+      user: {
+        name: "Pavel Reznikov",
+        email: "pashka.reznikov@gmail.com",
+      },
+      login_url: `${SITE_URL}/profile/`,
+    })).toString('base64');
+
     const profile = (
       await new jose
         .SignJWT({
           iss: DOMAIN,
           aud: DOMAIN,
           iat,
-          name: user.name ?? null,
-          "replybox:sso": user['replybox:sso'] ?? null,
+          name: user.name ?? "Pavel Reznikov",
+          "replybox:sso": user['replybox:sso'] ?? {
+            hash: createHmac('sha256', locals.runtime.env.REPLYBOX_SECRET_KEY).update(payload).digest('hex'),
+            payload,
+          },
         })
         .setProtectedHeader({
           alg: "RS256",
