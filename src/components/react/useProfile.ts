@@ -11,23 +11,49 @@ export type Profile = {
   },
 }
 
-const readProfileBadge = async () => {
+const readProfileBadge = async (publicKey: string) => {
   const profileBadgeCookie = Cookies.get('X-Profile-Badge');
   if (!profileBadgeCookie) {
     return undefined;
   }
-  const PUBLIC_KEY = await jose.importSPKI(import.meta.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
+  const PUBLIC_KEY = await jose.importSPKI(
+    publicKey,
+    "RS256",
+  );
   const knockKnockToken = await jose.jwtVerify(profileBadgeCookie, PUBLIC_KEY);
   return knockKnockToken.payload as Profile;
 }
 
+export const usePublicKey = () => {
+  const [publicKey, setPublicKey] = React.useState<string>();
+
+  React.useEffect(
+    () => {
+      const PK = document.querySelector("meta[name=x-public-key]");
+      setPublicKey(
+        (PK?.attributes.getNamedItem("content")?.value || "").replaceAll('\\n', '\n')
+      );
+    },
+    [],
+  );
+
+  return publicKey;
+}
+
 export const useProfile = () => {
+  const publicKey = usePublicKey();
   const [profileBadge, setProfileBadge] = React.useState<Profile>();
 
-  React.useEffect(() => {
-    readProfileBadge().then(setProfileBadge);
-  },
-    [],
+  React.useEffect(
+    () => {
+      if (!publicKey) {
+        return;
+      }
+      readProfileBadge(publicKey).then(setProfileBadge);
+    },
+    [
+      publicKey,
+    ],
   );
 
   return ({
