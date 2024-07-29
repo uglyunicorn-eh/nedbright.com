@@ -138,14 +138,6 @@ export async function GET({ request, locals, cookies, redirect, url }: APIContex
         : { httpOnly: false, maxAge, path: '/', expires },
     );
 
-    cookies.set(
-      'X-Public-Key',
-      btoa(locals.runtime.env.PUBLIC_KEY.replaceAll('\\n', '\n')),
-      import.meta.env.PROD
-        ? { httpOnly: false, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
-        : { httpOnly: false, maxAge, path: '/', expires },
-    );
-
     return redirect(user.name ? "/" : "/profile/", 307);
   }
   catch (error) {
