@@ -1,4 +1,5 @@
 import * as jose from "jose";
+import { Buffer } from 'node:buffer';
 import { z, ZodError } from "zod";
 import type { APIContext } from 'astro';
 import { createHmac } from 'node:crypto';
