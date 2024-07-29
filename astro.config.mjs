@@ -58,7 +58,7 @@ export default defineConfig({
   }),
   vite: {
     ssr: {
-      external: ['node:path', 'node:fs/promises', 'node:crypto'],
+      external: ['node:path', 'node:fs/promises', 'node:crypto', 'node:buffer'],
     },
     define: {
       "process.env": process.env,
