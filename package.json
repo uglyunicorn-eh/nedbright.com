@@ -12,7 +12,7 @@
     },
     "dependencies": {
         "@hookform/resolvers": "^3.9.0",
-        "@keystatic/core": "^0.5.29",
+        "@keystatic/core": "^0.5.30",
         "dayjs": "^1.11.12",
         "jose": "^5.6.3",
         "js-cookie": "^3.0.5",
@@ -22,14 +22,14 @@
         "zod": "^3.23.8"
     },
     "devDependencies": {
-        "@astrojs/check": "^0.8.2",
+        "@astrojs/check": "^0.8.3",
         "@astrojs/cloudflare": "^11.0.1",
         "@astrojs/markdoc": "^0.11.3",
         "@astrojs/react": "^3.6.0",
         "@astrojs/sitemap": "^3.1.6",
         "@astrojs/tailwind": "^5.1.0",
         "@astrojs/ts-plugin": "^1.9.0",
-        "@cloudflare/workers-types": "^4.20240722.0",
+        "@cloudflare/workers-types": "^4.20240725.0",
         "@keystatic/astro": "^5.0.0",
         "@tailwindcss/typography": "^0.5.13",
         "@types/js-cookie": "^3.0.6",
@@ -42,8 +42,8 @@
         "prettier": "^3.3.3",
         "prettier-plugin-astro": "^0.13.0",
         "prettier-plugin-tailwindcss": "^0.5.14",
-        "tailwindcss": "^3.4.6",
+        "tailwindcss": "^3.4.7",
         "typescript": "^5.5.4",
-        "wrangler": "^3.66.0"
+        "wrangler": "^3.67.1"
     }
 }
