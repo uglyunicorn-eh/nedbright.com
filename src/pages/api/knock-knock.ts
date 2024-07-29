@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer';
 import * as jose from "jose";
 import { z, ZodError } from "zod";
 import type { APIContext } from 'astro';
