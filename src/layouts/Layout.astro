@@ -6,8 +6,6 @@ import { reader } from "src/reader";
 
 import "src/styles/index.css";
 
-const { env: { PUBLIC_KEY } } = Astro.locals.runtime;
-
 type Props = {
   seo?: SEOProps;
 };
@@ -60,7 +58,6 @@ const seo = {
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#cfbcdc" />
-    <meta name="x-public-key" content={PUBLIC_KEY} />
 
     <SEO {...seo} />
 
