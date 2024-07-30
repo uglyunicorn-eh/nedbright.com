@@ -11,6 +11,7 @@ export async function GET({ request }: APIContext) {
   return Response.json({
     status: 'ok',
     idToken,
+    cookieString,
   });
 }
 
@@ -20,7 +21,7 @@ function getCookie(cookieString: string, key: string) {
     const targetCookie = allCookies.find(cookie => cookie.includes(key))
     if (targetCookie) {
       const [_, value] = targetCookie.split("=");
-      return (value || "").trim() || null;
+      return value.trim();
     }
   }
 
