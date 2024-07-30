@@ -4,10 +4,10 @@ export const prerender = false;
 
 export async function GET({ request }: APIContext) {
   const cookieString = request.headers.get("Cookie");
-  if (!cookieString) {
+  const idToken = getCookie(cookieString || "", "X-Identity-Badge");
+  if (!idToken) {
     return Response.json({ status: 'error', message: 'Unauthorized' }, { status: 401 });
   }
-  const idToken = getCookie(cookieString, "X-Identity-Badge");
   return Response.json({
     status: 'ok',
     idToken,
