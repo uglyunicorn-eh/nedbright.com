@@ -10,8 +10,6 @@ export async function GET({ request }: APIContext) {
   }
   return Response.json({
     status: 'ok',
-    idToken,
-    cookieString,
   });
 }
 
