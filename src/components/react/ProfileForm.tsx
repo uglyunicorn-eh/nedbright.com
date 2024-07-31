@@ -4,6 +4,8 @@ import { z } from "zod";
 
 import { type Profile } from "./useProfile";
 
+import UserIcon from "src/icons/user.svg?url";
+
 type Props = {
   profileBadge: Profile;
 };
@@ -61,9 +63,15 @@ export const ProfileForm = ({ profileBadge }: Props) => {
 
       <div className="border-b-1 flex-grow"></div>
 
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-4">
         <button className="my-primary-button">Сохранить</button>
-        <a href="/" className="underline-offset-2 hover:underline">На главную</a>
+        <a href="/" className="my-button-text">На главную</a>
+
+        <div className="grow inline-flex justify-end">
+          <button className="my-button">
+            <img src={UserIcon} alt="Меню" />
+          </button>
+        </div>
       </div>
     </>
   );
