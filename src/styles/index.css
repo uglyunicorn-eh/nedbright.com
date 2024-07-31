@@ -4,7 +4,7 @@
 
 @layer utilities {
   .__my-button-base {
-    @apply py-2.5 transition-all duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-80;
+    @apply rounded-md py-2.5 transition-all duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-80;
   }
 
   .my-button-text {
