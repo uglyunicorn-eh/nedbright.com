@@ -27,7 +27,15 @@ export async function GET({ request, locals }: APIContext) {
 
   return Response.json({
     status: 'ok',
-    idToken,
+    payload: {
+      profile: {
+        name: "",
+        email: idToken.payload.sub,
+      },
+      settings: {
+        "notifications:publication": false,
+      },
+    },
   });
 }
 
