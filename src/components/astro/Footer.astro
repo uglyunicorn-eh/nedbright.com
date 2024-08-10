@@ -1,7 +1,11 @@
 ---
+import { Image } from "astro:assets";
+
 import { reader } from "src/reader";
 
 import { SocialIcon } from "src/components/react";
+
+import logo from "src/assets/logo.svg";
 
 const site = await reader.singletons.site.read();
 const menus = await reader.singletons.menus.read();
@@ -17,13 +21,7 @@ const menus = await reader.singletons.menus.read();
     <div class="grid gap-8 lg:grid-cols-4">
       <div class="space-y-8 border-r-zinc-700 pr-4 lg:border-r xl:pr-12">
         <a href="/" data-astro-prefetch>
-          <img
-            class="h-16"
-            width={64}
-            height={64}
-            src="/logo.svg"
-            alt={site?.title}
-          />
+          <Image class="h-16" width={64} height={64} src={logo} alt={site?.title!} />
         </a>
 
         {

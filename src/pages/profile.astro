@@ -7,6 +7,7 @@ import { Breadcrumbs } from "src/components/astro";
 import { ProfilePanel } from "src/components/react";
 
 import image from "public/profile-bg.webp";
+import logo from "src/assets/logo.svg";
 
 const site = await reader.singletons.site.read();
 ---
@@ -46,13 +47,7 @@ const site = await reader.singletons.site.read();
           <div class="flex gap-8">
             <div class="w-[36ch] space-y-8 pr-4 xl:pr-12">
               <a href="/" data-astro-prefetch>
-                <Image
-                  class="h-16"
-                  width={64}
-                  height={64}
-                  src="/logo.svg"
-                  alt={site?.title!}
-                />
+                <Image class="h-16" width={64} height={64} src={logo} alt={site?.title!} />
               </a>
             </div>
           </div>

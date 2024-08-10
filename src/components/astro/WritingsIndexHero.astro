@@ -4,7 +4,7 @@ import { Image } from "astro:assets";
 import { reader } from "src/reader";
 import { SocialIcon } from "src/components/react";
 
-import logo from "public/logo-hd.svg";
+import logo from "src/assets/logo-hd.svg";
 
 const site = await reader.singletons.site.read();
 ---
@@ -39,7 +39,7 @@ const site = await reader.singletons.site.read();
     <div>
       <Image
         src={logo}
-        alt="Logo"
+        alt={site?.title!}
         class="mx-auto min-h-60 min-w-60 lg:min-h-80 lg:min-w-80 xl:min-h-96 xl:min-w-96"
       />
     </div>
