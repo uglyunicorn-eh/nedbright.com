@@ -33,7 +33,7 @@ export async function GET({ request, locals }: APIContext) {
         email: idToken.payload.sub,
       },
       settings: {
-        "notifications:publication": false,
+        "notifications:publications": false,
       },
     },
   });
