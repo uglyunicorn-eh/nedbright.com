@@ -16,7 +16,7 @@
   }
 
   .__my-primary-button-base {
-    @apply __my-button-base border border-white/50 bg-indigo-600 px-6 text-white shadow-lg shadow-indigo-500/25 hover:bg-indigo-500;
+    @apply __my-button-base border border-white/50 bg-indigo-600 px-6 text-white shadow-lg shadow-indigo-500/25 hover:bg-indigo-500 disabled:hover:bg-indigo-600;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
   }
 
