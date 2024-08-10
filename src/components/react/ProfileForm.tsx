@@ -14,9 +14,7 @@ type Props = {
 
 const Schema = z.object({
   profile: z.object({
-    name: z.string({
-      required_error: "Пожалуйста, введите ваше имя.",
-    }).optional(),
+    name: z.string().trim().min(1, { message: "Пожалуйста, введите ваше имя." }).optional(),
   }),
   settings: z.object({
     "notifications:publications": z.boolean(),
@@ -24,8 +22,6 @@ const Schema = z.object({
 });
 
 type Input = z.infer<typeof Schema>;
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const ProfileForm = ({ profileBadge }: Props) => {
   const [payload, setPayload] = React.useState<Input & { _isHydrating: boolean }>({
@@ -38,8 +34,6 @@ export const ProfileForm = ({ profileBadge }: Props) => {
     },
   });
 
-  console.log(payload)
-
   const [isSuccess, setIsSuccess] = React.useState(false);
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<Input>({
     resolver: zodResolver(Schema),
@@ -49,7 +43,6 @@ export const ProfileForm = ({ profileBadge }: Props) => {
   React.useEffect(
     () => {
       (async () => {
-        console.log("AAA");
         const response = await fetch("/api/profile/", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -76,7 +69,7 @@ export const ProfileForm = ({ profileBadge }: Props) => {
 
   const onSubmit = async (data: Input) => {
     console.log(data);
-    await sleep(1000);
+    // await sleep(1000);
     // const response = await fetch("/api/knock-knock/", {
     //   method: "POST",
     //   headers: { "Content-Type": "application/json" },
