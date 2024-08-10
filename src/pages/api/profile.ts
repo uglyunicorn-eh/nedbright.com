@@ -29,7 +29,7 @@ export async function GET({ request, locals }: APIContext) {
     status: 'ok',
     payload: {
       profile: {
-        name: "",
+        name: null,
         email: idToken.payload.sub,
       },
       settings: {
