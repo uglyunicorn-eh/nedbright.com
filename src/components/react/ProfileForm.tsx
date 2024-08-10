@@ -1,28 +1,101 @@
+import React from "react";
 import { z } from "zod";
-// import { useForm } from "react-hook-form";
-// import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { Button } from "src/components/react";
 
 import { type Profile } from "./useProfile";
 
-import UserIcon from "src/icons/user.svg?url";
 
 type Props = {
   profileBadge: Profile;
 };
 
 const Schema = z.object({
-  name: z.string(),
+  profile: z.object({
+    name: z.string({
+      required_error: "Пожалуйста, введите ваше имя.",
+    }).optional(),
+  }),
+  settings: z.object({
+    "notifications:publications": z.boolean(),
+  }),
 });
 
-// type Input = z.infer<typeof Schema>;
+type Input = z.infer<typeof Schema>;
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const ProfileForm = ({ profileBadge }: Props) => {
+  const [payload, setPayload] = React.useState<Input & { _isHydrating: boolean }>({
+    _isHydrating: true,
+    profile: {
+      name: profileBadge.name,
+    },
+    settings: {
+      "notifications:publications": false,
+    },
+  });
+
+  console.log(payload)
+
+  const [isSuccess, setIsSuccess] = React.useState(false);
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<Input>({
+    resolver: zodResolver(Schema),
+    defaultValues: payload,
+  });
+
+  React.useEffect(
+    () => {
+      (async () => {
+        console.log("AAA");
+        const response = await fetch("/api/profile/", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+        const { status, payload } = await response.json();
+        setPayload(current => ({ _isHydrating: false, ...(status === 'ok' ? payload : current) }));
+      })();
+    },
+    [],
+  );
+
+  React.useEffect(
+    () => reset({
+      profile: {
+        ...payload.profile,
+        ...(!payload.profile.name ? { name: profileBadge.name } : {}),
+      },
+      settings: payload.settings,
+    }),
+    [
+      payload,
+    ],
+  );
+
+  const onSubmit = async (data: Input) => {
+    console.log(data);
+    await sleep(1000);
+    // const response = await fetch("/api/knock-knock/", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(data),
+    // });
+    // const { status } = await response.json();
+    // if (status === 'ok') {
+    //   setIsSuccess(true);
+    // }
+  }
+  const isFormDisabled = isSubmitting || payload._isHydrating;
+
   return (
-    <>
+    <form className="contents" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <label className="font-semibold">Имя</label>
-          <input className="rounded-lg bg-white/80 p-2 ring-2 ring-blob-2" />
+          <input className="rounded-lg bg-white/80 p-2 ring-2 ring-blob-2 disabled:bg-gray-100 disabled:ring-gray-200" disabled={isFormDisabled} {...register("profile.name")} />
+          {errors.profile?.name && <span className="text-red-500 text-sm">{errors.profile.name.message}</span>}
 
           {!profileBadge.name
             ? (
@@ -43,18 +116,19 @@ export const ProfileForm = ({ profileBadge }: Props) => {
               <div className="relative flex gap-x-3">
                 <div className="flex h-6 items-center">
                   <input
-                    id="comments"
-                    name="comments"
+                    id="notifications:publications"
                     type="checkbox"
                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    disabled={isFormDisabled}
+                    {...register("settings.notifications:publications")}
                   />
                 </div>
-                <div className="text-sm leading-6">
-                  <label htmlFor="comments" className="font-medium">Публикации и видео</label>
+                <label htmlFor="notifications:publications" className="text-sm leading-6">
+                  <div className="font-medium">Публикации и видео</div>
                   <p className="text-gray-500">
                     Получайте уведомления о выходе новых публикаций.
                   </p>
-                </div>
+                </label>
               </div>
             </div>
           </fieldset>
@@ -64,9 +138,9 @@ export const ProfileForm = ({ profileBadge }: Props) => {
       <div className="border-b-1 flex-grow" />
 
       <div className="flex items-center gap-4">
-        <button className="my-primary-button">Сохранить</button>
+        <Button className="my-primary-button" loading={isSubmitting} disabled={payload._isHydrating}>Сохранить</Button>
         <a href="/" className="my-button-text">На главную</a>
       </div>
-    </>
+    </form>
   );
 }
