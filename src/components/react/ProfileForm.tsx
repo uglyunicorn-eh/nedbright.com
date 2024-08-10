@@ -61,17 +61,11 @@ export const ProfileForm = ({ profileBadge }: Props) => {
         </div>
       </div>
 
-      <div className="border-b-1 flex-grow"></div>
+      <div className="border-b-1 flex-grow" />
 
       <div className="flex items-center gap-4">
         <button className="my-primary-button">Сохранить</button>
         <a href="/" className="my-button-text">На главную</a>
-
-        <div className="grow inline-flex justify-end">
-          <button className="my-button">
-            <img src={UserIcon} alt="Меню" />
-          </button>
-        </div>
       </div>
     </>
   );
