@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
-        "nedbright"
+        "nedbright",
+        "replybox"
     ],
     "typescript.preferences.importModuleSpecifier": "non-relative",
     "javascript.preferences.importModuleSpecifier": "non-relative",
