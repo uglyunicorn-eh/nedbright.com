@@ -32,22 +32,33 @@ const UpdateProfileSchema = {
 export const GET = zodiac()
   .protected()
   .output(QueryProfileSchema)
-  .handle(async ({ idToken, ok }) => {
-    return ok({
-      profile: {
-        email: idToken.sub,
-        name: undefined,
-      },
-      settings: {
-        "notifications:publications": false,
-      },
-    });
-  });
+  .handle(
+    async ctx => {
+      const { idToken, ok } = ctx;
+
+      const payload = {
+        profile: {
+          email: idToken.sub,
+          name: undefined,
+        },
+        settings: {
+          "notifications:publications": false,
+        },
+      };
+
+      return ok(payload);
+    }
+  );
 
 export const PUT = zodiac()
   .protected()
   .input(UpdateProfileSchema)
-  .handle(async ({ input, idToken, ok }) => {
-    console.log({ input, idToken });
-    return ok();
-  });
+  .handle(
+    async ctx => {
+      const { input, idToken, ok } = ctx;
+
+      console.log({ input, idToken });
+
+      return ok();
+    }
+  );

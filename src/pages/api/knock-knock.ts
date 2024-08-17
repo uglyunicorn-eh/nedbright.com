@@ -141,24 +141,23 @@ export async function GET({ request, locals, cookies, redirect, url }: APIContex
 
 const _ = z.object;
 
-const SignInSchema = {
+const SignInRequestSchema = {
   input: _({
     email: z.string().email(),
   }).strict(),
 };
 
 export const POST = zodiac()
-  .input(SignInSchema)
+  .input(SignInRequestSchema)
   .use('auth')
   .use('sendgrid')
-  .handle(async ctx => {
-    const { input: { email }, issueSignInToken, sendgridSend, link, ok } = ctx;
-    await sendgridSend(
-      email,
-      "SIGN_IN",
-      {
-        link: link('/api/knock-knock/', { token: await issueSignInToken({ sub: email }) }),
-      },
-    );
-    return ok();
-  });
+  .handle(
+    async ctx => {
+      const { input: { email }, issueSignInToken, sendgridSend, link: mkLink, ok } = ctx;
+
+      const link = mkLink('/api/knock-knock/', { token: await issueSignInToken({ sub: email }) });
+      await sendgridSend(email, "SIGN_IN", { link });
+
+      return ok();
+    }
+  );
