@@ -7,7 +7,8 @@ export type IdToken = jose.JWTPayload & { sub: string };
 
 export const authenticate = async ({ request, locals }: Pick<APIContext, 'request' | 'locals'>): Promise<IdToken | undefined> => {
   const {
-    DOMAIN,
+    PUBLIC_DOMAIN,
+    PUBLIC_KEY,
   } = locals.runtime.env;
 
   const cookieString = request.headers.get("Cookie");
@@ -16,13 +17,12 @@ export const authenticate = async ({ request, locals }: Pick<APIContext, 'reques
     return undefined;
   }
 
-  const PUBLIC_KEY = await jose.importSPKI(locals.runtime.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
   const token = await jose.jwtVerify<IdToken>(
     idTokenValue,
-    PUBLIC_KEY,
+    await jose.importSPKI(PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256"),
     {
-      audience: DOMAIN,
-      issuer: DOMAIN,
+      audience: PUBLIC_DOMAIN,
+      issuer: PUBLIC_DOMAIN,
       typ: "JWT",
     },
   );
@@ -36,17 +36,17 @@ export const authenticate = async ({ request, locals }: Pick<APIContext, 'reques
 
 export const issueSignInToken = async ({ sub, iat }: { sub: string, iat?: number }, { locals }: Pick<APIContext, 'locals'>) => {
   const {
-    DOMAIN,
+    PUBLIC_DOMAIN,
+    PRIVATE_KEY,
   } = locals.runtime.env;
-  const PRIVATE_KEY = await jose.importPKCS8(locals.runtime.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
 
   iat = iat || Math.floor(Date.now() / 1000);
 
   const token = (
     await new jose
       .SignJWT({
-        iss: DOMAIN,
-        aud: DOMAIN,
+        iss: PUBLIC_DOMAIN,
+        aud: PUBLIC_DOMAIN,
         iat,
         exp: iat + 600 * 20,
         sub,
@@ -56,7 +56,9 @@ export const issueSignInToken = async ({ sub, iat }: { sub: string, iat?: number
         typ: "JWT",
         cty: "X-Knock-Knock",
       })
-      .sign(PRIVATE_KEY)
+      .sign(
+        await jose.importPKCS8(PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256"),
+      )
   );
 
   return token;
@@ -64,17 +66,17 @@ export const issueSignInToken = async ({ sub, iat }: { sub: string, iat?: number
 
 export const issueIdentityBadge = async ({ sub, iat }: { sub: string, iat?: number }, { locals }: Pick<APIContext, 'locals'>) => {
   const {
-    DOMAIN,
+    PUBLIC_DOMAIN,
+    PRIVATE_KEY,
   } = locals.runtime.env;
-  const PRIVATE_KEY = await jose.importPKCS8(locals.runtime.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
 
   iat = iat || Math.floor(Date.now() / 1000);
 
   const identity = (
     await new jose
       .SignJWT({
-        iss: DOMAIN,
-        aud: DOMAIN,
+        iss: PUBLIC_DOMAIN,
+        aud: PUBLIC_DOMAIN,
         iat,
         exp: iat + 60 * 60 * 24 * 30,
         sub: sub,
@@ -84,7 +86,9 @@ export const issueIdentityBadge = async ({ sub, iat }: { sub: string, iat?: numb
         typ: "JWT",
         cty: "X-Identity-Badge",
       })
-      .sign(PRIVATE_KEY)
+      .sign(
+        await jose.importPKCS8(PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256"),
+      )
   );
 
   return identity;

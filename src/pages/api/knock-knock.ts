@@ -53,7 +53,7 @@ export const GET = zodiac()
         const iat = Math.floor(at / 1000);
         const sub = knockKnockToken.payload.sub;
 
-        let user: User | null = await Users.get(sub, { type: 'json' });
+        let user = await Users.get<User>(sub, { type: 'json' });
 
         if (!user) {
           user = { iat, sub, name: undefined, 'replybox:sso': undefined };
@@ -74,14 +74,14 @@ export const GET = zodiac()
         })).toString('base64');
 
         const {
-          DOMAIN,
+          PUBLIC_DOMAIN,
+          PRIVATE_KEY,
         } = locals.runtime.env;
-        const PRIVATE_KEY = await jose.importPKCS8(locals.runtime.env.PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256");
         const profile = (
           await new jose
             .SignJWT({
-              iss: DOMAIN,
-              aud: DOMAIN,
+              iss: PUBLIC_DOMAIN,
+              aud: PUBLIC_DOMAIN,
               iat,
               name: user.name ?? "Pavel Reznikov",
               "replybox:sso": user['replybox:sso'] ?? {
@@ -94,7 +94,9 @@ export const GET = zodiac()
               typ: "JWT",
               cty: "X-Profile-Badge",
             })
-            .sign(PRIVATE_KEY)
+            .sign(
+              await jose.importPKCS8(PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256"),
+            )
         );
 
         setCookie('X-Profile-Badge', profile, expires, maxAge, false);

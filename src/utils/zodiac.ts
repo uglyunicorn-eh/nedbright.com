@@ -121,17 +121,16 @@ class Zodiac<C extends APIContext> {
           jwtVerify: async <T extends jose.JWTPayload>(tokenValue: string) => {
             const { locals } = ctx;
             const {
-              DOMAIN,
+              PUBLIC_DOMAIN,
+              PUBLIC_KEY,
             } = locals.runtime.env;
-
-            const PUBLIC_KEY = await jose.importSPKI(locals.runtime.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
 
             return await jose.jwtVerify<T>(
               tokenValue,
-              PUBLIC_KEY,
+              await jose.importSPKI(PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256"),
               {
-                audience: DOMAIN,
-                issuer: DOMAIN,
+                audience: PUBLIC_DOMAIN,
+                issuer: PUBLIC_DOMAIN,
                 typ: "JWT",
               },
             );
@@ -142,7 +141,7 @@ class Zodiac<C extends APIContext> {
           setCookie: (key: string, value: string | Record<string, any>, expires?: Date, maxAge?: number, httpOnly?: boolean) => {
             const { cookies, locals } = ctx;
             const {
-              DOMAIN,
+              PUBLIC_DOMAIN,
             } = locals.runtime.env;
 
             maxAge = maxAge || 60 * 60 * 24 * 30;
@@ -152,7 +151,7 @@ class Zodiac<C extends APIContext> {
               key,
               value,
               import.meta.env.PROD
-                ? { httpOnly, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
+                ? { httpOnly, secure: true, sameSite: 'strict', domain: PUBLIC_DOMAIN, maxAge, path: '/', expires }
                 : { httpOnly, maxAge, path: '/', expires },
             );
           }
