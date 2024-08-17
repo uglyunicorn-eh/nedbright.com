@@ -16,17 +16,6 @@ const KnockKnockTokenSchema = _({
 
 type KnockKnockToken = z.infer<typeof KnockKnockTokenSchema>;
 
-type User = {
-  iat: number;
-  sub: string;
-  name?: string;
-  'replybox:sso'?: {
-    hash: string;
-    payload: string;
-  },
-};
-
-
 const SignInSchema = {
   input: _({
     token: z.string(),
@@ -38,9 +27,10 @@ export const GET = zodiac()
   .use('auth')
   .use('tokens')
   .use('site')
+  .use('replybox')
   .handle(
     async ctx => {
-      const { input: { token }, locals, jwtVerify, issueIdentityBadge, setCookie, makeUrl, redirect } = ctx;
+      const { input: { token }, locals, jwtVerify, issueIdentityBadge, setCookie, redirect, sso: replyboxSSO } = ctx;
       const {
         Users,
       } = locals.runtime.env;
@@ -49,14 +39,13 @@ export const GET = zodiac()
         const knockKnockToken = await jwtVerify<KnockKnockToken>(token);
 
         const at = Date.now();
-
         const iat = Math.floor(at / 1000);
         const sub = knockKnockToken.payload.sub;
 
         let user = await Users.get<User>(sub, { type: 'json' });
 
         if (!user) {
-          user = { iat, sub, name: undefined, 'replybox:sso': undefined };
+          user = { iat, sub };
           await Users.put(sub, JSON.stringify(user));
         }
 
@@ -64,14 +53,6 @@ export const GET = zodiac()
         const expires = new Date(at + maxAge * 1000);
 
         setCookie('X-Identity-Badge', await issueIdentityBadge({ sub, iat }), expires, maxAge, true);
-
-        const payload = Buffer.from(JSON.stringify({
-          user: {
-            name: "Pavel Reznikov",
-            email: "pashka.reznikov@gmail.com",
-          },
-          login_url: makeUrl('/profile/'),
-        })).toString('base64');
 
         const {
           PUBLIC_DOMAIN,
@@ -82,12 +63,9 @@ export const GET = zodiac()
             .SignJWT({
               iss: PUBLIC_DOMAIN,
               aud: PUBLIC_DOMAIN,
-              iat,
-              name: user.name ?? "Pavel Reznikov",
-              "replybox:sso": user['replybox:sso'] ?? {
-                hash: createHmac('sha256', locals.runtime.env.REPLYBOX_SECRET_KEY).update(payload).digest('hex'),
-                payload,
-              },
+              iat: user.iat,
+              name: user.name ?? null,
+              "replybox:sso": await replyboxSSO(user),
             })
             .setProtectedHeader({
               alg: "RS256",

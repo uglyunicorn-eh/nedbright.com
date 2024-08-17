@@ -32,6 +32,15 @@ interface Window {
   },
 }
 
+type User = {
+  iat: number;
+  sub: string;
+  name?: string;
+  settings?: {
+    'notifications:publications': boolean;
+  },
+}
+
 type KVNamespace = import("@cloudflare/workers-types").KVNamespace;
 
 type Runtime = import('@astrojs/cloudflare').Runtime<Env>;

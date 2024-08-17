@@ -1,6 +1,7 @@
 import type { APIContext } from 'astro';
 import { z } from 'zod';
 import * as jose from "jose";
+import { createHmac } from 'node:crypto';
 
 import { authenticate, issueIdentityBadge, issueSignInToken, type IdToken } from 'src/utils/auth';
 import { sendgridSend } from 'src/utils/sendgrid';
@@ -50,6 +51,7 @@ type ZodiacPackContext = {
   auth: {
     issueSignInToken: ({ sub, iat }: { sub: string, iat?: number }) => Promise<string>;
     issueIdentityBadge: ({ sub, iat }: { sub: string, iat?: number }) => Promise<string>;
+    issueProfileBadge: ({ sub, iat }: { sub: string, iat?: number }) => Promise<string>;
   },
   sendgrid: {
     sendgridSend: <T extends keyof SendgridTemplate>(email: string, templateId: T, data: SendgridTemplate[T]) => Promise<void>;
@@ -61,6 +63,9 @@ type ZodiacPackContext = {
     makeUrl: (path: string, query?: Record<string, string>) => string;
     setCookie: (key: string, value: string | Record<string, any>, expires?: Date, maxAge?: number, httpOnly?: boolean) => void;
   },
+  replybox: {
+    sso: (user: User) => Promise<{ hash: string, payload: string }>;
+  }
 };
 
 class Zodiac<C extends APIContext> {
@@ -114,6 +119,8 @@ class Zodiac<C extends APIContext> {
 
   use<P extends keyof ZodiacPackContext>(pack: P): Zodiac<C & ZodiacPackContext[P]> {
     this.middleware.push(async (ctx, next) => {
+      const makeUrl = (path: string, query?: Record<string, string>) => `${ctx.url.protocol}//${ctx.url.host}${path}${query ? '?' + new URLSearchParams(query) : ''}`;
+
       const ext = {
         auth: {
           issueSignInToken: async ({ sub, iat }: { sub: string, iat?: number }) => await issueSignInToken({ sub, iat }, ctx),
@@ -145,7 +152,7 @@ class Zodiac<C extends APIContext> {
           },
         },
         site: {
-          makeUrl: (path: string, query?: Record<string, string>) => `${ctx.url.protocol}//${ctx.url.host}${path}${query ? '?' + new URLSearchParams(query) : ''}`,
+          makeUrl,
           setCookie: (key: string, value: string | Record<string, any>, expires?: Date, maxAge?: number, httpOnly?: boolean) => {
             const { cookies, locals } = ctx;
             const {
@@ -163,6 +170,27 @@ class Zodiac<C extends APIContext> {
                 : { httpOnly, maxAge, path: '/', expires },
             );
           }
+        },
+        replybox: {
+          sso: async (user: User) => {
+            const { locals } = ctx;
+            const {
+              REPLYBOX_SECRET_KEY,
+            } = locals.runtime.env;
+
+            const payload = Buffer.from(JSON.stringify({
+              user: {
+                name: user.name ?? null,
+                email: user.sub,
+              },
+              login_url: makeUrl('/profile/'),
+            })).toString('base64');
+
+            return {
+              hash: createHmac('sha256', REPLYBOX_SECRET_KEY).update(payload).digest('hex'),
+              payload,
+            };
+          },
         },
       }[pack];
       return await next({ ...ctx, ...ext });
