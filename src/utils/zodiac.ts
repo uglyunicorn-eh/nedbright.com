@@ -1,7 +1,8 @@
 import type { APIContext } from 'astro';
 import { z } from 'zod';
 
-import { authenticate, type IdToken } from 'src/utils/auth';
+import { authenticate, issueIdentityBadge, issueSignInToken, type IdToken } from 'src/utils/auth';
+import { sendgridSend } from 'src/utils/sendgrid';
 
 
 type AstroZodiac<C> = (ctx: C) => Promise<Response>;
@@ -37,6 +38,23 @@ type PayloadShapedZodiacContext<P extends {} = {}> = {
 }
 
 type ShapedZodiacContext<I, P extends {} = {}> = Omit<InputShapedZodiacContext<I>, 'ok'> & PayloadShapedZodiacContext<P>;
+
+type SendgridTemplate = {
+  SIGN_IN: {
+    link: string;
+  },
+};
+
+type ZodiacPackContext = {
+  auth: {
+    issueSignInToken: ({ sub, iat }: { sub: string, iat?: number }) => Promise<string>;
+    issueIdentityBadge: ({ sub, iat }: { sub: string, iat?: number }) => Promise<string>;
+  },
+  sendgrid: {
+    sendgridSend: <T extends keyof SendgridTemplate>(email: string, templateId: T, data: SendgridTemplate[T]) => Promise<void>;
+    link: (path: string, query?: Record<string, string>) => string;
+  }
+};
 
 class Zodiac<C extends APIContext> {
   constructor(protected middleware: ZodiacMiddleware<C>[] = []) { }
@@ -77,6 +95,26 @@ class Zodiac<C extends APIContext> {
 
   handle(handler: AstroZodiac<C>): AstroZodiac<C> {
     return async (ctx: C) => await createExecutionChain<C>(this.middleware, handler)(ctx);
+  }
+
+  use<P extends keyof ZodiacPackContext>(pack: P): Zodiac<C & ZodiacPackContext[P]> {
+    this.middleware.push(async (ctx, next) => {
+      const ext: ZodiacPackContext[P] = {
+        auth: {
+          issueSignInToken: async ({ sub, iat }: { sub: string, iat?: number }) => await issueSignInToken({ sub, iat }, ctx),
+          issueIdentityBadge: async ({ sub, iat }: { sub: string, iat?: number }) => await issueIdentityBadge({ sub, iat }, ctx),
+        },
+        sendgrid: {
+          sendgridSend: async <T extends keyof SendgridTemplate = keyof SendgridTemplate>(email: string, template: T, data: SendgridTemplate[T]) => {
+            const templateId = ctx.locals.runtime.env[`${template}_TEMPLATE_ID`];
+            await sendgridSend(email, templateId, data, ctx);
+          },
+          link: (path: string, query?: Record<string, string>) => `${ctx.url.protocol}//${ctx.url.host}${path}${query ? '?' + new URLSearchParams(query) : ''}`,
+        },
+      }[pack];
+      return await next({ ...ctx, ...ext });
+    });
+    return this as unknown as Zodiac<C & ZodiacPackContext[P]>;
   }
 }
 

@@ -2,8 +2,8 @@ import type { APIContext } from "astro";
 
 
 export const sendgridSend = async (
-  templateId: string,
   email: string,
+  templateId: string,
   dynamicTemplateData: any,
   { locals }: Pick<APIContext, 'locals'>,
 ) => {
