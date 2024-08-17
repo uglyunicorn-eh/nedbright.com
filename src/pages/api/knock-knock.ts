@@ -69,7 +69,7 @@ export const POST = zodiac()
     async ctx => {
       const { input: { email }, issueSignInToken, sendgridSend, makeUrl, ok } = ctx;
 
-      const link = makeUrl('/api/knock-knock/', { token: await issueSignInToken({ sub: email }) });
+      const link = makeUrl('/api/knock-knock/', { token: await issueSignInToken({ sub: email.toLowerCase() }) });
       await sendgridSend(email, "SIGN_IN", { link });
 
       return ok();
