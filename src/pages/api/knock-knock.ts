@@ -3,8 +3,9 @@ import * as jose from "jose";
 import { z, ZodError } from "zod";
 import type { APIContext } from 'astro';
 import { createHmac } from 'node:crypto';
-import { issueIdentityBadge, issueSignInToken } from 'src/utils/auth';
-import { sendgridSend } from 'src/utils/sendgrid';
+
+import { issueIdentityBadge } from 'src/utils/auth';
+import { zodiac } from 'src/utils/zodiac';
 
 export const prerender = false;
 
@@ -138,36 +139,26 @@ export async function GET({ request, locals, cookies, redirect, url }: APIContex
   }
 }
 
-export async function POST(ctx: APIContext) {
-  const Input = z.object({
+const _ = z.object;
+
+const SignInSchema = {
+  input: _({
     email: z.string().email(),
-  }).strict();
+  }).strict(),
+};
 
-  const { request, locals, url } = ctx;
-  const {
-    SIGN_IN_TEMPLATE_ID,
-  } = locals.runtime.env;
-
-  try {
-    const { email } = Input.parse(await request.json());
-
-    const token = await issueSignInToken({ sub: email }, ctx);
-
+export const POST = zodiac()
+  .input(SignInSchema)
+  .use('auth')
+  .use('sendgrid')
+  .handle(async ctx => {
+    const { input: { email }, issueSignInToken, sendgridSend, link, ok } = ctx;
     await sendgridSend(
-      SIGN_IN_TEMPLATE_ID,
       email,
+      "SIGN_IN",
       {
-        link: `${url.protocol}//${url.host}/api/knock-knock/?token=${token}`,
+        link: link('/api/knock-knock/', { token: await issueSignInToken({ sub: email }) }),
       },
-      ctx,
     );
-
-    return Response.json({ status: 'ok' });
-  }
-  catch (error) {
-    if (error instanceof ZodError) {
-      return Response.json({ status: 'error', errors: error.errors }, { status: 400 });
-    }
-    return Response.json({ status: '0xdeadbeef' }, { status: 400 });
-  }
-}
+    return ok();
+  });
