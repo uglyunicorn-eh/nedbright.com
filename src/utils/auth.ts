@@ -11,6 +11,7 @@ export const authenticate = async ({ request, locals }: Pick<APIContext, 'reques
     PUBLIC_KEY,
   } = locals.runtime.env;
 
+
   const cookieString = request.headers.get("Cookie");
   const idTokenValue = getCookie(cookieString || "", "X-Identity-Badge");
   if (!idTokenValue) {

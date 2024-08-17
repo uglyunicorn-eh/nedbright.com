@@ -68,19 +68,27 @@ class Zodiac<C extends APIContext> {
 
   gated(): Zodiac<C & GatedZodiacContext> {
     this.middleware.push(async (ctx, next) => {
-      const idToken = await authenticate(ctx);
-      return await next({ ...ctx, idToken });
+      try {
+        const idToken = await authenticate(ctx);
+        return await next({ ...ctx, idToken });
+      } catch {
+        return Response.json({ status: 'error' }, { status: 400 });
+      }
     });
     return this as unknown as Zodiac<C & GatedZodiacContext>;
   }
 
   protected(): Zodiac<C & ProtectedZodiacContext> {
     this.middleware.push(async (ctx, next) => {
-      const idToken = await authenticate(ctx);
-      if (!idToken) {
-        return Response.json({ status: 'error' }, { status: 401 });
+      try {
+        const idToken = await authenticate(ctx);
+        if (!idToken) {
+          return Response.json({ status: 'error' }, { status: 401 });
+        }
+        return await next({ ...ctx, idToken });
+      } catch {
+        return Response.json({ status: 'error' }, { status: 400 });
       }
-      return await next({ ...ctx, idToken });
     });
     return this as unknown as Zodiac<C & ProtectedZodiacContext>;
   }
