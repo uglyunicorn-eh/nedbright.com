@@ -1,53 +1,53 @@
-import * as jose from "jose";
-import type { APIContext } from "astro";
+import { z } from "zod";
+
+import { zodiac } from "src/utils/zodiac";
 
 export const prerender = false;
 
-export async function GET({ request, locals }: APIContext) {
-  const {
-    DOMAIN,
-  } = locals.runtime.env;
+const _ = z.object;
 
-  const cookieString = request.headers.get("Cookie");
-  const idTokenValue = getCookie(cookieString || "", "X-Identity-Badge");
-  if (!idTokenValue) {
-    return Response.json({ status: 'error', message: 'Unauthorized' }, { status: 401 });
-  }
+const QueryProfileSchema = {
+  payload: _({
+    profile: _({
+      email: z.string().email(),
+      name: z.string().optional(),
+    }),
+    settings: _({
+      "notifications:publications": z.boolean(),
+    }),
+  }).strict(),
+};
 
-  const PUBLIC_KEY = await jose.importSPKI(locals.runtime.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
-  const idToken = await jose.jwtVerify(
-    idTokenValue,
-    PUBLIC_KEY,
-    {
-      audience: DOMAIN,
-      issuer: DOMAIN,
-      typ: "JWT",
-    },
-  );
+const UpdateProfileSchema = {
+  input: _({
+    profile: _({
+      name: z.string().trim().min(1).optional(),
+    }),
+    settings: z.object({
+      "notifications:publications": z.boolean().optional(),
+    }),
+  }).strict(),
+};
 
-  return Response.json({
-    status: 'ok',
-    payload: {
+export const GET = zodiac()
+  .protected()
+  .output(QueryProfileSchema)
+  .handle(async ({ idToken, ok }) => {
+    return ok({
       profile: {
-        name: null,
-        email: idToken.payload.sub,
+        email: idToken.sub,
+        name: undefined,
       },
       settings: {
         "notifications:publications": false,
       },
-    },
+    });
   });
-}
 
-function getCookie(cookieString: string, key: string) {
-  if (cookieString) {
-    const allCookies = cookieString.split("; ")
-    const targetCookie = allCookies.find(cookie => cookie.includes(key))
-    if (targetCookie) {
-      const [_, value] = targetCookie.split("=");
-      return value.trim();
-    }
-  }
-
-  return null;
-}
+export const PUT = zodiac()
+  .protected()
+  .input(UpdateProfileSchema)
+  .handle(async ({ input, idToken, ok }) => {
+    console.log({ input, idToken });
+    return ok();
+  });
