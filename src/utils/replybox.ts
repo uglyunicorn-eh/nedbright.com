@@ -9,7 +9,7 @@ export const generateReplyboxSSO = async ({ name, email, login_url }: { name?: s
   } = locals.runtime.env;
 
   if (!name) {
-    return null;
+    return undefined;
   }
 
   const payload = Buffer.from(JSON.stringify({ user: { name, email }, login_url })).toString('base64');

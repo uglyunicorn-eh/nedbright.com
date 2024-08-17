@@ -96,7 +96,7 @@ export const issueIdentityBadge = async ({ sub, iat }: { sub: string, iat?: numb
   return identity;
 };
 
-export const issueProfileBadge = async ({ name, iat, "replybox:sso": sso }: { name?: string, iat?: number, "replybox:sso": { hash: string, payload: string } }, { locals }: Pick<APIContext, 'locals'>) => {
+export const issueProfileBadge = async ({ name, iat, "replybox:sso": sso }: { name?: string, iat?: number, "replybox:sso"?: { hash: string, payload: string } }, { locals }: Pick<APIContext, 'locals'>) => {
   const {
     PUBLIC_DOMAIN,
     PRIVATE_KEY,
@@ -109,7 +109,7 @@ export const issueProfileBadge = async ({ name, iat, "replybox:sso": sso }: { na
         aud: PUBLIC_DOMAIN,
         iat,
         name: name ?? null,
-        "replybox:sso": sso,
+        "replybox:sso": sso ?? null,
       })
       .setProtectedHeader({
         alg: "RS256",
