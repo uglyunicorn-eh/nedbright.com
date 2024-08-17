@@ -50,8 +50,7 @@ type SendgridTemplate = {
 type ZodiacPackContext = {
   auth: {
     issueSignInToken: ({ sub, iat }: { sub: string, iat?: number }) => Promise<string>;
-    issueIdentityBadge: ({ sub, iat }: User) => Promise<string>;
-    issueProfileBadge: ({ sub, iat }: User) => Promise<string>;
+    signUserIn: (user: User) => Promise<void>;
   },
   sendgrid: {
     sendgridSend: <T extends keyof SendgridTemplate>(email: string, templateId: T, data: SendgridTemplate[T]) => Promise<void>;
@@ -122,12 +121,32 @@ class Zodiac<C extends APIContext> {
   use<P extends keyof ZodiacPackContext>(pack: P): Zodiac<C & ZodiacPackContext[P]> {
     this.middleware.push(async (ctx, next) => {
       const makeUrl = (path: string, query?: Record<string, string>) => `${ctx.url.protocol}//${ctx.url.host}${path}${query ? '?' + new URLSearchParams(query) : ''}`;
+      const setCookie = (key: string, value: string | Record<string, any>, expires?: Date, maxAge?: number, httpOnly?: boolean) => {
+        const { cookies, locals } = ctx;
+        const {
+          PUBLIC_DOMAIN,
+        } = locals.runtime.env;
+
+        maxAge = maxAge || 60 * 60 * 24 * 30;
+        expires = expires || (new Date(Date.now() + maxAge * 1000));
+
+        cookies.set(
+          key,
+          value,
+          import.meta.env.PROD
+            ? { httpOnly, secure: true, sameSite: 'strict', domain: PUBLIC_DOMAIN, maxAge, path: '/', expires }
+            : { httpOnly, maxAge, path: '/', expires },
+        );
+      };
 
       const ext = {
         auth: {
           issueSignInToken: async (user: User) => await issueSignInToken(user, ctx),
-          issueIdentityBadge: async (user: User) => await issueIdentityBadge(user, ctx),
-          issueProfileBadge: async (user: User) => {
+          signUserIn: async (user: User) => {
+            const at = Date.now();
+            const maxAge = 60 * 60 * 24 * 30;
+            const expires = new Date(at + maxAge * 1000);
+
             const sso = await generateReplyboxSSO(
               {
                 name: user.name ?? null,
@@ -136,8 +155,16 @@ class Zodiac<C extends APIContext> {
               },
               ctx,
             );
-            return await issueProfileBadge({ name: user.name, iat: user.iat, "replybox:sso": sso }, ctx);
-          }
+
+            setCookie(
+              'X-Identity-Badge',
+              await issueIdentityBadge(user, ctx),
+              expires, maxAge, true);
+            setCookie(
+              'X-Profile-Badge',
+              await issueProfileBadge({ name: user.name, iat: user.iat, "replybox:sso": sso }, ctx),
+              expires, maxAge, false);
+          },
         },
         sendgrid: {
           sendgridSend: async <T extends keyof SendgridTemplate = keyof SendgridTemplate>(email: string, template: T, data: SendgridTemplate[T]) => {
@@ -166,23 +193,7 @@ class Zodiac<C extends APIContext> {
         },
         site: {
           makeUrl,
-          setCookie: (key: string, value: string | Record<string, any>, expires?: Date, maxAge?: number, httpOnly?: boolean) => {
-            const { cookies, locals } = ctx;
-            const {
-              PUBLIC_DOMAIN,
-            } = locals.runtime.env;
-
-            maxAge = maxAge || 60 * 60 * 24 * 30;
-            expires = expires || (new Date(Date.now() + maxAge * 1000));
-
-            cookies.set(
-              key,
-              value,
-              import.meta.env.PROD
-                ? { httpOnly, secure: true, sameSite: 'strict', domain: PUBLIC_DOMAIN, maxAge, path: '/', expires }
-                : { httpOnly, maxAge, path: '/', expires },
-            );
-          }
+          setCookie,
         },
         replybox: {
           sso: async (user: User) =>

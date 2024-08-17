@@ -23,10 +23,9 @@ export const GET = zodiac()
   .input(SignInSchema)
   .use('auth')
   .use('tokens')
-  .use('site')
   .handle(
     async ctx => {
-      const { input: { token }, locals, jwtVerify, issueIdentityBadge, issueProfileBadge, setCookie, redirect } = ctx;
+      const { input: { token }, locals, jwtVerify, signUserIn, redirect } = ctx;
       const {
         Users,
       } = locals.runtime.env;
@@ -34,22 +33,16 @@ export const GET = zodiac()
       try {
         const knockKnockToken = await jwtVerify<KnockKnockToken>(token);
 
-        const at = Date.now();
-        const iat = Math.floor(at / 1000);
         const sub = knockKnockToken.payload.sub;
-
         let user = await Users.get<User>(sub, { type: 'json' });
 
         if (!user) {
+          const iat = Math.floor(Date.now() / 1000);
           user = { iat, sub };
           await Users.put(sub, JSON.stringify(user));
         }
 
-        const maxAge = 60 * 60 * 24 * 30;
-        const expires = new Date(at + maxAge * 1000);
-
-        setCookie('X-Identity-Badge', await issueIdentityBadge(user), expires, maxAge, true);
-        setCookie('X-Profile-Badge', await issueProfileBadge(user), expires, maxAge, false);
+        await signUserIn(user);
 
         return redirect(user.name ? "/" : "/profile/", 307);
       }

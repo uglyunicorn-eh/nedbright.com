@@ -62,10 +62,9 @@ export const PUT = zodiac()
   .protected()
   .input(UpdateProfileSchema)
   .use('auth')
-  .use('site')
   .handle(
     async ctx => {
-      const { locals, input, idToken, ok, setCookie, issueIdentityBadge, issueProfileBadge } = ctx;
+      const { locals, input, idToken, ok, signUserIn } = ctx;
       const {
         Users,
       } = locals.runtime.env;
@@ -87,11 +86,7 @@ export const PUT = zodiac()
       }
 
       await Users.put(sub, JSON.stringify(user));
-
-      const maxAge = 60 * 60 * 24 * 30;
-      const expires = new Date(at + maxAge * 1000);
-      setCookie('X-Identity-Badge', await issueIdentityBadge(user), expires, maxAge, true);
-      setCookie('X-Profile-Badge', await issueProfileBadge(user), expires, maxAge, false);
+      await signUserIn(user);
 
       return ok();
     }
