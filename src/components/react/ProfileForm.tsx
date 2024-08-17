@@ -3,6 +3,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { sleep } from "src/utils/sleep";
 import { Button } from "src/components/react";
 
 import { type Profile } from "./useProfile";
@@ -35,6 +36,7 @@ export const ProfileForm = ({ profileBadge }: Props) => {
   });
 
   const [isSuccess, setIsSuccess] = React.useState(false);
+  const timeoutRef = React.useRef<NodeJS.Timeout>();
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<Input>({
     resolver: zodResolver(Schema),
     defaultValues: payload,
@@ -68,18 +70,22 @@ export const ProfileForm = ({ profileBadge }: Props) => {
   );
 
   const onSubmit = async (data: Input) => {
-    console.log(data);
-    // await sleep(1000);
-    // const response = await fetch("/api/knock-knock/", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(data),
-    // });
-    // const { status } = await response.json();
-    // if (status === 'ok') {
-    //   setIsSuccess(true);
-    // }
+    const [response,] = await Promise.all([
+      fetch("/api/profile/", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }),
+      sleep(500),
+    ])
+    const { status } = await response.json();
+    if (status === 'ok') {
+      setIsSuccess(true);
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => setIsSuccess(false), 3000);
+    }
   }
+
   const isFormDisabled = isSubmitting || payload._isHydrating;
 
   return (
@@ -129,6 +135,18 @@ export const ProfileForm = ({ profileBadge }: Props) => {
       </div>
 
       <div className="border-b-1 flex-grow" />
+
+      {isSuccess && (
+
+        <div className="flex justify-center">
+          <div className="pointer-events-auto flex items-center justify-between gap-x-6 bg-yellow-100 shadow-lg px-6 py-2.5 rounded-lg animate-fadeIn">
+            <p className="text-sm">
+              Ваш профиль успрешно сохранен
+            </p>
+          </div>
+        </div>
+
+      )}
 
       <div className="flex items-center gap-4">
         <Button className="my-primary-button" loading={isSubmitting} disabled={payload._isHydrating}>Сохранить</Button>
