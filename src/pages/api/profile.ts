@@ -39,7 +39,7 @@ export const GET = zodiac()
       const payload = {
         profile: {
           email: idToken.sub,
-          name: undefined,
+          name: "Pavel Reznikov",
         },
         settings: {
           "notifications:publications": false,
