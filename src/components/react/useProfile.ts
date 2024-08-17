@@ -16,8 +16,7 @@ const readProfileBadge = async () => {
   if (!profileBadgeCookie) {
     return undefined;
   }
-  const knockKnockToken = await jose.decodeJwt(profileBadgeCookie);
-  return knockKnockToken as Profile;
+  return jose.decodeJwt<Profile>(profileBadgeCookie);
 }
 
 export const useProfile = () => {

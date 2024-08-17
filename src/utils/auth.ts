@@ -3,7 +3,7 @@ import type { APIContext } from "astro";
 
 import { getCookie } from "src/utils/cookies";
 
-export type IdToken = jose.JWTPayload & { sub: string };
+export type IdToken = { sub: string };
 
 export const authenticate = async ({ request, locals }: Pick<APIContext, 'request' | 'locals'>): Promise<IdToken | undefined> => {
   const {
