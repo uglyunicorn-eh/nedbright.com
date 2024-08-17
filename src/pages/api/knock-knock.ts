@@ -79,8 +79,8 @@ export const GET = zodiac()
 
         return redirect(user.name ? "/" : "/profile/", 307);
       }
-      catch (e) {
-        console.error(e);
+      catch (err) {
+        console.error(err);
         return redirect('/401/', 307);
       }
     }

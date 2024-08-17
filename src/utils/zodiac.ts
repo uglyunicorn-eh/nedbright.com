@@ -1,7 +1,8 @@
+import { Buffer } from 'node:buffer';
+import { createHmac } from 'node:crypto';
 import type { APIContext } from 'astro';
 import { z } from 'zod';
 import * as jose from "jose";
-import { createHmac } from 'node:crypto';
 
 import { authenticate, issueIdentityBadge, issueSignInToken, type IdToken } from 'src/utils/auth';
 import { sendgridSend } from 'src/utils/sendgrid';
@@ -73,27 +74,29 @@ class Zodiac<C extends APIContext> {
 
   gated(): Zodiac<C & GatedZodiacContext> {
     this.middleware.push(async (ctx, next) => {
+      let idToken: IdToken | undefined;
       try {
-        const idToken = await authenticate(ctx);
-        return await next({ ...ctx, idToken });
+        idToken = await authenticate(ctx);
       } catch {
         return Response.json({ status: 'error' }, { status: 400 });
       }
+      return await next({ ...ctx, idToken });
     });
     return this as unknown as Zodiac<C & GatedZodiacContext>;
   }
 
   protected(): Zodiac<C & ProtectedZodiacContext> {
     this.middleware.push(async (ctx, next) => {
+      let idToken: IdToken | undefined;
       try {
-        const idToken = await authenticate(ctx);
+        idToken = await authenticate(ctx);
         if (!idToken) {
           return Response.json({ status: 'error' }, { status: 401 });
         }
-        return await next({ ...ctx, idToken });
       } catch {
         return Response.json({ status: 'error' }, { status: 400 });
       }
+      return await next({ ...ctx, idToken });
     });
     return this as unknown as Zodiac<C & ProtectedZodiacContext>;
   }
