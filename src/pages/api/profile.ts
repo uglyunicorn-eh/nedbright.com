@@ -6,6 +6,7 @@ export const prerender = false;
 
 const _ = z.object;
 
+
 const QueryProfileSchema = {
   payload: _({
     profile: _({
@@ -14,17 +15,6 @@ const QueryProfileSchema = {
     }),
     settings: _({
       "notifications:publications": z.boolean(),
-    }),
-  }).strict(),
-};
-
-const UpdateProfileSchema = {
-  input: _({
-    profile: _({
-      name: z.string().trim().min(1).optional(),
-    }),
-    settings: z.object({
-      "notifications:publications": z.boolean().optional(),
     }),
   }).strict(),
 };
@@ -49,6 +39,18 @@ export const GET = zodiac()
       return ok(payload);
     }
   );
+
+
+const UpdateProfileSchema = {
+  input: _({
+    profile: _({
+      name: z.string().trim().min(1).optional(),
+    }),
+    settings: z.object({
+      "notifications:publications": z.boolean().optional(),
+    }),
+  }).strict(),
+};
 
 export const PUT = zodiac()
   .protected()
