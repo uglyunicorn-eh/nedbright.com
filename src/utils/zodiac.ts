@@ -51,8 +51,8 @@ type SendgridTemplate = {
 type ZodiacPackContext = {
   auth: {
     issueSignInToken: ({ sub, iat }: { sub: string, iat?: number }) => Promise<string>;
-    issueIdentityBadge: ({ sub, iat }: { sub: string, iat?: number }) => Promise<string>;
-    issueProfileBadge: ({ sub, iat }: { sub: string, iat?: number }) => Promise<string>;
+    issueIdentityBadge: ({ sub, iat }: User) => Promise<string>;
+    issueProfileBadge: ({ sub, iat }: User) => Promise<string>;
   },
   sendgrid: {
     sendgridSend: <T extends keyof SendgridTemplate>(email: string, templateId: T, data: SendgridTemplate[T]) => Promise<void>;
@@ -126,8 +126,8 @@ class Zodiac<C extends APIContext> {
 
       const ext = {
         auth: {
-          issueSignInToken: async ({ sub, iat }: { sub: string, iat?: number }) => await issueSignInToken({ sub, iat }, ctx),
-          issueIdentityBadge: async ({ sub, iat }: { sub: string, iat?: number }) => await issueIdentityBadge({ sub, iat }, ctx),
+          issueSignInToken: async ({ sub, iat }: User) => await issueSignInToken({ sub, iat }, ctx),
+          issueIdentityBadge: async ({ sub, iat }: User) => await issueIdentityBadge({ sub, iat }, ctx),
         },
         sendgrid: {
           sendgridSend: async <T extends keyof SendgridTemplate = keyof SendgridTemplate>(email: string, template: T, data: SendgridTemplate[T]) => {
