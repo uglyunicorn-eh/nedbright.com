@@ -24,10 +24,9 @@ export const GET = zodiac()
   .use('auth')
   .use('tokens')
   .use('site')
-  .use('replybox')
   .handle(
     async ctx => {
-      const { input: { token }, locals, jwtVerify, issueIdentityBadge, issueProfileBadge, setCookie, redirect, sso: replyboxSSO } = ctx;
+      const { input: { token }, locals, jwtVerify, issueIdentityBadge, issueProfileBadge, setCookie, redirect } = ctx;
       const {
         Users,
       } = locals.runtime.env;
