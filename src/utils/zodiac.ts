@@ -1,5 +1,6 @@
 import type { APIContext } from 'astro';
 import { z } from 'zod';
+import * as jose from "jose";
 
 import { authenticate, issueIdentityBadge, issueSignInToken, type IdToken } from 'src/utils/auth';
 import { sendgridSend } from 'src/utils/sendgrid';
@@ -52,8 +53,14 @@ type ZodiacPackContext = {
   },
   sendgrid: {
     sendgridSend: <T extends keyof SendgridTemplate>(email: string, templateId: T, data: SendgridTemplate[T]) => Promise<void>;
-    link: (path: string, query?: Record<string, string>) => string;
-  }
+  },
+  tokens: {
+    jwtVerify: <T extends jose.JWTPayload>(tokenValue: string) => Promise<jose.JWTVerifyResult<T>>;
+  },
+  site: {
+    makeUrl: (path: string, query?: Record<string, string>) => string;
+    setCookie: (key: string, value: string | Record<string, any>, expires?: Date, maxAge?: number) => void;
+  },
 };
 
 class Zodiac<C extends APIContext> {
@@ -99,7 +106,7 @@ class Zodiac<C extends APIContext> {
 
   use<P extends keyof ZodiacPackContext>(pack: P): Zodiac<C & ZodiacPackContext[P]> {
     this.middleware.push(async (ctx, next) => {
-      const ext: ZodiacPackContext[P] = {
+      const ext = {
         auth: {
           issueSignInToken: async ({ sub, iat }: { sub: string, iat?: number }) => await issueSignInToken({ sub, iat }, ctx),
           issueIdentityBadge: async ({ sub, iat }: { sub: string, iat?: number }) => await issueIdentityBadge({ sub, iat }, ctx),
@@ -109,7 +116,46 @@ class Zodiac<C extends APIContext> {
             const templateId = ctx.locals.runtime.env[`${template}_TEMPLATE_ID`];
             await sendgridSend(email, templateId, data, ctx);
           },
-          link: (path: string, query?: Record<string, string>) => `${ctx.url.protocol}//${ctx.url.host}${path}${query ? '?' + new URLSearchParams(query) : ''}`,
+        },
+        tokens: {
+          jwtVerify: async <T extends jose.JWTPayload>(tokenValue: string) => {
+            const { locals } = ctx;
+            const {
+              DOMAIN,
+            } = locals.runtime.env;
+
+            const PUBLIC_KEY = await jose.importSPKI(locals.runtime.env.PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256");
+
+            return await jose.jwtVerify<T>(
+              tokenValue,
+              PUBLIC_KEY,
+              {
+                audience: DOMAIN,
+                issuer: DOMAIN,
+                typ: "JWT",
+              },
+            );
+          },
+        },
+        site: {
+          makeUrl: (path: string, query?: Record<string, string>) => `${ctx.url.protocol}//${ctx.url.host}${path}${query ? '?' + new URLSearchParams(query) : ''}`,
+          setCookie: (key: string, value: string | Record<string, any>, expires?: Date, maxAge?: number) => {
+            const { cookies, locals } = ctx;
+            const {
+              DOMAIN,
+            } = locals.runtime.env;
+
+            maxAge = maxAge || 60 * 60 * 24 * 30;
+            expires = expires || (new Date(Date.now() + maxAge * 1000));
+
+            cookies.set(
+              key,
+              value,
+              import.meta.env.PROD
+                ? { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
+                : { httpOnly: true, maxAge, path: '/', expires },
+            );
+          }
         },
       }[pack];
       return await next({ ...ctx, ...ext });
