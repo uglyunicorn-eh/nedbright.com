@@ -12,16 +12,8 @@ export const generateReplyboxSSO = async ({ name, email, login_url }: { name?: s
     return null;
   }
 
-  const payload = Buffer.from(JSON.stringify({
-    user: {
-      name: name ?? null,
-      email,
-    },
-    login_url,
-  })).toString('base64');
+  const payload = Buffer.from(JSON.stringify({ user: { name, email }, login_url })).toString('base64');
+  const hash = createHmac('sha256', REPLYBOX_SECRET_KEY).update(payload).digest('hex');
 
-  return {
-    hash: createHmac('sha256', REPLYBOX_SECRET_KEY).update(payload).digest('hex'),
-    payload,
-  };
+  return { hash, payload };
 }
