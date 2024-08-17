@@ -86,6 +86,7 @@ export const PUT = zodiac()
       }
 
       await Users.put(sub, JSON.stringify(user));
+
       await signUserIn(user);
 
       return ok();
