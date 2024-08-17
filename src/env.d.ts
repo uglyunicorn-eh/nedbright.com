@@ -1,7 +1,6 @@
-/// <reference path="../.astro/types.d.ts" />
-/// <reference path=".astro/types.d.ts" />
-/// <reference path=".astro~/types.d.ts" />
 /// <reference types="astro/client" />
+/// <reference path="../.astro/types.d.ts" />
+/// <reference path="../worker-configuration.d.ts" />
 
 interface ImportMetaEnv {
   readonly SITE_URL: string;
@@ -32,6 +31,8 @@ interface Window {
     identifier?: string;
   },
 }
+
+type KVNamespace = import("@cloudflare/workers-types").KVNamespace;
 
 type Runtime = import('@astrojs/cloudflare').Runtime<Env>;
 declare namespace App {
