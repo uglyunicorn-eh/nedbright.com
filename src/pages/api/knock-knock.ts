@@ -41,9 +41,7 @@ export const GET = zodiac()
           user = { iat, sub };
           await Users.put(sub, JSON.stringify(user));
         }
-
         await signUserIn(user);
-
         return redirect(user.name ? "/" : "/profile/", 307);
       }
       catch (err) {

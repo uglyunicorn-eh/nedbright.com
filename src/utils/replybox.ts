@@ -8,6 +8,10 @@ export const generateReplyboxSSO = async ({ name, email, login_url }: { name?: s
     REPLYBOX_SECRET_KEY,
   } = locals.runtime.env;
 
+  if (!name) {
+    return null;
+  }
+
   const payload = Buffer.from(JSON.stringify({
     user: {
       name: name ?? null,
