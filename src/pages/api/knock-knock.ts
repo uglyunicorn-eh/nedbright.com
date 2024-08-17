@@ -1,7 +1,5 @@
-import { Buffer } from 'node:buffer';
 import * as jose from "jose";
 import { z } from "zod";
-import { createHmac } from 'node:crypto';
 
 import { zodiac } from 'src/utils/zodiac';
 
@@ -81,7 +79,8 @@ export const GET = zodiac()
 
         return redirect(user.name ? "/" : "/profile/", 307);
       }
-      catch {
+      catch (e) {
+        console.error(e);
         return redirect('/401/', 307);
       }
     }
