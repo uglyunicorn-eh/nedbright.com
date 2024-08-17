@@ -1,4 +1,3 @@
-import * as jose from "jose";
 import { z } from "zod";
 
 import { zodiac } from "src/utils/zodiac";
@@ -62,11 +61,11 @@ const UpdateProfileSchema = {
 export const PUT = zodiac()
   .protected()
   .input(UpdateProfileSchema)
-  .use('replybox')
+  .use('auth')
   .use('site')
   .handle(
     async ctx => {
-      const { locals, input, idToken, ok, sso: replyboxSSO, setCookie } = ctx;
+      const { locals, input, idToken, ok, setCookie, issueProfileBadge } = ctx;
       const {
         Users,
       } = locals.runtime.env;
@@ -91,30 +90,7 @@ export const PUT = zodiac()
 
       const maxAge = 60 * 60 * 24 * 30;
       const expires = new Date(at + maxAge * 1000);
-      const {
-        PUBLIC_DOMAIN,
-        PRIVATE_KEY,
-      } = locals.runtime.env;
-      const profile = (
-        await new jose
-          .SignJWT({
-            iss: PUBLIC_DOMAIN,
-            aud: PUBLIC_DOMAIN,
-            iat: user.iat,
-            name: user.name ?? null,
-            "replybox:sso": await replyboxSSO(user),
-          })
-          .setProtectedHeader({
-            alg: "RS256",
-            typ: "JWT",
-            cty: "X-Profile-Badge",
-          })
-          .sign(
-            await jose.importPKCS8(PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256"),
-          )
-      );
-
-      setCookie('X-Profile-Badge', profile, expires, maxAge, false);
+      setCookie('X-Profile-Badge', await issueProfileBadge(user), expires, maxAge, false);
 
       return ok();
     }

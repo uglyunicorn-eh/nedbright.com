@@ -1,4 +1,3 @@
-import * as jose from "jose";
 import { z } from "zod";
 
 import { zodiac } from 'src/utils/zodiac';
@@ -28,7 +27,7 @@ export const GET = zodiac()
   .use('replybox')
   .handle(
     async ctx => {
-      const { input: { token }, locals, jwtVerify, issueIdentityBadge, setCookie, redirect, sso: replyboxSSO } = ctx;
+      const { input: { token }, locals, jwtVerify, issueIdentityBadge, issueProfileBadge, setCookie, redirect, sso: replyboxSSO } = ctx;
       const {
         Users,
       } = locals.runtime.env;
@@ -50,32 +49,8 @@ export const GET = zodiac()
         const maxAge = 60 * 60 * 24 * 30;
         const expires = new Date(at + maxAge * 1000);
 
-        setCookie('X-Identity-Badge', await issueIdentityBadge({ sub, iat }), expires, maxAge, true);
-
-        const {
-          PUBLIC_DOMAIN,
-          PRIVATE_KEY,
-        } = locals.runtime.env;
-        const profile = (
-          await new jose
-            .SignJWT({
-              iss: PUBLIC_DOMAIN,
-              aud: PUBLIC_DOMAIN,
-              iat: user.iat,
-              name: user.name ?? null,
-              "replybox:sso": await replyboxSSO(user),
-            })
-            .setProtectedHeader({
-              alg: "RS256",
-              typ: "JWT",
-              cty: "X-Profile-Badge",
-            })
-            .sign(
-              await jose.importPKCS8(PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256"),
-            )
-        );
-
-        setCookie('X-Profile-Badge', profile, expires, maxAge, false);
+        setCookie('X-Identity-Badge', await issueIdentityBadge(user), expires, maxAge, true);
+        setCookie('X-Profile-Badge', await issueProfileBadge(user), expires, maxAge, false);
 
         return redirect(user.name ? "/" : "/profile/", 307);
       }

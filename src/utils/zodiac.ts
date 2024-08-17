@@ -1,11 +1,10 @@
-import { Buffer } from 'node:buffer';
-import { createHmac } from 'node:crypto';
 import type { APIContext } from 'astro';
 import { z } from 'zod';
 import * as jose from "jose";
 
-import { authenticate, issueIdentityBadge, issueSignInToken, type IdToken } from 'src/utils/auth';
+import { authenticate, issueIdentityBadge, issueProfileBadge, issueSignInToken, type IdToken } from 'src/utils/auth';
 import { sendgridSend } from 'src/utils/sendgrid';
+import { generateReplyboxSSO } from 'src/utils/replybox';
 
 
 type AstroZodiac<C> = (ctx: C) => Promise<Response>;
@@ -126,8 +125,19 @@ class Zodiac<C extends APIContext> {
 
       const ext = {
         auth: {
-          issueSignInToken: async ({ sub, iat }: User) => await issueSignInToken({ sub, iat }, ctx),
-          issueIdentityBadge: async ({ sub, iat }: User) => await issueIdentityBadge({ sub, iat }, ctx),
+          issueSignInToken: async (user: User) => await issueSignInToken(user, ctx),
+          issueIdentityBadge: async (user: User) => await issueIdentityBadge(user, ctx),
+          issueProfileBadge: async (user: User) => {
+            const sso = await generateReplyboxSSO(
+              {
+                name: user.name ?? null,
+                email: user.sub,
+                login_url: makeUrl('/profile/'),
+              },
+              ctx,
+            );
+            return await issueProfileBadge({ name: user.name, iat: user.iat, "replybox:sso": sso }, ctx);
+          }
         },
         sendgrid: {
           sendgridSend: async <T extends keyof SendgridTemplate = keyof SendgridTemplate>(email: string, template: T, data: SendgridTemplate[T]) => {
@@ -175,25 +185,15 @@ class Zodiac<C extends APIContext> {
           }
         },
         replybox: {
-          sso: async (user: User) => {
-            const { locals } = ctx;
-            const {
-              REPLYBOX_SECRET_KEY,
-            } = locals.runtime.env;
-
-            const payload = Buffer.from(JSON.stringify({
-              user: {
+          sso: async (user: User) =>
+            await generateReplyboxSSO(
+              {
                 name: user.name ?? null,
                 email: user.sub,
+                login_url: makeUrl('/profile/'),
               },
-              login_url: makeUrl('/profile/'),
-            })).toString('base64');
-
-            return {
-              hash: createHmac('sha256', REPLYBOX_SECRET_KEY).update(payload).digest('hex'),
-              payload,
-            };
-          },
+              ctx,
+            ),
         },
       }[pack];
       return await next({ ...ctx, ...ext });

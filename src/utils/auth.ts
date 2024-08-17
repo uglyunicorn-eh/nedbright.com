@@ -3,6 +3,7 @@ import type { APIContext } from "astro";
 
 import { getCookie } from "src/utils/cookies";
 
+
 export type IdToken = { sub: string };
 
 export const authenticate = async ({ request, locals }: Pick<APIContext, 'request' | 'locals'>): Promise<IdToken | undefined> => {
@@ -81,6 +82,34 @@ export const issueIdentityBadge = async ({ sub, iat }: { sub: string, iat?: numb
         iat,
         exp: iat + 60 * 60 * 24 * 30,
         sub: sub,
+      })
+      .setProtectedHeader({
+        alg: "RS256",
+        typ: "JWT",
+        cty: "X-Identity-Badge",
+      })
+      .sign(
+        await jose.importPKCS8(PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256"),
+      )
+  );
+
+  return identity;
+};
+
+export const issueProfileBadge = async ({ name, iat, "replybox:sso": sso }: { name?: string, iat?: number, "replybox:sso": { hash: string, payload: string } }, { locals }: Pick<APIContext, 'locals'>) => {
+  const {
+    PUBLIC_DOMAIN,
+    PRIVATE_KEY,
+  } = locals.runtime.env;
+
+  const identity = (
+    await new jose
+      .SignJWT({
+        iss: PUBLIC_DOMAIN,
+        aud: PUBLIC_DOMAIN,
+        iat,
+        name: name ?? null,
+        "replybox:sso": sso,
       })
       .setProtectedHeader({
         alg: "RS256",
