@@ -63,7 +63,7 @@ export const GET = zodiac()
         const maxAge = 60 * 60 * 24 * 30;
         const expires = new Date(at + maxAge * 1000);
 
-        setCookie('X-Identity-Badge', await issueIdentityBadge({ sub, iat }), expires, maxAge);
+        setCookie('X-Identity-Badge', await issueIdentityBadge({ sub, iat }), expires, maxAge, true);
 
         const payload = Buffer.from(JSON.stringify({
           user: {
@@ -97,7 +97,7 @@ export const GET = zodiac()
             .sign(PRIVATE_KEY)
         );
 
-        setCookie('X-Profile-Badge', profile, expires, maxAge);
+        setCookie('X-Profile-Badge', profile, expires, maxAge, false);
 
         return redirect(user.name ? "/" : "/profile/", 307);
       }

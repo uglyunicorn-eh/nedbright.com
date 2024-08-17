@@ -59,7 +59,7 @@ type ZodiacPackContext = {
   },
   site: {
     makeUrl: (path: string, query?: Record<string, string>) => string;
-    setCookie: (key: string, value: string | Record<string, any>, expires?: Date, maxAge?: number) => void;
+    setCookie: (key: string, value: string | Record<string, any>, expires?: Date, maxAge?: number, httpOnly?: boolean) => void;
   },
 };
 
@@ -139,7 +139,7 @@ class Zodiac<C extends APIContext> {
         },
         site: {
           makeUrl: (path: string, query?: Record<string, string>) => `${ctx.url.protocol}//${ctx.url.host}${path}${query ? '?' + new URLSearchParams(query) : ''}`,
-          setCookie: (key: string, value: string | Record<string, any>, expires?: Date, maxAge?: number) => {
+          setCookie: (key: string, value: string | Record<string, any>, expires?: Date, maxAge?: number, httpOnly?: boolean) => {
             const { cookies, locals } = ctx;
             const {
               DOMAIN,
@@ -152,8 +152,8 @@ class Zodiac<C extends APIContext> {
               key,
               value,
               import.meta.env.PROD
-                ? { httpOnly: true, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
-                : { httpOnly: true, maxAge, path: '/', expires },
+                ? { httpOnly, secure: true, sameSite: 'strict', domain: DOMAIN, maxAge, path: '/', expires }
+                : { httpOnly, maxAge, path: '/', expires },
             );
           }
         },
