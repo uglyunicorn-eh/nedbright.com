@@ -143,27 +143,19 @@ class Zodiac<C extends APIContext> {
         auth: {
           issueSignInToken: async (user: User) => await issueSignInToken(user, ctx),
           signUserIn: async (user: User) => {
-            const at = Date.now();
             const maxAge = 60 * 60 * 24 * 30;
-            const expires = new Date(at + maxAge * 1000);
+            const expires = new Date(Date.now() + maxAge * 1000);
 
-            const sso = await generateReplyboxSSO(
-              {
-                name: user.name ?? null,
-                email: user.sub,
-                login_url: makeUrl('/profile/'),
-              },
-              ctx,
-            );
+            const name = user.name ?? null;
+            const email = user.sub;
+            const login_url = makeUrl('/profile/');
 
-            setCookie(
-              'X-Identity-Badge',
-              await issueIdentityBadge(user, ctx),
-              expires, maxAge, true);
-            setCookie(
-              'X-Profile-Badge',
-              await issueProfileBadge({ name: user.name, iat: user.iat, "replybox:sso": sso }, ctx),
-              expires, maxAge, false);
+            const identity = await issueIdentityBadge(user, ctx);
+            const sso = await generateReplyboxSSO({ name, email, login_url }, ctx);
+            const profile = await issueProfileBadge({ name: user.name, iat: user.iat, "replybox:sso": sso }, ctx);
+
+            setCookie('X-Identity-Badge', identity, expires, maxAge, true);
+            setCookie('X-Profile-Badge', profile, expires, maxAge, false);
           },
         },
         sendgrid: {
