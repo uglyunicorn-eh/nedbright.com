@@ -68,13 +68,13 @@ export const issueSignInToken = async ({ sub, iat, next }: { sub: string, iat?: 
   return token;
 };
 
-export const issueIdentityBadge = async ({ sub, iat }: { sub: string, iat?: number }, { locals }: Pick<APIContext, 'locals'>) => {
+export const issueIdentityBadge = async ({ sub }: { sub: string }, { locals }: Pick<APIContext, 'locals'>) => {
   const {
     PUBLIC_DOMAIN,
     PRIVATE_KEY,
   } = locals.runtime.env;
 
-  iat = iat || Math.floor(Date.now() / 1000);
+  const iat = Math.floor(Date.now() / 1000);
 
   const identity = (
     await new jose
