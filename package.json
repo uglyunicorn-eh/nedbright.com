@@ -14,7 +14,7 @@
     "dependencies": {
         "@hookform/resolvers": "^3.9.0",
         "@keystatic/core": "^0.5.32",
-        "dayjs": "^1.11.12",
+        "dayjs": "^1.11.13",
         "jose": "^5.7.0",
         "js-cookie": "^3.0.5",
         "react": "^18.3.1",
@@ -30,13 +30,13 @@
         "@astrojs/sitemap": "^3.1.6",
         "@astrojs/tailwind": "^5.1.0",
         "@astrojs/ts-plugin": "^1.10.1",
-        "@cloudflare/workers-types": "^4.20240815.0",
+        "@cloudflare/workers-types": "^4.20240821.1",
         "@keystatic/astro": "^5.0.0",
         "@tailwindcss/typography": "^0.5.14",
         "@types/js-cookie": "^3.0.6",
-        "@types/react": "^18.3.3",
+        "@types/react": "^18.3.4",
         "@types/react-dom": "^18.3.0",
-        "astro": "^4.14.2",
+        "astro": "^4.14.5",
         "astro-robots-txt": "^1.0.0",
         "astro-seo": "^0.8.4",
         "astro-webmanifest": "^1.0.0",
@@ -45,6 +45,6 @@
         "prettier-plugin-tailwindcss": "^0.5.14",
         "tailwindcss": "^3.4.10",
         "typescript": "^5.5.4",
-        "wrangler": "^3.72.0"
+        "wrangler": "^3.72.2"
     }
 }
