@@ -56,25 +56,48 @@ footer a:hover {
 }
 
 .btn {
-  font-size: 1.025rem;
+  visibility: hidden;
+  padding: 0;
+}
+
+.btn:before {
+  visibility: visible;
+  content: "Оставить комментарий";
+  font-size: 1rem;
   border-radius: 6px;
   border-color: #4f46e5;
   border-width: 1px;
+
+  padding: 6px 15px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  color: #3c4851;
+  transition-duration: 0.15s;
+  display: inline-flex;
+  align-items: center;
+  background-color: #fff;
+  font-weight: 500;
+  line-height: 1.5;
+  text-decoration: none;
 }
 
 #rb-login {
   background: transparent;
 }
 
-.-login-text {
+.login-text {
   visibility: hidden;
 }
 
-.-login-text:before {
+.login-buttons {
+  display: none;
+}
+
+.login-text:before {
   visibility: visible;
   content: "— Друзья, оставляйте ваши коментарии и вопросы. Давайте общаться!";
   display: block;
   font-size: 1rem;
+  margin-top: 1rem;
 }
 
 .discussion-icon {
@@ -111,6 +134,10 @@ footer a:hover {
 
 .login-container {
   padding-top: 2rem;
+}
+
+.logged-out .login-container {
+  margin-bottom: 0;
 }
 
 .comments-list,
