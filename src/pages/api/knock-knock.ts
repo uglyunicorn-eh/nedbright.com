@@ -1,6 +1,9 @@
+import * as jose from "jose";
 import { z } from "zod";
 
 import { zodiac } from 'src/utils/zodiac';
+import { getCookie } from "src/utils/cookies";
+import type { ReturnToToken } from "src/utils/auth";
 
 export const prerender = false;
 
@@ -9,6 +12,7 @@ const _ = z.object;
 const KnockKnockTokenSchema = _({
   cty: z.literal("X-Knock-Knock"),
   sub: z.string().email(),
+  next: z.string().url().optional(),
 });
 
 type KnockKnockToken = z.infer<typeof KnockKnockTokenSchema>;
@@ -43,7 +47,7 @@ export const GET = zodiac()
         }
         await signUserIn(user);
 
-        return redirect(user.name ? "/" : "/profile/", 307);
+        return redirect(user.name ? knockKnockToken.payload.next ?? "/" : "/profile/", 307);
       }
       catch (err) {
         console.error(err);
@@ -66,9 +70,33 @@ export const POST = zodiac()
   .use('site')
   .handle(
     async ctx => {
-      const { input: { email }, issueSignInToken, sendgridSend, makeUrl, ok } = ctx;
+      const { input: { email }, issueSignInToken, sendgridSend, makeUrl, ok, request, locals, deleteCookie } = ctx;
+      const {
+        PUBLIC_DOMAIN,
+        PUBLIC_KEY,
+      } = locals.runtime.env;
+      let next: string | undefined;
 
-      const link = makeUrl('/api/knock-knock/', { token: await issueSignInToken({ sub: email.toLowerCase() }) });
+      const cookieString = request.headers.get("Cookie");
+      const returnToValue = getCookie(cookieString || "", "X-Return-To");
+
+      if (returnToValue) {
+        const returnTo = await jose.jwtVerify<ReturnToToken>(
+          returnToValue,
+          await jose.importSPKI(PUBLIC_KEY.replaceAll('\\n', '\n'), "RS256"),
+          {
+            audience: PUBLIC_DOMAIN,
+            issuer: PUBLIC_DOMAIN,
+            typ: "JWT",
+          },
+        );
+        if (returnTo.protectedHeader.cty === "X-Return-To") {
+          next = returnTo.payload.url;
+        }
+        deleteCookie("X-Return-To");
+      }
+
+      const link = makeUrl('/api/knock-knock/', { token: await issueSignInToken({ sub: email.toLowerCase(), next }) });
       await sendgridSend(email, "SIGN_IN", { link });
 
       return ok();

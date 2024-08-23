@@ -5,6 +5,7 @@ import { getCookie } from "src/utils/cookies";
 
 
 export type IdToken = { sub: string };
+export type ReturnToToken = { url: string };
 
 export const authenticate = async ({ request, locals }: Pick<APIContext, 'request' | 'locals'>): Promise<IdToken | undefined> => {
   const {
@@ -36,7 +37,7 @@ export const authenticate = async ({ request, locals }: Pick<APIContext, 'reques
   return token.payload;
 };
 
-export const issueSignInToken = async ({ sub, iat }: { sub: string, iat?: number }, { locals }: Pick<APIContext, 'locals'>) => {
+export const issueSignInToken = async ({ sub, iat, next }: { sub: string, iat?: number, next?: string }, { locals }: Pick<APIContext, 'locals'>) => {
   const {
     PUBLIC_DOMAIN,
     PRIVATE_KEY,
@@ -52,6 +53,7 @@ export const issueSignInToken = async ({ sub, iat }: { sub: string, iat?: number
         iat,
         exp: iat + 600 * 20,
         sub,
+        next,
       })
       .setProtectedHeader({
         alg: "RS256",
@@ -115,6 +117,32 @@ export const issueProfileBadge = async ({ name, iat, "replybox:sso": sso }: { na
         alg: "RS256",
         typ: "JWT",
         cty: "X-Identity-Badge",
+      })
+      .sign(
+        await jose.importPKCS8(PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256"),
+      )
+  );
+
+  return identity;
+};
+
+export const issueReturnToToken = async ({ url }: { url: string }, { locals }: Pick<APIContext, 'locals'>) => {
+  const {
+    PUBLIC_DOMAIN,
+    PRIVATE_KEY,
+  } = locals.runtime.env;
+
+  const identity = (
+    await new jose
+      .SignJWT({
+        iss: PUBLIC_DOMAIN,
+        aud: PUBLIC_DOMAIN,
+        url,
+      })
+      .setProtectedHeader({
+        alg: "RS256",
+        typ: "JWT",
+        cty: "X-Return-To",
       })
       .sign(
         await jose.importPKCS8(PRIVATE_KEY.replaceAll('\\n', '\n'), "RS256"),

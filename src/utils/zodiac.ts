@@ -2,7 +2,7 @@ import type { APIContext } from 'astro';
 import { z } from 'zod';
 import * as jose from "jose";
 
-import { authenticate, issueIdentityBadge, issueProfileBadge, issueSignInToken, type IdToken } from 'src/utils/auth';
+import { authenticate, issueIdentityBadge, issueProfileBadge, issueReturnToToken, issueSignInToken, type IdToken } from 'src/utils/auth';
 import { sendgridSend } from 'src/utils/sendgrid';
 import { generateReplyboxSSO } from 'src/utils/replybox';
 
@@ -49,7 +49,8 @@ type SendgridTemplate = {
 
 type ZodiacPackContext = {
   auth: {
-    issueSignInToken: ({ sub, iat }: { sub: string, iat?: number }) => Promise<string>;
+    issueReturnToToken: ({ url }: { url: string }) => Promise<string>;
+    issueSignInToken: ({ sub, iat, next }: { sub: string, iat?: number, next?: string }) => Promise<string>;
     signUserIn: (user: User) => Promise<void>;
   },
   sendgrid: {
@@ -61,6 +62,7 @@ type ZodiacPackContext = {
   site: {
     makeUrl: (path: string, query?: Record<string, string>) => string;
     setCookie: (key: string, value: string | Record<string, any>, expires?: Date, maxAge?: number, httpOnly?: boolean) => void;
+    deleteCookie: (key: string) => void;
   },
   replybox: {
     sso: (user: User) => Promise<{ hash: string, payload: string }>;
@@ -127,9 +129,6 @@ class Zodiac<C extends APIContext> {
           PUBLIC_DOMAIN,
         } = locals.runtime.env;
 
-        maxAge = maxAge || 60 * 60 * 24 * 30;
-        expires = expires || (new Date(Date.now() + maxAge * 1000));
-
         cookies.set(
           key,
           value,
@@ -141,6 +140,7 @@ class Zodiac<C extends APIContext> {
 
       const ext = {
         auth: {
+          issueReturnToToken: async (payload: { url: string }) => await issueReturnToToken(payload, ctx),
           issueSignInToken: async (user: User) => await issueSignInToken(user, ctx),
           signUserIn: async (user: User) => {
             const maxAge = 60 * 60 * 24 * 30;
@@ -186,6 +186,10 @@ class Zodiac<C extends APIContext> {
         site: {
           makeUrl,
           setCookie,
+          deleteCookie: (key: string) => {
+            const { cookies } = ctx;
+            cookies.delete(key);
+          },
         },
         replybox: {
           sso: async (user: User) =>
