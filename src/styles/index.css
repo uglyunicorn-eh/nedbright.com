@@ -40,6 +40,10 @@
     @apply __my-hero-button-base px-6 py-2.5;
   }
 
+  .my-hero-button-sm {
+    @apply __my-hero-button-base px-5 py-1.5 text-sm;
+  }
+
   .my-hero-button-lg {
     @apply __my-hero-button-base px-6 py-3 text-xl;
   }
