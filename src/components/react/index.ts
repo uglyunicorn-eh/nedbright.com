@@ -10,3 +10,4 @@ export { ProfileForm } from './ProfileForm';
 export { SignInForm } from './SignInForm';
 export { SvgSpinners180RingWithBg } from './SvgSpinners180RingWithBg';
 export { Button } from './Button';
+export { IfAnonymous } from './IfAnonymous';
