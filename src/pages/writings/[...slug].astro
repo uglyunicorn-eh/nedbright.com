@@ -11,7 +11,7 @@ import {
   WritingMetaDetails,
 FeaturedBookHero,
 } from "src/components/astro";
-import { ReplyBox } from "src/components/react";
+import { IfAnonymous, ReplyBox } from "src/components/react";
 
 import img1 from "public/images/img-3.jpg";
 
@@ -92,7 +92,13 @@ const site = await reader.singletons.site.read();
     <div
       class="mx-auto px-4 pb-20 sm:max-w-[74ch] md:max-w-[74ch] lg:max-w-[76ch] xl:max-w-[90ch]"
     >
-      <h2 class="my-h3">Комментарии</h2>
+
+    <div class="flex items-center">
+      <h2 class="my-h3 flex-1">Комментарии</h2>
+      <IfAnonymous client:only="react">
+        <a href={`/profile/`} class="my-hero-button-sm mb-4 mt-2">Войти</a>
+      </IfAnonymous>
+    </div>
 
       <ReplyBox
         client:only="react"
