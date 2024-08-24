@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_DOMAIN?: string;
   readonly PUBLIC_GITHUB_REPO: string;
   readonly SENDGRID_API_KEY: string;
+  readonly SENDGRID_LIST_ID: string;
   readonly SENDGRID_FROM_EMAIL: string;
   readonly SENDGRID_FROM_NAME: string;
   readonly SENDGRID_REPLY_TO: string;
@@ -32,13 +33,15 @@ interface Window {
   },
 }
 
+type UserSettings = {
+  'notifications:publications'?: boolean;
+}
+
 type User = {
   iat: number;
   sub: string;
   name?: string;
-  settings?: {
-    'notifications:publications': boolean;
-  },
+  settings?: UserSettings,
 }
 
 type KVNamespace = import("@cloudflare/workers-types").KVNamespace;
